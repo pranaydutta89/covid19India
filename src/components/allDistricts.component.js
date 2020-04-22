@@ -18,6 +18,10 @@ export default class AllDistrictsComponent extends Component {
             districtData: null
         }
     }
+    async  changeWatchFlag(name, flag) {
+        await covidDataService.setPinDistrict(name, flag);
+        this.setState({ districtData: await covidDataService.getDistricts() });
+    }
     async componentDidMount() {
         this.setState({ districtData: await covidDataService.getDistricts() });
     }
@@ -42,7 +46,9 @@ export default class AllDistrictsComponent extends Component {
                                 <hr />
                                 <StatsGraph {...r} />
                                 <CardActions>
-                                    <Button variant="contained" size="small">Pin</Button>
+                                    {!r.watch ? <Button variant="contained" onClick={() => this.changeWatchFlag(r.district, true)} size="small">Pin</Button> :
+                                        <Button variant="contained" onClick={() => this.changeWatchFlag(r.district, false)} size="small">Remove Pin</Button>}
+
                                 </CardActions>
                             </CardContent>
                         </Card>)

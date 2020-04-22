@@ -1,7 +1,8 @@
+import clone from 'lodash/cloneDeep';
 class UtilityService {
 
     cloneDeep(data) {
-        return JSON.parse(JSON.stringify(data));
+        return clone(data);
     }
 }
 

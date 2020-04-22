@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 
 import covidDataService from '../services/covidData.service';
 import LoaderComponent from './common/loader.component';
+import StatsGraph from './common/statsGraph.component';
 export default class WatchedDistrictsComponent extends Component {
 
     constructor() {
@@ -33,14 +34,14 @@ export default class WatchedDistrictsComponent extends Component {
                         </Card> :
                         <>
                             {districtData.map(r => {
-                                <Card>
+                                return (<Card>
                                     <CardContent>
                                         <Typography color="textSecondary" gutterBottom>
-                                            {r.districtName}
+                                            {r.district}
                                         </Typography>
                                         <StatsGraph {...r} />
                                     </CardContent>
-                                </Card>
+                                </Card>)
                             })}
                         </>
                     }

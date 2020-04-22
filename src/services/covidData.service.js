@@ -15,7 +15,7 @@ class CovidDataService {
         })
 
         const oldData = storageService.localStorageGetItem('covidData');
-        merge(apiData, oldData);
+        merge(apiData, oldData.stateData);
 
         storageService.localStorageSetItem('covidData', {
             lastUpdatedTimeStamp: Date.now(),
@@ -65,6 +65,19 @@ class CovidDataService {
         return utilsService.cloneDeep(districtData);
     }
 
+    async setPinDistrict(districtName, watchFlag) {
+        const stateData = await this.checkSyncStatus();
+        const stateThatHasLocationDistrict = stateData.
+            find(r => r.districtData.some(j => j.district.toLowerCase() === districtName.toLowerCase()));
+        const districtData = stateThatHasLocationDistrict.districtData.
+            find(r => r.district.toLowerCase() === districtName.toLowerCase());
+        districtData.watch = watchFlag;
+        const covidData = storageService.localStorageGetItem('covidData');
+        merge(covidData.stateData, stateData);
+        storageService.localStorageSetItem('covidData', covidData);
+
+    }
+
     async getDistricts() {
         const stateData = await this.checkSyncStatus();
         const districtsMap = stateData.map(r => r.districtData);
@@ -76,18 +89,12 @@ class CovidDataService {
 
     async getWatchedDistricts() {
         const stateData = await this.checkSyncStatus();
-        const districtWatchedStates = stateData.filter(r => {
-            return r.districtData.some(j => j.watched)
-        });
-
-        if (districtWatchedStates && districtWatchedStates.length > 0) {
-            districtWatchedStates.map(r => {
-                r.districtData = r.districtData.find(j => j.watched);
-            })
-            return utilsService.cloneDeep(districtWatchedStates);
-        }
-
-        return [];
+        const watchedDistricts = [];
+        stateData.forEach(r => {
+            const stateWatchDistricts = r.districtData.filter(j => j.watch);
+            watchedDistricts.push.apply(watchedDistricts, stateWatchDistricts)
+        })
+        return utilsService.cloneDeep(watchedDistricts);
     }
 
 
