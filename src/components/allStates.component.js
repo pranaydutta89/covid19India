@@ -1,12 +1,9 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import React, { PureComponent } from 'react';
+import { Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
+import StatsGraph from './common/statsGraph.component';
 
-export default class AllStatesComponent extends React.Component {
+
+export default class AllStatesComponent extends PureComponent {
 
 
     render() {
@@ -30,23 +27,7 @@ export default class AllStatesComponent extends React.Component {
                                 Total Cases - {r.confirmed}
                             </Typography>
                             <hr />
-                            <Typography color="textSecondary" gutterBottom>
-                                <strong>Active relative to total ({r.active})</strong>
-                                <LinearProgress variant="determinate" value={(r.active / r.confirmed) * 100} />
-                            </Typography>
-
-                            <Typography color="textSecondary" gutterBottom>
-                                <strong>Deceased relative to total ({r.deceased})</strong>
-                                <LinearProgress color="secondary" variant="determinate" value={(r.deceased / r.confirmed) * 100} />
-                            </Typography>
-
-                            <Typography color="textSecondary" gutterBottom>
-                                <strong>Recovered relative to total ({r.recovered})</strong>
-                                <LinearProgress color="secondary" variant="determinate" value={(r.recovered / r.confirmed) * 100} />
-                            </Typography>
-                            <CardActions>
-                                <Button variant="contained" size="small">Watch</Button>
-                            </CardActions>
+                            <StatsGraph {...r} />
                         </CardContent>
                     </Card>)
                 })
