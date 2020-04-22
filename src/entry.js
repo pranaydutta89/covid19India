@@ -1,13 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import dataService from './services/data.service';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import HomeComponent from './components/home.component';
 import LoaderComponent from './components/common/loader.component';
-
-
-
+import covidDataService from './services/covidData.service';
 
 
 class App extends React.Component {
@@ -15,24 +10,24 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            stateData: null
+            loading: true
         }
     }
 
 
     async componentDidMount() {
-        const stateData = await dataService.stateWiseData();
-        this.setState({ stateData });
+        await covidDataService.getStates();
+        this.setState({ loading: false });
     }
 
 
     render() {
-        const { stateData } = this.state;
+        const { loading } = this.state;
         return (
             <>
-                {!stateData ?
+                {loading ?
                     <LoaderComponent /> :
-                    <HomeComponent {...{ stateData }} />
+                    <HomeComponent />
                 }
             </>
         )

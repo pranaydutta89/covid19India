@@ -3,6 +3,7 @@ import locationService from '../services/location.service';
 import LoaderComponent from './common/loader.component';
 import StatsGraph from './common/statsGraph.component';
 import { Card, CardContent, Typography } from '@material-ui/core';
+import covidDataService from '../services/covidData.service';
 
 export default class LocationStatsComponent extends React.Component {
 
@@ -14,13 +15,7 @@ export default class LocationStatsComponent extends React.Component {
     }
 
     async componentDidMount() {
-        const location = await locationService.currentLocation();
-        const { stateData } = this.props;
-        const stateThatHasLocationDistrict = stateData.
-            find(r => r.districtData.some(j => j.district.toLowerCase() === location.city.longName.toLowerCase()));
-        const districtData = stateThatHasLocationDistrict.districtData.
-            find(r => r.district.toLowerCase() === location.city.longName.toLowerCase())
-        this.setState({ districtData });
+        this.setState({ districtData: await covidDataService.getCurrentLocationDistrict() });
     }
 
     render() {

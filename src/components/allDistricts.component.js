@@ -1,6 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import { Card, CardContent, Typography, CardActions, Button } from '@material-ui/core'
 import StatsGraph from './common/statsGraph.component';
+import covidDataService from '../services/covidData.service';
+import LoaderComponent from './common/loader.component';
 
 const css = `
            .card-wrap{
@@ -8,34 +10,45 @@ const css = `
            }
         `
 
-export default class AllDistrictsComponent extends PureComponent {
+export default class AllDistrictsComponent extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            districtData: null
+        }
+    }
+    async componentDidMount() {
+        this.setState({ districtData: await covidDataService.getDistricts() });
+    }
 
     render() {
 
-        const { stateData } = this.props;
-        const districtsMap = stateData.map(r => r.districtData);
-        const districts = [];
-        districtsMap.forEach(r => districts.push.apply(districts, r))
+        const { districtData } = this.state;
+
         return (<>
-            <style>{css}</style>
-            {districts.map((r, idx) => {
-                return (<Card key={idx} className='card-wrap'>
-                    <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                            {r.district}
-                        </Typography>
-                        <Typography color="textSecondary" gutterBottom>
-                            Total Cases - {r.confirmed}
-                        </Typography>
-                        <hr />
-                        <StatsGraph {...r} />
-                        <CardActions>
-                            <Button variant="contained" size="small">Watch</Button>
-                        </CardActions>
-                    </CardContent>
-                </Card>)
-            })}
+            {!districtData ? <LoaderComponent /> :
+                <>
+                    <style>{css}</style>
+                    {districtData.map((r, idx) => {
+                        return (<Card key={idx} className='card-wrap'>
+                            <CardContent>
+                                <Typography color="textSecondary" gutterBottom>
+                                    {r.district}
+                                </Typography>
+                                <Typography color="textSecondary" gutterBottom>
+                                    Total Cases - {r.confirmed}
+                                </Typography>
+                                <hr />
+                                <StatsGraph {...r} />
+                                <CardActions>
+                                    <Button variant="contained" size="small">Watch</Button>
+                                </CardActions>
+                            </CardContent>
+                        </Card>)
+                    })}
+                </>
+            }
         </>)
     }
 }

@@ -1,3 +1,5 @@
+import dataService from "./data.service";
+
 class LocationService {
 
     get GeoLocationAccess() {
@@ -15,10 +17,7 @@ class LocationService {
     async currentLocation() {
         const position = await this.GeoLocationAccess;
         const { latitude, longitude } = position;
-        const constructMapApiURL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyArsR0pTwkxruxnG-ymhXWWLk65jyWkBfk`;
-        const fetchRes = await fetch(constructMapApiURL);
-        const data = await fetchRes.json();
-        const { results } = data;
+        const { results } = await dataService.getLocationApi(latitude, longitude);
         const addressComponents = results.map(r => r.address_components);
         let cityName;
         let stateName;

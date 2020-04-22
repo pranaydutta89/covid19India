@@ -31,14 +31,16 @@ export default class HomeComponent extends Component {
     }
 
     renderCurrentTab() {
-        const { stateData } = this.props;
         const { currentTab } = this.state;
         switch (currentTab) {
             case constantsService.pages.pinned_district:
-                return <WatchedDistrictsComponent {...{ stateData }} />
-            case constantsService.pages.all_district: return <AllDistrictsComponent {...{ stateData }} />
-            case constantsService.pages.all_states: return <AllStatesComponent {...{ stateData }} />
-            case constantsService.pages.location: return <LocationStatsComponent {...{ stateData }} />
+                return <WatchedDistrictsComponent />
+            case constantsService.pages.all_district:
+                return <AllDistrictsComponent />
+            case constantsService.pages.all_states:
+                return <AllStatesComponent />
+            case constantsService.pages.location:
+                return <LocationStatsComponent />
 
         }
     }
