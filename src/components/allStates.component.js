@@ -3,6 +3,7 @@ import { Button, Card, CardActions, CardContent, Typography } from '@material-ui
 import StatsGraph from './common/statsGraph.component';
 import covidDataService from '../services/covidData.service';
 import LoaderComponent from './common/loader.component';
+import SearchComponent from './common/search.component';
 
 const css = `
            .card-wrap{
@@ -14,24 +15,32 @@ export default class AllStatesComponent extends Component {
     constructor() {
         super();
         this.state = {
-            stateData: null
+            filteredStateData: null
         }
     }
 
+    filterData(val) {
+        const filteredStateData = this.stateData.filter(r => r.state.toLowerCase().indexOf(val.toLowerCase()) !== -1);
+        this.setState({ filteredStateData })
+    }
     async componentDidMount() {
-        this.setState({ stateData: await covidDataService.getStates() })
+        this.stateData = await covidDataService.getStates();
+        this.setState({ filteredStateData: this.stateData })
     }
 
     render() {
 
-        const { stateData } = this.state;
+        const { filteredStateData } = this.state;
         return (
             <>
-                {!stateData ? <LoaderComponent /> :
+                {!filteredStateData ? <LoaderComponent /> :
                     <>
                         <style>{css}</style>
-                        {stateData.map((r, idx) => {
-                            return (<Card key={idx} className='card-wrap'>
+                        <SearchComponent label='Search State'
+                            onChange={(val) => this.filterData(val)} />
+
+                        {filteredStateData.map((r, idx) => {
+                            return (<Card key={r.id} className='card-wrap'>
                                 <CardContent>
                                     <Typography color="textSecondary" gutterBottom>
                                         {r.state}

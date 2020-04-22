@@ -1,30 +1,36 @@
 import React, { PureComponent, Component } from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-
+import { Card, CardContent, Typography, TextField } from '@material-ui/core'
 import covidDataService from '../services/covidData.service';
 import LoaderComponent from './common/loader.component';
 import StatsGraph from './common/statsGraph.component';
+import SearchComponent from './common/search.component';
 export default class WatchedDistrictsComponent extends Component {
 
     constructor() {
         super();
         this.state = {
-            districtData: null
+            filteredDistrictData: null,
         }
     }
 
+    filterData(filteredText) {
+        const filterData = this.districtData.
+            filter(r => r.district.toLowerCase().indexOf(filteredText.toLowerCase()) !== -1);
+        this.setState({ filteredDistrictData: filterData })
+    }
     async componentDidMount() {
-        this.setState({ districtData: await covidDataService.getWatchedDistricts() });
+        this.districtData = await covidDataService.getWatchedDistricts()
+        this.setState({ filteredDistrictData: this.districtData });
     }
     render() {
-        const { districtData } = this.state;
+        const { filteredDistrictData } = this.state;
         return (<>
-            {!districtData ? <LoaderComponent /> :
+            {!filteredDistrictData ? <LoaderComponent /> :
                 <>
-                    {districtData.length === 0 ?
+                    <SearchComponent label='Search District'
+                        onChange={(val) => this.filterData(val)} />
+
+                    {filteredDistrictData.length === 0 ?
                         <Card>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
@@ -33,15 +39,18 @@ export default class WatchedDistrictsComponent extends Component {
                             </CardContent>
                         </Card> :
                         <>
-                            {districtData.map(r => {
-                                return (<Card>
-                                    <CardContent>
-                                        <Typography color="textSecondary" gutterBottom>
-                                            {r.district}
-                                        </Typography>
-                                        <StatsGraph {...r} />
-                                    </CardContent>
-                                </Card>)
+                            {filteredDistrictData.map((r, idx) => {
+                                return (
+                                    <>
+                                        <Card key={r.id}>
+                                            <CardContent>
+                                                <Typography color="textSecondary" gutterBottom>
+                                                    {r.district}
+                                                </Typography>
+                                                <StatsGraph {...r} />
+                                            </CardContent>
+                                        </Card>
+                                    </>)
                             })}
                         </>
                     }

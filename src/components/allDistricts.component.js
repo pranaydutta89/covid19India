@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, CardActions, Button } from '@material-ui
 import StatsGraph from './common/statsGraph.component';
 import covidDataService from '../services/covidData.service';
 import LoaderComponent from './common/loader.component';
+import SearchComponent from './common/search.component';
 
 const css = `
            .card-wrap{
@@ -15,7 +16,7 @@ export default class AllDistrictsComponent extends Component {
     constructor() {
         super();
         this.state = {
-            districtData: null
+            filteredDistrictData: null
         }
     }
     async  changeWatchFlag(name, flag) {
@@ -23,19 +24,28 @@ export default class AllDistrictsComponent extends Component {
         this.setState({ districtData: await covidDataService.getDistricts() });
     }
     async componentDidMount() {
-        this.setState({ districtData: await covidDataService.getDistricts() });
+        this.districtData = await covidDataService.getDistricts()
+        this.setState({ filteredDistrictData: this.districtData });
+    }
+
+    filterData(val) {
+        const filteredDistrictData = this.districtData.filter(r => r.district.toLowerCase().indexOf(val.toLowerCase()) !== -1);
+        this.setState({ filteredDistrictData })
     }
 
     render() {
 
-        const { districtData } = this.state;
+        const { filteredDistrictData } = this.state;
 
         return (<>
-            {!districtData ? <LoaderComponent /> :
+            {!filteredDistrictData ? <LoaderComponent /> :
                 <>
                     <style>{css}</style>
-                    {districtData.map((r, idx) => {
-                        return (<Card key={idx} className='card-wrap'>
+                    <SearchComponent label='Search District'
+                        onChange={(val) => this.filterData(val)} />
+
+                    {filteredDistrictData.map((r, idx) => {
+                        return (<Card key={r.id} className='card-wrap'>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
                                     {r.district}
