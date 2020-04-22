@@ -2,6 +2,7 @@ import utilsService from "./utils.service";
 import storageService from "./storage.service";
 import dataService from "./data.service";
 import locationService from "./location.service";
+import merge from 'lodash/merge';
 
 class CovidDataService {
 
@@ -12,6 +13,10 @@ class CovidDataService {
             j.deceased = j.districtData.map(r => r.deceased).reduceRight((total, num) => total + num)
             j.recovered = j.districtData.map(r => r.recovered).reduceRight((total, num) => total + num)
         })
+
+        const oldData = storageService.localStorageGetItem('covidData');
+        merge(apiData, oldData);
+
         storageService.localStorageSetItem('covidData', {
             lastUpdatedTimeStamp: Date.now(),
             stateData: apiData

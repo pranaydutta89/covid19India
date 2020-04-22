@@ -42,7 +42,7 @@ export default class AllDistrictsComponent extends Component {
                                 <hr />
                                 <StatsGraph {...r} />
                                 <CardActions>
-                                    <Button variant="contained" size="small">Watch</Button>
+                                    <Button variant="contained" size="small">Pin</Button>
                                 </CardActions>
                             </CardContent>
                         </Card>)
