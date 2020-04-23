@@ -68,8 +68,9 @@ class CovidDataService {
         const stateData = await this.checkSyncStatus();
         const stateDataTrimmed = stateData.map(r => {
             const { state, confirmed, active, deceased, recovered } = r;
+            const id = uuid();
             return {
-                state, confirmed, active, deceased, recovered
+                state, confirmed, active, deceased, recovered, id
             }
         });
 

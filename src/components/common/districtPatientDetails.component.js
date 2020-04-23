@@ -24,8 +24,8 @@ export default class DistrictPatientDetails extends Component {
             <>
                 {!patientDetails ? <LinearProgress /> :
                     <>
-                        {patientDetails.map(({ patientnumber, dateannounced: timestamp, currentstatus, notes, source }) => {
-                            return (<Card variant="outlined">
+                        {patientDetails.map(({ id, patientnumber, dateannounced: timestamp, currentstatus, notes, source }) => {
+                            return (<Card key={id} variant="outlined">
                                 <CardContent>
                                     <Typography color="textSecondary" gutterBottom>
                                         Reported <FromNow {...{ timestamp }} />
