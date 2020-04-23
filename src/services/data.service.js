@@ -24,7 +24,9 @@ class DataService {
         return apiData;
     }
     async getLocationApi(latitude, longitude) {
-        const constructMapApiURL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyArsR0pTwkxruxnG-ymhXWWLk65jyWkBfk`;
+        const { googleGeocodingApiKey } = window.env
+        const constructMapApiURL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}
+        &key=${googleGeocodingApiKey}`;
         const fetchRes = await fetch(constructMapApiURL);
         return await fetchRes.json();
     }

@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import HomeComponent from './components/home.component';
-import LoaderComponent from './components/common/loader.component';
-import covidDataService from './services/covidData.service';
+import App from './components/app.component';
+let prom;
+if (process.env.NODE_ENV !== 'production') {
+    prom = import('./env/development');
+}
+else {
+    prom = import('./env/production');
+}
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -14,34 +19,9 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-class App extends React.Component {
 
-    constructor() {
-        super();
-        this.state = {
-            loading: true
-        }
-    }
+prom.then(() => {
+    ReactDom.render(<App />, document.getElementById('app'))
+})
 
-
-    async componentDidMount() {
-        await covidDataService.getStates();
-        this.setState({ loading: false });
-    }
-
-
-    render() {
-        const { loading } = this.state;
-        return (
-            <>
-                {loading ?
-                    <LoaderComponent /> :
-                    <HomeComponent />
-                }
-            </>
-        )
-    }
-}
-
-ReactDom.render(<App />, document.getElementById('app'))
 
