@@ -7,6 +7,7 @@ import WatchedDistrictsComponent from "./watchedDistricts.component";
 import AllDistrictsComponent from "./allDistricts.component";
 import LocationStatsComponent from "./locationStats.component";
 import constantsService from "../services/constants.service";
+import LoaderComponent from "./common/loader.component";
 const css = `
         .backdrop: {
                 color: '#fff',
@@ -26,21 +27,26 @@ export default class HomeComponent extends Component {
     constructor() {
         super();
         this.state = {
-            currentTab: constantsService.pages.pinned_district
+            currentTab: constantsService.pages.location,
+            showLoader: false
         }
+    }
+
+    toggleLoader(showLoader) {
+        this.setState({ showLoader })
     }
 
     renderCurrentTab() {
         const { currentTab } = this.state;
         switch (currentTab) {
             case constantsService.pages.pinned_district:
-                return <WatchedDistrictsComponent />
+                return <WatchedDistrictsComponent toggleLoader={(val) => this.toggleLoader(val)} />
             case constantsService.pages.all_district:
-                return <AllDistrictsComponent />
+                return <AllDistrictsComponent toggleLoader={(val) => this.toggleLoader(val)} />
             case constantsService.pages.all_states:
-                return <AllStatesComponent />
+                return <AllStatesComponent toggleLoader={(val) => this.toggleLoader(val)} />
             case constantsService.pages.location:
-                return <LocationStatsComponent />
+                return <LocationStatsComponent toggleLoader={(val) => this.toggleLoader(val)} />
 
         }
     }
@@ -51,10 +57,12 @@ export default class HomeComponent extends Component {
 
 
     render() {
-        const { currentTab } = this.state;
+        const { currentTab, showLoader } = this.state;
         return (
             <>
+                {showLoader ? <LoaderComponent /> : <></>}
                 <style>{css}</style>
+
                 <Container maxWidth='sm'>
                     <AppBar position="sticky">
                         <Toolbar variant="dense">

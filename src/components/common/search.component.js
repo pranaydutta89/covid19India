@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Card, CardContent, TextField } from '@material-ui/core';
 
+const css = `
+.card-wrapper{
+    margin-bottom:10px
+}
+`
 export default class SearchComponent extends Component {
 
     constructor() {
@@ -20,17 +25,20 @@ export default class SearchComponent extends Component {
         const { filterText } = this.state;
         const { label } = this.props;
         return (
-            <Card>
-                <CardContent>
-                    <TextField
-                        {...{ label }}
-                        id="margin-normal"
-                        fullWidth
-                        value={filterText}
-                        onChange={(evt) => this.filterData(evt.target.value)}
-                    />
-                </CardContent>
-            </Card>
+            <>
+                <style>{css}</style>
+                <Card className='card-wrapper'>
+                    <CardContent>
+                        <TextField
+                            {...{ label }}
+                            id="margin-normal"
+                            fullWidth
+                            value={filterText}
+                            onChange={(evt) => this.filterData(evt.target.value)}
+                        />
+                    </CardContent>
+                </Card>
+            </>
         )
     }
 }

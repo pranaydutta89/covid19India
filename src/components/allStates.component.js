@@ -24,8 +24,11 @@ export default class AllStatesComponent extends Component {
         this.setState({ filteredStateData })
     }
     async componentDidMount() {
+        const { toggleLoader } = this.props;
+        toggleLoader(true);
         this.stateData = await covidDataService.getStates();
         this.setState({ filteredStateData: this.stateData })
+        toggleLoader(false);
     }
 
     render() {
@@ -33,7 +36,7 @@ export default class AllStatesComponent extends Component {
         const { filteredStateData } = this.state;
         return (
             <>
-                {!filteredStateData ? <LoaderComponent /> :
+                {!filteredStateData ? <></> :
                     <>
                         <style>{css}</style>
                         <SearchComponent label='Search State'

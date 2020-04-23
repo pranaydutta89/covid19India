@@ -15,7 +15,15 @@ export default class LocationStatsComponent extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState({ districtData: await covidDataService.getCurrentLocationDistrict() });
+        const { toggleLoader } = this.props;
+        toggleLoader(true);
+        try {
+            this.setState({ districtData: await covidDataService.getCurrentLocationDistrict() });
+        } catch (e) {
+
+        } finally {
+            toggleLoader(false);
+        }
     }
 
     render() {
@@ -23,11 +31,20 @@ export default class LocationStatsComponent extends React.Component {
         return (
             <>
                 {
-                    !districtData ? <LoaderComponent /> :
+                    !districtData ? <Card className='card-wrap'>
+                        <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                                Enable Location Access
+                            </Typography>
+                        </CardContent>
+                    </Card> :
                         <Card className='card-wrap'>
                             <CardContent>
                                 <Typography color="textSecondary" gutterBottom>
                                     {districtData.district}
+                                </Typography>
+                                <Typography color="textSecondary" gutterBottom>
+                                    Total Cases - {districtData.confirmed}
                                 </Typography>
                                 <hr />
                                 <StatsGraph {...districtData} />

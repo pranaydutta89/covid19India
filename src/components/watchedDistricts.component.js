@@ -19,13 +19,16 @@ export default class WatchedDistrictsComponent extends Component {
         this.setState({ filteredDistrictData: filterData })
     }
     async componentDidMount() {
+        const { toggleLoader } = this.props;
+        toggleLoader(true);
         this.districtData = await covidDataService.getWatchedDistricts()
         this.setState({ filteredDistrictData: this.districtData });
+        toggleLoader(false);
     }
     render() {
         const { filteredDistrictData } = this.state;
         return (<>
-            {!filteredDistrictData ? <LoaderComponent /> :
+            {!filteredDistrictData ? <></> :
                 <>
                     <SearchComponent label='Search District'
                         onChange={(val) => this.filterData(val)} />

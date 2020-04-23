@@ -24,8 +24,11 @@ export default class AllDistrictsComponent extends Component {
         this.setState({ districtData: await covidDataService.getDistricts() });
     }
     async componentDidMount() {
+        const { toggleLoader } = this.props;
+        toggleLoader(true);
         this.districtData = await covidDataService.getDistricts()
         this.setState({ filteredDistrictData: this.districtData });
+        toggleLoader(false);
     }
 
     filterData(val) {
@@ -38,7 +41,7 @@ export default class AllDistrictsComponent extends Component {
         const { filteredDistrictData } = this.state;
 
         return (<>
-            {!filteredDistrictData ? <LoaderComponent /> :
+            {!filteredDistrictData ? <></> :
                 <>
                     <style>{css}</style>
                     <SearchComponent label='Search District'
