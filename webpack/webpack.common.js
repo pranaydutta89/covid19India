@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = {
     entry: './src/entry.js',
 
@@ -19,7 +20,14 @@ module.exports = {
             },
         ]
     },
-    plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: './src/index.html' })],
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({ template: './src/index.html' }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+        })
+    ],
     optimization: {
         splitChunks: {
             chunks: 'all'

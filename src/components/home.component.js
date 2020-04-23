@@ -77,7 +77,7 @@ export default class HomeComponent extends Component {
                         </Paper>
                     </div>
                     <div className='bottom-nav'>
-                        <BottomNavigation showLabels='true' value={currentTab} onChange={(evt, newVal) => this.tabChange(newVal)}>
+                        <BottomNavigation showLabels={true} value={currentTab} onChange={(evt, newVal) => this.tabChange(newVal)}>
                             <BottomNavigationAction label="Watched"
                                 value={constantsService.pages.pinned_district} icon={<LocationCityOutlined />} />
                             <BottomNavigationAction label="Location"

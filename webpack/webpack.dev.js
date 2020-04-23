@@ -12,6 +12,7 @@ module.exports = merge(common, {
         https: true,
         compress: true,
         port: 1234,
+        writeToDisk: true,
         disableHostCheck: true
     }
 });
