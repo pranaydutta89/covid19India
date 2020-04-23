@@ -1,6 +1,14 @@
 import storageService from "./storage.service";
 class DataService {
 
+
+    async getPatientApi() {
+        const res = await fetch(
+            'https://api.covid19india.org/raw_data.json'
+        );
+        const apiData = await res.json();
+        return apiData;
+    }
     async getStateApi() {
         const res = await fetch(
             'https://api.covid19india.org/v2/state_district_wise.json'

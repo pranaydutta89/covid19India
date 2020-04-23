@@ -4,6 +4,12 @@ import covidDataService from '../services/covidData.service';
 import LoaderComponent from './common/loader.component';
 import StatsGraph from './common/statsGraph.component';
 import SearchComponent from './common/search.component';
+
+const css = `
+.card-wrapper{
+    margin-bottom:10px;
+}
+`
 export default class WatchedDistrictsComponent extends Component {
 
     constructor() {
@@ -28,6 +34,7 @@ export default class WatchedDistrictsComponent extends Component {
     render() {
         const { filteredDistrictData } = this.state;
         return (<>
+            <style>{css}</style>
             {!filteredDistrictData ? <></> :
                 <>
                     <SearchComponent label='Search District'
@@ -45,7 +52,7 @@ export default class WatchedDistrictsComponent extends Component {
                             {filteredDistrictData.map((r, idx) => {
                                 return (
                                     <>
-                                        <Card key={r.id}>
+                                        <Card className='card-wrapper' key={r.id}>
                                             <CardContent>
                                                 <Typography color="textSecondary" gutterBottom>
                                                     {r.district}

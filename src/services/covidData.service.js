@@ -49,6 +49,21 @@ class CovidDataService {
         }
     }
 
+    async getDistrictPatients(districtName) {
+        const { raw_data: patientData } = await dataService.getPatientApi();
+        const patients = patientData.filter(r => r.detecteddistrict.toLowerCase() === districtName.toLowerCase());
+        return patients.map(r => {
+            const { patientnumber, dateannounced, currentstatus, notes, source1: source } = r;
+            return {
+                patientnumber,
+                dateannounced,
+                currentstatus,
+                notes,
+                source
+            }
+        });
+    }
+
     async getStates() {
         const stateData = await this.checkSyncStatus();
         const stateDataTrimmed = stateData.map(r => {

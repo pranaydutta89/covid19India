@@ -4,7 +4,13 @@ import LoaderComponent from './common/loader.component';
 import StatsGraph from './common/statsGraph.component';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import covidDataService from '../services/covidData.service';
+import DistrictPatientDetails from './common/districtPatientDetails.component';
 
+const css = `
+.card-wrapper{
+    margin-bottom:10px
+}
+`
 export default class LocationStatsComponent extends React.Component {
 
     constructor() {
@@ -30,6 +36,7 @@ export default class LocationStatsComponent extends React.Component {
         const { districtData } = this.state;
         return (
             <>
+                <style>{css}</style>
                 {
                     !districtData ? <Card className='card-wrap'>
                         <CardContent>
@@ -38,18 +45,21 @@ export default class LocationStatsComponent extends React.Component {
                             </Typography>
                         </CardContent>
                     </Card> :
-                        <Card className='card-wrap'>
-                            <CardContent>
-                                <Typography color="textSecondary" gutterBottom>
-                                    {districtData.district}
-                                </Typography>
-                                <Typography color="textSecondary" gutterBottom>
-                                    Total Cases - {districtData.confirmed}
-                                </Typography>
-                                <hr />
-                                <StatsGraph {...districtData} />
-                            </CardContent>
-                        </Card>
+                        <>
+                            <Card className='card-wrapper'>
+                                <CardContent>
+                                    <Typography color="textSecondary" gutterBottom>
+                                        {districtData.district}
+                                    </Typography>
+                                    <Typography color="textSecondary" gutterBottom>
+                                        Total Cases - {districtData.confirmed}
+                                    </Typography>
+                                    <hr />
+                                    <StatsGraph {...districtData} />
+                                </CardContent>
+                            </Card>
+                            <DistrictPatientDetails districtName={districtData.district} />
+                        </>
 
                 }
             </>
