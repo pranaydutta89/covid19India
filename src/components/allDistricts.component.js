@@ -21,7 +21,8 @@ export default class AllDistrictsComponent extends Component {
     }
     async  changeWatchFlag(name, flag) {
         await covidDataService.setPinDistrict(name, flag);
-        this.setState({ districtData: await covidDataService.getDistricts() });
+        this.districtData = await covidDataService.getDistricts();
+        this.filterData(this.currentFilter || '');
     }
     async componentDidMount() {
         const { toggleLoader } = this.props;
@@ -32,6 +33,7 @@ export default class AllDistrictsComponent extends Component {
     }
 
     filterData(val) {
+        this.currentFilter = val;
         const filteredDistrictData = this.districtData.filter(r => r.district.toLowerCase().indexOf(val.toLowerCase()) !== -1);
         this.setState({ filteredDistrictData })
     }
@@ -59,8 +61,8 @@ export default class AllDistrictsComponent extends Component {
                                 <hr />
                                 <StatsGraph {...r} />
                                 <CardActions>
-                                    {!r.watch ? <Button variant="contained" onClick={() => this.changeWatchFlag(r.district, true)} size="small">Pin</Button> :
-                                        <Button variant="contained" onClick={() => this.changeWatchFlag(r.district, false)} size="small">Remove Pin</Button>}
+                                    {!r.watch ? <Button variant="contained" onClick={() => this.changeWatchFlag(r.district, true)} size="small">Watch</Button> :
+                                        <Button variant="contained" onClick={() => this.changeWatchFlag(r.district, false)} size="small">Remove Watch</Button>}
 
                                 </CardActions>
                             </CardContent>

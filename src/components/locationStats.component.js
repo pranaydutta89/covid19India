@@ -1,10 +1,10 @@
 import React from 'react';
-import locationService from '../services/location.service';
-import LoaderComponent from './common/loader.component';
+import { ExpandMore } from '@material-ui/icons'
 import StatsGraph from './common/statsGraph.component';
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
 import covidDataService from '../services/covidData.service';
 import DistrictPatientDetails from './common/districtPatientDetails.component';
+import DistrictResourceDetails from './common/districtResourceDetails.component';
 
 const css = `
 .card-wrapper{
@@ -58,7 +58,28 @@ export default class LocationStatsComponent extends React.Component {
                                     <StatsGraph {...districtData} />
                                 </CardContent>
                             </Card>
-                            <DistrictPatientDetails districtName={districtData.district} />
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMore />}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                >
+                                    <Typography>Patients Details</Typography>
+
+                                </ExpansionPanelSummary>
+                                <DistrictPatientDetails districtName={districtData.district} />
+                            </ExpansionPanel>
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMore />}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                >
+                                    <Typography>Resources Details</Typography>
+
+                                </ExpansionPanelSummary>
+                                <DistrictResourceDetails districtName={districtData.district} />
+                            </ExpansionPanel>
                         </>
 
                 }

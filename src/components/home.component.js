@@ -77,14 +77,14 @@ export default class HomeComponent extends Component {
                         </Paper>
                     </div>
                     <div className='bottom-nav'>
-                        <BottomNavigation value={currentTab} onChange={(evt, newVal) => this.tabChange(newVal)}>
-                            <BottomNavigationAction
+                        <BottomNavigation showLabels='true' value={currentTab} onChange={(evt, newVal) => this.tabChange(newVal)}>
+                            <BottomNavigationAction label="Watched"
                                 value={constantsService.pages.pinned_district} icon={<LocationCityOutlined />} />
-                            <BottomNavigationAction
+                            <BottomNavigationAction label="Location"
                                 value={constantsService.pages.location} icon={<LocationOnOutlined />} />
-                            <BottomNavigationAction
+                            <BottomNavigationAction label="All Districts"
                                 value={constantsService.pages.all_district} icon={<PublicOutlined />} />
-                            <BottomNavigationAction
+                            <BottomNavigationAction label="All States"
                                 value={constantsService.pages.all_states} icon={<AllOutOutlined />} />
                         </BottomNavigation>
                     </div>

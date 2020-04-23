@@ -22,7 +22,7 @@ export default class StatsGraph extends PureComponent {
             </Typography>
 
             <Typography color="textSecondary" gutterBottom>
-                <strong>Deceased ({deceased})</strong>
+                <strong>Deaths ({deceased})</strong>
                 <LinearProgress color="secondary" variant="determinate" value={(deceased / confirmed) * 100} />
             </Typography>
 

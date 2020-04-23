@@ -64,6 +64,24 @@ class CovidDataService {
         });
     }
 
+    async getDistrictResources(districtName) {
+        const { resources } = await dataService.getResourceApi();
+        const districtResource = resources.filter(r => r.city.toLowerCase() === districtName.toLowerCase());
+        const id = uuid();
+        return districtResource.map(r => {
+            const { category, source, descriptionandorserviceprovided: notes, nameoftheorganisation: name, phonenumber: number } = r;
+            return {
+                id,
+                category,
+                source,
+                notes,
+                name,
+                number
+            }
+        });
+    }
+
+
     async getStates() {
         const stateData = await this.checkSyncStatus();
         const stateDataTrimmed = stateData.map(r => {
