@@ -69,7 +69,7 @@ export default class LocationDistrictComponent extends React.Component {
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <Typography>Patients Details</Typography>
+                  <Typography>Patients</Typography>
                 </ExpansionPanelSummary>
                 <DistrictPatientDetails districtName={districtData.district} />
               </ExpansionPanel>
@@ -79,7 +79,7 @@ export default class LocationDistrictComponent extends React.Component {
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <Typography>Resources Details</Typography>
+                  <Typography>Essentials</Typography>
                 </ExpansionPanelSummary>
                 <DistrictResourceDetails districtName={districtData.district} />
               </ExpansionPanel>

@@ -122,6 +122,27 @@ class CovidDataService {
     return utilsService.cloneDeep(districtData);
   }
 
+  setPinState(stateName, watchFlag) {
+    const pinnedStateList = storageService.localStorageGetItem('pinnedState') || [];
+    if (watchFlag) {
+      const alreadyExists = pinnedStateList.find(r => r === stateName);
+      if (!alreadyExists) {
+        pinnedStateList.push(stateName)
+      }
+    } else {
+      const idx = pinnedStateList.findIndex(r => r === stateName);
+      if (idx > -1) {
+        pinnedStateList.splice(idx, 1);
+      }
+    }
+    storageService.localStorageSetItem('pinnedState', pinnedStateList);
+    return this.getPinState();
+  }
+
+  getPinState() {
+    return storageService.localStorageGetItem('pinnedState') || [];
+  }
+
   setPinDistrict(districtName, watchFlag) {
     const pinnedDistrictList = storageService.localStorageGetItem('pinnedDistrict') || [];
     if (watchFlag) {
@@ -154,11 +175,19 @@ class CovidDataService {
   async getWatchedDistricts() {
     const stateData = await this.checkSyncStatus();
     const watchedDistricts = [];
+    const pinnedDistricts = this.getPinDistrict();
     stateData.forEach((r) => {
-      const stateWatchDistricts = r.districtData.filter((j) => j.watch);
+      const stateWatchDistricts = r.districtData.filter((j) => pinnedDistricts.some(k => k === j.district));
       watchedDistricts.push.apply(watchedDistricts, stateWatchDistricts);
     });
     return utilsService.cloneDeep(watchedDistricts);
+  }
+
+  async getWatchedStates() {
+    const stateData = await this.checkSyncStatus();
+    const pinnedStates = this.getPinState();
+
+    return utilsService.cloneDeep(stateData.filter(r => pinnedStates.some(j => j === r.state)));
   }
 }
 

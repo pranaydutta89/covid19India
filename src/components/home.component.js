@@ -16,7 +16,7 @@ import {
   VisibilityOutlined,
 } from '@material-ui/icons';
 import AllStatesComponent from './allStates.component';
-import WatchedDistrictsComponent from './watchedDistricts.component';
+import WatchedComponent from './watched.component';
 import AllDistrictsComponent from './allDistricts.component';
 import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
@@ -52,7 +52,7 @@ export default class HomeComponent extends Component {
     switch (currentTab) {
       case constantsService.pages.pinned_district:
         return (
-          <WatchedDistrictsComponent
+          <WatchedComponent
             toggleLoader={(val) => this.toggleLoader(val)}
           />
         );
@@ -82,39 +82,34 @@ export default class HomeComponent extends Component {
 
         <Container maxWidth="sm">
           <AppBar position="sticky">
-            <Toolbar variant="dense">
-              <Typography variant="h6" color="inherit">
-                {currentTab}
-              </Typography>
-            </Toolbar>
+            <div >
+              <BottomNavigation
+                showLabels={true}
+                value={currentTab}
+                onChange={(evt, newVal) => this.tabChange(newVal)}
+              >
+                <BottomNavigationAction
+                  label="Watched"
+                  value={constantsService.pages.pinned_district}
+                  icon={<VisibilityOutlined />}
+                />
+                <BottomNavigationAction
+                  label="Districts"
+                  value={constantsService.pages.all_district}
+                  icon={<LocationCityOutlined />}
+                />
+                <BottomNavigationAction
+                  label="States"
+                  value={constantsService.pages.all_states}
+                  icon={<AllOutOutlined />}
+                />
+              </BottomNavigation>
+            </div>
           </AppBar>
           <div className="home-wrapper">
             <form autoComplete="off">
               <Paper elevation={3}>{this.renderCurrentTab()}</Paper>
             </form>
-          </div>
-          <div className="bottom-nav">
-            <BottomNavigation
-              showLabels={true}
-              value={currentTab}
-              onChange={(evt, newVal) => this.tabChange(newVal)}
-            >
-              <BottomNavigationAction
-                label="Watched"
-                value={constantsService.pages.pinned_district}
-                icon={<VisibilityOutlined />}
-              />
-              <BottomNavigationAction
-                label="Districts"
-                value={constantsService.pages.all_district}
-                icon={<LocationCityOutlined />}
-              />
-              <BottomNavigationAction
-                label="States"
-                value={constantsService.pages.all_states}
-                icon={<AllOutOutlined />}
-              />
-            </BottomNavigation>
           </div>
         </Container>
       </>

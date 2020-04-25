@@ -1,7 +1,7 @@
 class ConstantsService {
   get pages() {
     return {
-      pinned_district: 'Pinned Districts',
+      pinned_district: 'Watched',
       location: 'Location',
       all_district: 'Districts',
       all_states: 'States',

@@ -25,10 +25,17 @@ export default class AllStatesComponent extends Component {
     super();
     this.state = {
       filteredStateData: null,
+      pinnedStates: covidDataService.getPinState()
     };
   }
 
+  changeWatchFlag(name, flag) {
+    const pinnedStates = covidDataService.setPinState(name, flag);
+    this.setState({ pinnedStates })
+    this.filterData(this.currentFilter || '');
+  }
   filterData(val) {
+    this.currentFilter = val;
     const filteredStateData = this.stateData.filter(
       (r) => r.state.toLowerCase().indexOf(val.toLowerCase()) !== -1
     );
@@ -43,7 +50,7 @@ export default class AllStatesComponent extends Component {
   }
 
   render() {
-    const { filteredStateData } = this.state;
+    const { filteredStateData, pinnedStates } = this.state;
     return (
       <>
         {!filteredStateData ? (
@@ -77,6 +84,29 @@ export default class AllStatesComponent extends Component {
                         </Typography>
                         <hr />
                         <StatsGraph {...r} />
+                        <CardActions>
+                          {!pinnedStates.some(j => j === r.state) ? (
+                            <Button
+                              variant="contained"
+                              onClick={() =>
+                                this.changeWatchFlag(r.state, true)
+                              }
+                              size="small"
+                            >
+                              Watch
+                            </Button>
+                          ) : (
+                              <Button
+                                variant="contained"
+                                onClick={() =>
+                                  this.changeWatchFlag(r.state, false)
+                                }
+                                size="small"
+                              >
+                                Remove Watch
+                              </Button>
+                            )}
+                        </CardActions>
                       </CardContent>
                     </Card>
                   );
