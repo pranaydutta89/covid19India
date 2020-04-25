@@ -3,8 +3,8 @@ class ConstantsService {
     return {
       pinned_district: 'Pinned Districts',
       location: 'Location',
-      all_district: 'All Districts',
-      all_states: 'All States',
+      all_district: 'Districts',
+      all_states: 'States',
     };
   }
 }

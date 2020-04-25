@@ -63,7 +63,7 @@ export default class LocationDistrictComponent extends React.Component {
                   <StatsGraph {...districtData} />
                 </CardContent>
               </Card>
-              <ExpansionPanel>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMore />}
                   aria-controls="panel1bh-content"
@@ -73,7 +73,7 @@ export default class LocationDistrictComponent extends React.Component {
                 </ExpansionPanelSummary>
                 <DistrictPatientDetails districtName={districtData.district} />
               </ExpansionPanel>
-              <ExpansionPanel>
+              <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMore />}
                   aria-controls="panel1bh-content"

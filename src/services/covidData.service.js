@@ -122,20 +122,25 @@ class CovidDataService {
     return utilsService.cloneDeep(districtData);
   }
 
-  async setPinDistrict(districtName, watchFlag) {
-    const stateData = await this.checkSyncStatus();
-    const stateThatHasLocationDistrict = stateData.find((r) =>
-      r.districtData.some(
-        (j) => j.district.toLowerCase() === districtName.toLowerCase()
-      )
-    );
-    const districtData = stateThatHasLocationDistrict.districtData.find(
-      (r) => r.district.toLowerCase() === districtName.toLowerCase()
-    );
-    districtData.watch = watchFlag;
-    const covidData = storageService.localStorageGetItem('covidData');
-    merge(covidData.stateData, stateData);
-    storageService.localStorageSetItem('covidData', covidData);
+  setPinDistrict(districtName, watchFlag) {
+    const pinnedDistrictList = storageService.localStorageGetItem('pinnedDistrict') || [];
+    if (watchFlag) {
+      const alreadyExists = pinnedDistrictList.find(r => r === districtName);
+      if (!alreadyExists) {
+        pinnedDistrictList.push(districtName)
+      }
+    } else {
+      const idx = pinnedDistrictList.findIndex(r => r === districtName);
+      if (idx > -1) {
+        pinnedDistrictList.splice(idx, 1);
+      }
+    }
+    storageService.localStorageSetItem('pinnedDistrict', pinnedDistrictList);
+    return this.getPinDistrict();
+  }
+
+  getPinDistrict() {
+    return storageService.localStorageGetItem('pinnedDistrict') || [];
   }
 
   async getDistricts() {

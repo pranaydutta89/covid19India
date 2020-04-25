@@ -25,11 +25,12 @@ export default class AllDistrictsComponent extends Component {
     super();
     this.state = {
       filteredDistrictData: null,
+      pinnedDistricts: covidDataService.getPinDistrict()
     };
   }
-  async changeWatchFlag(name, flag) {
-    await covidDataService.setPinDistrict(name, flag);
-    this.districtData = await covidDataService.getDistricts();
+  changeWatchFlag(name, flag) {
+    const pinnedDistricts = covidDataService.setPinDistrict(name, flag);
+    this.setState({ pinnedDistricts })
     this.filterData(this.currentFilter || '');
   }
   async componentDidMount() {
@@ -49,7 +50,7 @@ export default class AllDistrictsComponent extends Component {
   }
 
   render() {
-    const { filteredDistrictData } = this.state;
+    const { filteredDistrictData, pinnedDistricts } = this.state;
 
     return (
       <>
@@ -85,7 +86,7 @@ export default class AllDistrictsComponent extends Component {
                         <hr />
                         <StatsGraph {...r} />
                         <CardActions>
-                          {!r.watch ? (
+                          {!pinnedDistricts.some(j => j === r.district) ? (
                             <Button
                               variant="contained"
                               onClick={() =>
