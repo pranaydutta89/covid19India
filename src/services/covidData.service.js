@@ -98,6 +98,16 @@ class CovidDataService {
     return utilsService.cloneDeep(stateDataTrimmed);
   }
 
+  async getCurrentLocationState() {
+    const { state: { longName } } = await locationService.currentLocation();
+    const stateData = await this.checkSyncStatus();
+    const state = stateData.find(({ state }) => {
+      return state.toLowerCase() === longName.toLowerCase()
+    }
+    );
+    return utilsService.cloneDeep(state);
+  }
+
   async getCurrentLocationDistrict() {
     const location = await locationService.currentLocation();
     const stateData = await this.checkSyncStatus();
