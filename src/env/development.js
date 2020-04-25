@@ -1,5 +1,5 @@
 (() => {
-    window.env = {
-        googleGeocodingApiKey: 'AIzaSyArsR0pTwkxruxnG-ymhXWWLk65jyWkBfk'
-    }
+  window.env = {
+    geocodingApiKey: '4a9d4d27ef164904b94e8c6534966432',
+  };
 })();

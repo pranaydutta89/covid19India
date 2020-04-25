@@ -1,5 +1,5 @@
 (() => {
     window.env = {
-        googleGeocodingApiKey: 'AIzaSyCdaNQWOR8VwLhGBXGrw1hz11JmfSGtGcE'
+        geocodingApiKey: '4a9d4d27ef164904b94e8c6534966432'
     }
 })()
