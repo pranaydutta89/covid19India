@@ -52,9 +52,7 @@ export default class HomeComponent extends Component {
     switch (currentTab) {
       case constantsService.pages.pinned_district:
         return (
-          <WatchedComponent
-            toggleLoader={(val) => this.toggleLoader(val)}
-          />
+          <WatchedComponent toggleLoader={(val) => this.toggleLoader(val)} />
         );
       case constantsService.pages.all_district:
         return (
@@ -82,7 +80,7 @@ export default class HomeComponent extends Component {
 
         <Container maxWidth="sm">
           <AppBar position="sticky">
-            <div >
+            <div>
               <BottomNavigation
                 showLabels={true}
                 value={currentTab}

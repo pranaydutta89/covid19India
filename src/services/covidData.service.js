@@ -7,10 +7,7 @@ import merge from 'lodash/merge';
 class CovidDataService {
   processCovid(apiData) {
     apiData.forEach((j) => {
-
-      j.districtData.map((r) => {
-
-      });
+      j.districtData.map((r) => {});
       j.confirmed = j.districtData
         .map((r) => r.confirmed)
         .reduceRight((total, num) => total + num);
@@ -91,7 +88,6 @@ class CovidDataService {
         active,
         deceased,
         recovered,
-
       };
     });
 
@@ -99,12 +95,13 @@ class CovidDataService {
   }
 
   async getCurrentLocationState() {
-    const { state: { longName } } = await locationService.currentLocation();
+    const {
+      state: { longName },
+    } = await locationService.currentLocation();
     const stateData = await this.checkSyncStatus();
     const state = stateData.find(({ state }) => {
-      return state.toLowerCase() === longName.toLowerCase()
-    }
-    );
+      return state.toLowerCase() === longName.toLowerCase();
+    });
     return utilsService.cloneDeep(state);
   }
 
@@ -123,14 +120,15 @@ class CovidDataService {
   }
 
   setPinState(stateName, watchFlag) {
-    const pinnedStateList = storageService.localStorageGetItem('pinnedState') || [];
+    const pinnedStateList =
+      storageService.localStorageGetItem('pinnedState') || [];
     if (watchFlag) {
-      const alreadyExists = pinnedStateList.find(r => r === stateName);
+      const alreadyExists = pinnedStateList.find((r) => r === stateName);
       if (!alreadyExists) {
-        pinnedStateList.push(stateName)
+        pinnedStateList.push(stateName);
       }
     } else {
-      const idx = pinnedStateList.findIndex(r => r === stateName);
+      const idx = pinnedStateList.findIndex((r) => r === stateName);
       if (idx > -1) {
         pinnedStateList.splice(idx, 1);
       }
@@ -144,14 +142,15 @@ class CovidDataService {
   }
 
   setPinDistrict(districtName, watchFlag) {
-    const pinnedDistrictList = storageService.localStorageGetItem('pinnedDistrict') || [];
+    const pinnedDistrictList =
+      storageService.localStorageGetItem('pinnedDistrict') || [];
     if (watchFlag) {
-      const alreadyExists = pinnedDistrictList.find(r => r === districtName);
+      const alreadyExists = pinnedDistrictList.find((r) => r === districtName);
       if (!alreadyExists) {
-        pinnedDistrictList.push(districtName)
+        pinnedDistrictList.push(districtName);
       }
     } else {
-      const idx = pinnedDistrictList.findIndex(r => r === districtName);
+      const idx = pinnedDistrictList.findIndex((r) => r === districtName);
       if (idx > -1) {
         pinnedDistrictList.splice(idx, 1);
       }
@@ -177,7 +176,9 @@ class CovidDataService {
     const watchedDistricts = [];
     const pinnedDistricts = this.getPinDistrict();
     stateData.forEach((r) => {
-      const stateWatchDistricts = r.districtData.filter((j) => pinnedDistricts.some(k => k === j.district));
+      const stateWatchDistricts = r.districtData.filter((j) =>
+        pinnedDistricts.some((k) => k === j.district)
+      );
       watchedDistricts.push.apply(watchedDistricts, stateWatchDistricts);
     });
     return utilsService.cloneDeep(watchedDistricts);
@@ -187,7 +188,9 @@ class CovidDataService {
     const stateData = await this.checkSyncStatus();
     const pinnedStates = this.getPinState();
 
-    return utilsService.cloneDeep(stateData.filter(r => pinnedStates.some(j => j === r.state)));
+    return utilsService.cloneDeep(
+      stateData.filter((r) => pinnedStates.some((j) => j === r.state))
+    );
   }
 }
 

@@ -34,34 +34,34 @@ export default class DistrictResourceDetails extends Component {
         {!resourceDetails ? (
           <LinearProgress />
         ) : (
-            <>
-              {resourceDetails.map(
-                ({ category, source, notes, name, number }, idx) => {
-                  return (
-                    <Card key={idx} variant="outlined">
-                      <CardContent>
-                        <Typography variant="h5" component="h2">
-                          {category}
-                        </Typography>
-                        <Typography color="textSecondary">{name}</Typography>
-                        <Typography variant="body2" component="p">
-                          {notes}
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                          <a href={`tel:${number}`}>Call {number}</a>
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Link href={source} target="_blank">
-                          Source
+          <>
+            {resourceDetails.map(
+              ({ category, source, notes, name, number }, idx) => {
+                return (
+                  <Card key={idx} variant="outlined">
+                    <CardContent>
+                      <Typography variant="h5" component="h2">
+                        {category}
+                      </Typography>
+                      <Typography color="textSecondary">{name}</Typography>
+                      <Typography variant="body2" component="p">
+                        {notes}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        <a href={`tel:${number}`}>Call {number}</a>
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Link href={source} target="_blank">
+                        Source
                       </Link>
-                      </CardActions>
-                    </Card>
-                  );
-                }
-              )}
-            </>
-          )}
+                    </CardActions>
+                  </Card>
+                );
+              }
+            )}
+          </>
+        )}
       </>
     );
   }

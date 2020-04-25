@@ -25,13 +25,13 @@ export default class AllStatesComponent extends Component {
     super();
     this.state = {
       filteredStateData: null,
-      pinnedStates: covidDataService.getPinState()
+      pinnedStates: covidDataService.getPinState(),
     };
   }
 
   changeWatchFlag(name, flag) {
     const pinnedStates = covidDataService.setPinState(name, flag);
-    this.setState({ pinnedStates })
+    this.setState({ pinnedStates });
     this.filterData(this.currentFilter || '');
   }
   filterData(val) {
@@ -56,65 +56,60 @@ export default class AllStatesComponent extends Component {
         {!filteredStateData ? (
           <></>
         ) : (
-            <>
-              <style>{css}</style>
-              <LocationState />
-              <ExpansionPanel>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography>All States</Typography>
-                </ExpansionPanelSummary>
-                <SearchComponent
-                  label="Search State"
-                  onChange={(val) => this.filterData(val)}
-                />
+          <>
+            <style>{css}</style>
+            <LocationState />
+            <ExpansionPanel>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography>All States</Typography>
+              </ExpansionPanelSummary>
+              <SearchComponent
+                label="Search State"
+                onChange={(val) => this.filterData(val)}
+              />
 
-                {filteredStateData.map((r, idx) => {
-                  return (
-                    <Card key={idx} className="card-wrap">
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          {r.state}
-                        </Typography>
-                        <Typography color="textSecondary" gutterBottom>
-                          Total Cases - {r.confirmed}
-                        </Typography>
-                        <hr />
-                        <StatsGraph {...r} />
-                        <CardActions>
-                          {!pinnedStates.some(j => j === r.state) ? (
-                            <Button
-                              variant="contained"
-                              onClick={() =>
-                                this.changeWatchFlag(r.state, true)
-                              }
-                              size="small"
-                            >
-                              Watch
-                            </Button>
-                          ) : (
-                              <Button
-                                variant="contained"
-                                onClick={() =>
-                                  this.changeWatchFlag(r.state, false)
-                                }
-                                size="small"
-                              >
-                                Remove Watch
-                              </Button>
-                            )}
-                        </CardActions>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </ExpansionPanel>
-            </>
-
-          )}
+              {filteredStateData.map((r, idx) => {
+                return (
+                  <Card key={idx} className="card-wrap">
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        {r.state}
+                      </Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                        Total Cases - {r.confirmed}
+                      </Typography>
+                      <hr />
+                      <StatsGraph {...r} />
+                      <CardActions>
+                        {!pinnedStates.some((j) => j === r.state) ? (
+                          <Button
+                            variant="contained"
+                            onClick={() => this.changeWatchFlag(r.state, true)}
+                            size="small"
+                          >
+                            Watch
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            onClick={() => this.changeWatchFlag(r.state, false)}
+                            size="small"
+                          >
+                            Remove Watch
+                          </Button>
+                        )}
+                      </CardActions>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }

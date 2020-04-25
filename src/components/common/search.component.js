@@ -25,7 +25,7 @@ export default class SearchComponent extends Component {
 
     this.debouce = setTimeout(() => {
       onChange(filterText);
-    }, 200)
+    }, 200);
   }
 
   render() {

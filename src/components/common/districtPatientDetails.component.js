@@ -32,43 +32,45 @@ export default class DistrictPatientDetails extends Component {
         {!patientDetails ? (
           <LinearProgress />
         ) : (
-            <>
-              {patientDetails.map(
-                ({
-
+          <>
+            {patientDetails.map(
+              (
+                {
                   patientnumber,
                   dateannounced: timestamp,
                   currentstatus,
                   notes,
                   source,
-                }, idx) => {
-                  return (
-                    <Card key={idx} variant="outlined">
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          Reported <FromNow {...{ timestamp }} />
-                        </Typography>
-                        <Typography variant="h5" component="h2">
-                          Patient Number {patientnumber}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Status {currentstatus}
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                          {notes}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Link href={source} target="_blank">
-                          Source
+                },
+                idx
+              ) => {
+                return (
+                  <Card key={idx} variant="outlined">
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        Reported <FromNow {...{ timestamp }} />
+                      </Typography>
+                      <Typography variant="h5" component="h2">
+                        Patient Number {patientnumber}
+                      </Typography>
+                      <Typography color="textSecondary">
+                        Status {currentstatus}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        {notes}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Link href={source} target="_blank">
+                        Source
                       </Link>
-                      </CardActions>
-                    </Card>
-                  );
-                }
-              )}
-            </>
-          )}
+                    </CardActions>
+                  </Card>
+                );
+              }
+            )}
+          </>
+        )}
       </>
     );
   }

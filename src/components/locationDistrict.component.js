@@ -27,13 +27,11 @@ export default class LocationDistrictComponent extends React.Component {
   }
 
   async componentDidMount() {
-
     try {
       this.setState({
         districtData: await covidDataService.getCurrentLocationDistrict(),
       });
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   render() {
@@ -50,41 +48,41 @@ export default class LocationDistrictComponent extends React.Component {
             </CardContent>
           </Card>
         ) : (
-            <>
-              <Card className="card-wrapper">
-                <CardContent>
-                  <Typography color="textSecondary" gutterBottom>
-                    Estimated Location <strong>{districtData.district}</strong>
-                  </Typography>
-                  <Typography color="textSecondary" gutterBottom>
-                    Total Cases - {districtData.confirmed}
-                  </Typography>
-                  <hr />
-                  <StatsGraph {...districtData} />
-                </CardContent>
-              </Card>
-              <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography>Patients</Typography>
-                </ExpansionPanelSummary>
-                <DistrictPatientDetails districtName={districtData.district} />
-              </ExpansionPanel>
-              <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography>Essentials</Typography>
-                </ExpansionPanelSummary>
-                <DistrictResourceDetails districtName={districtData.district} />
-              </ExpansionPanel>
-            </>
-          )}
+          <>
+            <Card className="card-wrapper">
+              <CardContent>
+                <Typography color="textSecondary" gutterBottom>
+                  Estimated Location <strong>{districtData.district}</strong>
+                </Typography>
+                <Typography color="textSecondary" gutterBottom>
+                  Total Cases - {districtData.confirmed}
+                </Typography>
+                <hr />
+                <StatsGraph {...districtData} />
+              </CardContent>
+            </Card>
+            <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography>Patients</Typography>
+              </ExpansionPanelSummary>
+              <DistrictPatientDetails districtName={districtData.district} />
+            </ExpansionPanel>
+            <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography>Essentials</Typography>
+              </ExpansionPanelSummary>
+              <DistrictResourceDetails districtName={districtData.district} />
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }
