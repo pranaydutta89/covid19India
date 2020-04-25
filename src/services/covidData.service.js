@@ -3,13 +3,13 @@ import storageService from './storage.service';
 import dataService from './data.service';
 import locationService from './location.service';
 import merge from 'lodash/merge';
-import { v4 as uuid } from 'uuid';
+
 class CovidDataService {
   processCovid(apiData) {
     apiData.forEach((j) => {
-      j.id = uuid();
+      j.id = utilsService.randomString();
       j.districtData.map((r) => {
-        r.id = uuid();
+        r.id = utilsService.randomString();
       });
       j.confirmed = j.districtData
         .map((r) => r.confirmed)
@@ -25,34 +25,12 @@ class CovidDataService {
         .reduceRight((total, num) => total + num);
     });
 
-    const oldData = storageService.localStorageGetItem('covidData');
-    if (oldData && oldData.stateData) {
-      merge(apiData, oldData.stateData);
-    }
-
-    storageService.localStorageSetItem('covidData', {
-      lastUpdatedTimeStamp: Date.now(),
-      stateData: apiData,
-    });
     return apiData;
   }
 
   async checkSyncStatus() {
-    const data = storageService.localStorageGetItem('covidData');
-    if (data) {
-      const { lastUpdatedTimeStamp, stateData } = data;
-      if ((Date.now() - lastUpdatedTimeStamp) / 1000 >= 60) {
-        //old data fetch new and return
-        const apiData = await dataService.getStateApi();
-        return this.processCovid(apiData);
-      } else {
-        //if less time before last request then fetch old data
-        return stateData;
-      }
-    } else {
-      const apiData = await dataService.getStateApi();
-      return this.processCovid(apiData);
-    }
+    const apiData = await dataService.getStateApi();
+    return this.processCovid(apiData);
   }
 
   async getDistrictPatients(districtName) {
@@ -83,7 +61,7 @@ class CovidDataService {
     const districtResource = resources.filter(
       (r) => r.city.toLowerCase() === districtName.toLowerCase()
     );
-    const id = uuid();
+    const id = utilsService.randomString();
     return districtResource.map((r) => {
       const {
         category,
@@ -107,7 +85,7 @@ class CovidDataService {
     const stateData = await this.checkSyncStatus();
     const stateDataTrimmed = stateData.map((r) => {
       const { state, confirmed, active, deceased, recovered } = r;
-      const id = uuid();
+      const id = utilsService.randomString();
       return {
         state,
         confirmed,

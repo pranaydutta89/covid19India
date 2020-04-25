@@ -1,14 +1,17 @@
-import React, { PureComponent, Component } from 'react';
+import React, { Component } from 'react';
 import {
   Card,
   CardContent,
   Typography,
   CardActions,
   Button,
+  ExpansionPanel,
+  ExpansionPanelSummary,
 } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
 import StatsGraph from './common/statsGraph.component';
 import covidDataService from '../services/covidData.service';
-import LoaderComponent from './common/loader.component';
+import LocationDistrict from './locationDistrict.component';
 import SearchComponent from './common/search.component';
 
 const css = `
@@ -53,52 +56,65 @@ export default class AllDistrictsComponent extends Component {
         {!filteredDistrictData ? (
           <></>
         ) : (
-          <>
-            <style>{css}</style>
-            <SearchComponent
-              label="Search District"
-              onChange={(val) => this.filterData(val)}
-            />
+            <>
+              <style>{css}</style>
+              <LocationDistrict />
+              <ExpansionPanel>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography>All Districts</Typography>
+                </ExpansionPanelSummary>
+                <SearchComponent
+                  label="Search District"
+                  onChange={(val) => this.filterData(val)}
+                />
 
-            {filteredDistrictData.map((r, idx) => {
-              return (
-                <Card key={r.id} className="card-wrap">
-                  <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                      {r.district}
-                    </Typography>
-                    <Typography color="textSecondary" gutterBottom>
-                      Total Cases - {r.confirmed}
-                    </Typography>
-                    <hr />
-                    <StatsGraph {...r} />
-                    <CardActions>
-                      {!r.watch ? (
-                        <Button
-                          variant="contained"
-                          onClick={() => this.changeWatchFlag(r.district, true)}
-                          size="small"
-                        >
-                          Watch
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          onClick={() =>
-                            this.changeWatchFlag(r.district, false)
-                          }
-                          size="small"
-                        >
-                          Remove Watch
-                        </Button>
-                      )}
-                    </CardActions>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </>
-        )}
+                {filteredDistrictData.map((r, idx) => {
+                  return (
+                    <Card key={r.id} className="card-wrap">
+                      <CardContent>
+                        <Typography color="textSecondary" gutterBottom>
+                          {r.district}
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Total Cases - {r.confirmed}
+                        </Typography>
+                        <hr />
+                        <StatsGraph {...r} />
+                        <CardActions>
+                          {!r.watch ? (
+                            <Button
+                              variant="contained"
+                              onClick={() =>
+                                this.changeWatchFlag(r.district, true)
+                              }
+                              size="small"
+                            >
+                              Watch
+                            </Button>
+                          ) : (
+                              <Button
+                                variant="contained"
+                                onClick={() =>
+                                  this.changeWatchFlag(r.district, false)
+                                }
+                                size="small"
+                              >
+                                Remove Watch
+                              </Button>
+                            )}
+                        </CardActions>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </ExpansionPanel>
+            </>
+          )
+        }
       </>
     );
   }

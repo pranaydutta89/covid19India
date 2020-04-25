@@ -13,12 +13,11 @@ import {
   PublicOutlined,
   LocationCityOutlined,
   AllOutOutlined,
-  LocationOnOutlined,
+  VisibilityOutlined,
 } from '@material-ui/icons';
 import AllStatesComponent from './allStates.component';
 import WatchedDistrictsComponent from './watchedDistricts.component';
 import AllDistrictsComponent from './allDistricts.component';
-import LocationStatsComponent from './locationStats.component';
 import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
 const css = `
@@ -39,7 +38,7 @@ export default class HomeComponent extends Component {
   constructor() {
     super();
     this.state = {
-      currentTab: constantsService.pages.location,
+      currentTab: constantsService.pages.all_district,
       showLoader: false,
     };
   }
@@ -67,12 +66,6 @@ export default class HomeComponent extends Component {
         return (
           <AllStatesComponent toggleLoader={(val) => this.toggleLoader(val)} />
         );
-      case constantsService.pages.location:
-        return (
-          <LocationStatsComponent
-            toggleLoader={(val) => this.toggleLoader(val)}
-          />
-        );
     }
   }
 
@@ -96,7 +89,9 @@ export default class HomeComponent extends Component {
             </Toolbar>
           </AppBar>
           <div className="home-wrapper">
-            <Paper elevation={3}>{this.renderCurrentTab()}</Paper>
+            <form autocomplete="off">
+              <Paper elevation={3}>{this.renderCurrentTab()}</Paper>
+            </form>
           </div>
           <div className="bottom-nav">
             <BottomNavigation
@@ -107,20 +102,15 @@ export default class HomeComponent extends Component {
               <BottomNavigationAction
                 label="Watched"
                 value={constantsService.pages.pinned_district}
+                icon={<VisibilityOutlined />}
+              />
+              <BottomNavigationAction
+                label="Districts"
+                value={constantsService.pages.all_district}
                 icon={<LocationCityOutlined />}
               />
               <BottomNavigationAction
-                label="Location"
-                value={constantsService.pages.location}
-                icon={<LocationOnOutlined />}
-              />
-              <BottomNavigationAction
-                label="All Districts"
-                value={constantsService.pages.all_district}
-                icon={<PublicOutlined />}
-              />
-              <BottomNavigationAction
-                label="All States"
+                label="States"
                 value={constantsService.pages.all_states}
                 icon={<AllOutOutlined />}
               />
