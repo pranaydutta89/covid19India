@@ -1,7 +1,6 @@
-import clone from 'lodash/cloneDeep';
 class UtilityService {
   cloneDeep(data) {
-    return clone(data);
+    return JSON.parse(JSON.stringify(data));
   }
   randomString(length = 10) {
     let result = '';

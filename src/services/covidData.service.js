@@ -2,12 +2,10 @@ import utilsService from './utils.service';
 import storageService from './storage.service';
 import dataService from './data.service';
 import locationService from './location.service';
-import merge from 'lodash/merge';
 
 class CovidDataService {
   processCovid(apiData) {
     apiData.forEach((j) => {
-      j.districtData.map((r) => {});
       j.confirmed = j.districtData
         .map((r) => r.confirmed)
         .reduceRight((total, num) => total + num);
