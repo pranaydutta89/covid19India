@@ -74,7 +74,7 @@ export default class AllDistrictsComponent extends Component {
 
                 {filteredDistrictData.map((r, idx) => {
                   return (
-                    <Card key={r.id} className="card-wrap">
+                    <Card key={idx} className="card-wrap">
                       <CardContent>
                         <Typography color="textSecondary" gutterBottom>
                           {r.district}

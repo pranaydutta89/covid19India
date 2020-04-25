@@ -45,31 +45,31 @@ export default class AllStatesComponent extends Component {
         {!filteredStateData ? (
           <></>
         ) : (
-          <>
-            <style>{css}</style>
-            <SearchComponent
-              label="Search State"
-              onChange={(val) => this.filterData(val)}
-            />
+            <>
+              <style>{css}</style>
+              <SearchComponent
+                label="Search State"
+                onChange={(val) => this.filterData(val)}
+              />
 
-            {filteredStateData.map((r, idx) => {
-              return (
-                <Card key={r.id} className="card-wrap">
-                  <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                      {r.state}
-                    </Typography>
-                    <Typography color="textSecondary" gutterBottom>
-                      Total Cases - {r.confirmed}
-                    </Typography>
-                    <hr />
-                    <StatsGraph {...r} />
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </>
-        )}
+              {filteredStateData.map((r, idx) => {
+                return (
+                  <Card key={idx} className="card-wrap">
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        {r.state}
+                      </Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                        Total Cases - {r.confirmed}
+                      </Typography>
+                      <hr />
+                      <StatsGraph {...r} />
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </>
+          )}
       </>
     );
   }

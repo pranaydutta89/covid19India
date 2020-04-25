@@ -16,8 +16,16 @@ export default class SearchComponent extends Component {
 
   filterData(filterText) {
     const { onChange } = this.props;
-    onChange(filterText);
     this.setState({ filterText });
+
+    if (this.debouce) {
+      clearTimeout(this.debouce);
+      this.debouce = null;
+    }
+
+    this.debouce = setTimeout(() => {
+      onChange(filterText);
+    }, 200)
   }
 
   render() {

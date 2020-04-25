@@ -7,9 +7,9 @@ import merge from 'lodash/merge';
 class CovidDataService {
   processCovid(apiData) {
     apiData.forEach((j) => {
-      j.id = utilsService.randomString();
+
       j.districtData.map((r) => {
-        r.id = utilsService.randomString();
+
       });
       j.confirmed = j.districtData
         .map((r) => r.confirmed)
@@ -61,7 +61,7 @@ class CovidDataService {
     const districtResource = resources.filter(
       (r) => r.city.toLowerCase() === districtName.toLowerCase()
     );
-    const id = utilsService.randomString();
+
     return districtResource.map((r) => {
       const {
         category,
@@ -71,7 +71,6 @@ class CovidDataService {
         phonenumber: number,
       } = r;
       return {
-        id,
         category,
         source,
         notes,
@@ -85,14 +84,14 @@ class CovidDataService {
     const stateData = await this.checkSyncStatus();
     const stateDataTrimmed = stateData.map((r) => {
       const { state, confirmed, active, deceased, recovered } = r;
-      const id = utilsService.randomString();
+
       return {
         state,
         confirmed,
         active,
         deceased,
         recovered,
-        id,
+
       };
     });
 

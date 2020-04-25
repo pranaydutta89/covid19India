@@ -39,40 +39,40 @@ export default class WatchedDistrictsComponent extends Component {
         {!filteredDistrictData ? (
           <></>
         ) : (
-          <>
-            <SearchComponent
-              label="Search District"
-              onChange={(val) => this.filterData(val)}
-            />
+            <>
+              <SearchComponent
+                label="Search District"
+                onChange={(val) => this.filterData(val)}
+              />
 
-            {filteredDistrictData.length === 0 ? (
-              <Card>
-                <CardContent>
-                  <Typography color="textSecondary" gutterBottom>
-                    No District in Watch list
+              {filteredDistrictData.length === 0 ? (
+                <Card>
+                  <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                      No District in Watch list
                   </Typography>
-                </CardContent>
-              </Card>
-            ) : (
-              <>
-                {filteredDistrictData.map((r, idx) => {
-                  return (
-                    <>
-                      <Card className="card-wrapper" key={r.id}>
-                        <CardContent>
-                          <Typography color="textSecondary" gutterBottom>
-                            {r.district}
-                          </Typography>
-                          <StatsGraph {...r} />
-                        </CardContent>
-                      </Card>
-                    </>
-                  );
-                })}
-              </>
-            )}
-          </>
-        )}
+                  </CardContent>
+                </Card>
+              ) : (
+                  <>
+                    {filteredDistrictData.map((r, idx) => {
+                      return (
+                        <>
+                          <Card className="card-wrapper" key={idx}>
+                            <CardContent>
+                              <Typography color="textSecondary" gutterBottom>
+                                {r.district}
+                              </Typography>
+                              <StatsGraph {...r} />
+                            </CardContent>
+                          </Card>
+                        </>
+                      );
+                    })}
+                  </>
+                )}
+            </>
+          )}
       </>
     );
   }

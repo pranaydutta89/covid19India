@@ -89,7 +89,7 @@ export default class HomeComponent extends Component {
             </Toolbar>
           </AppBar>
           <div className="home-wrapper">
-            <form autocomplete="off">
+            <form autoComplete="off">
               <Paper elevation={3}>{this.renderCurrentTab()}</Paper>
             </form>
           </div>
