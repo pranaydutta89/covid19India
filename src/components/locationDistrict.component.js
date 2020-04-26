@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import covidDataService from '../services/covidData.service';
 import DistrictPatientDetails from './common/districtPatientDetails.component';
-import DistrictResourceDetails from './common/districtResourceDetails.component';
+import ResourceDetails from './common/resourceDetails.component';
 
 const css = `
 .card-wrapper{
@@ -85,9 +85,9 @@ export default class LocationDistrictComponent extends React.Component {
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                   >
-                    <Typography>Essentials</Typography>
+                    <Typography>Essentials / Helplines</Typography>
                   </ExpansionPanelSummary>
-                  <DistrictResourceDetails districtName={districtData.district} />
+                  <ResourceDetails type='district' name={districtData.district} />
                 </ExpansionPanel>
               </>
             )}

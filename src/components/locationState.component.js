@@ -11,9 +11,7 @@ import {
     LinearProgress,
 } from '@material-ui/core';
 import covidDataService from '../services/covidData.service';
-import DistrictPatientDetails from './common/districtPatientDetails.component';
-import DistrictResourceDetails from './common/districtResourceDetails.component';
-
+import ResourceDetails from './common/resourceDetails.component';
 const css = `
 .card-wrapper{
     margin-bottom:10px
@@ -70,6 +68,16 @@ export default class LocationStateComponent extends React.Component {
                                             <StatsGraph {...stateData} />
                                         </CardContent>
                                     </Card>
+                                    <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                                        <ExpansionPanelSummary
+                                            expandIcon={<ExpandMore />}
+                                            aria-controls="panel1bh-content"
+                                            id="panel1bh-header"
+                                        >
+                                            <Typography>Essentials / Helplines</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ResourceDetails type='state' name={stateData.state} />
+                                    </ExpansionPanel>
                                 </>
                             )}
                     </>

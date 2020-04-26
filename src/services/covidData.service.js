@@ -60,20 +60,45 @@ class CovidDataService {
     });
   }
 
+  async getStateResources(stateName) {
+    const { resources } = await dataService.getResourceApi();
+    const stateResource = resources.filter(
+      (r) => r.state.toLowerCase() === stateName.toLowerCase()
+    );
+
+    return stateResource.map(({ category,
+      contact: source,
+      descriptionandorserviceprovided: notes,
+      nameoftheorganisation: name,
+      city,
+      phonenumber: number, }) => {
+
+      source = source.indexOf('SOURCE ') !== -1 ? source.split('SOURCE ')[1] : source;
+
+      return {
+        category,
+        source,
+        notes,
+        name,
+        number,
+        city
+      };
+    });
+  }
   async getDistrictResources(districtName) {
     const { resources } = await dataService.getResourceApi();
     const districtResource = resources.filter(
       (r) => r.city.toLowerCase() === districtName.toLowerCase()
     );
 
-    return districtResource.map((r) => {
-      const {
-        category,
-        source,
-        descriptionandorserviceprovided: notes,
-        nameoftheorganisation: name,
-        phonenumber: number,
-      } = r;
+    return districtResource.map(({
+      category,
+      contact: source,
+      descriptionandorserviceprovided: notes,
+      nameoftheorganisation: name,
+      phonenumber: number,
+    }) => {
+      source = source.indexOf('SOURCE ') !== -1 ? source.split('SOURCE ')[1] : source;
       return {
         category,
         source,
