@@ -62,7 +62,7 @@ export default class LocationStateComponent extends React.Component {
                                                 Estimated Location <strong>{stateData.state}</strong>
                                             </Typography>
                                             <Typography color="textSecondary" gutterBottom>
-                                                Total Cases - {stateData.confirmed}
+                                                Total Cases - <strong>{stateData.confirmed}</strong>
                                             </Typography>
                                             <hr />
                                             <StatsGraph {...stateData} />

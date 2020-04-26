@@ -81,7 +81,7 @@ export default class AllDistrictsComponent extends Component {
                           {r.district}
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
-                          Total Cases - {r.confirmed}
+                          Total Cases - <strong>{r.confirmed}</strong>
                         </Typography>
                         <hr />
                         <StatsGraph {...r} />

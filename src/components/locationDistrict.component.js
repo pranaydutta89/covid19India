@@ -63,7 +63,7 @@ export default class LocationDistrictComponent extends React.Component {
                       Estimated Location <strong>{districtData.district}</strong>
                     </Typography>
                     <Typography color="textSecondary" gutterBottom>
-                      Total Cases - {districtData.confirmed}
+                      Total Cases - <strong>{districtData.confirmed}</strong>
                     </Typography>
                     <hr />
                     <StatsGraph {...districtData} />

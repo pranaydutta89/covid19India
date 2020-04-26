@@ -17,7 +17,7 @@ export default class StatsGraph extends PureComponent {
         <style>{css}</style>
         {active != null ?
           <Typography color="textSecondary" gutterBottom>
-            <strong>Active ({active})</strong>
+            Active - <strong>{active}</strong>
             <LinearProgress
               variant="determinate"
               value={(active / confirmed) * 100}
@@ -26,7 +26,7 @@ export default class StatsGraph extends PureComponent {
         }
 
         <Typography color="textSecondary" gutterBottom>
-          <strong>Deaths ({deceased})</strong>
+          Deaths - <strong>{deceased}</strong>
           <LinearProgress
             color="secondary"
             variant="determinate"
@@ -35,7 +35,7 @@ export default class StatsGraph extends PureComponent {
         </Typography>
 
         <Typography color="textSecondary" gutterBottom>
-          <strong>Recovered ({recovered})</strong>
+          Recovered - <strong>{recovered}</strong>
           <LinearProgress
             classes={{
               colorPrimary: 'recovered-progress-color-primary',
