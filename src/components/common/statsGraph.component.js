@@ -15,13 +15,15 @@ export default class StatsGraph extends PureComponent {
     return (
       <>
         <style>{css}</style>
-        <Typography color="textSecondary" gutterBottom>
-          <strong>Active ({active})</strong>
-          <LinearProgress
-            variant="determinate"
-            value={(active / confirmed) * 100}
-          />
-        </Typography>
+        {active ?
+          <Typography color="textSecondary" gutterBottom>
+            <strong>Active ({active})</strong>
+            <LinearProgress
+              variant="determinate"
+              value={(active / confirmed) * 100}
+            />
+          </Typography> : <></>
+        }
 
         <Typography color="textSecondary" gutterBottom>
           <strong>Deaths ({deceased})</strong>

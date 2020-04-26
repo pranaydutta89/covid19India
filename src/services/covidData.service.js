@@ -28,6 +28,15 @@ class CovidDataService {
     return this.processCovid(apiData);
   }
 
+
+  async getIndiaBrief() {
+    const { cases_time_series, tested } = await dataService.getIndiaDetailsApi();
+    return {
+      cases: cases_time_series[cases_time_series.length - 1],
+      tested: tested[tested.length - 1]
+    }
+  }
+
   async getDistrictPatients(districtName) {
     const { raw_data: patientData } = await dataService.getPatientApi();
     const patients = patientData.filter(

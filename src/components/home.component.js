@@ -20,6 +20,7 @@ import WatchedComponent from './watched.component';
 import AllDistrictsComponent from './allDistricts.component';
 import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
+import IndiaDetailComponent from './IndiaDetails.component';
 const css = `
         .backdrop: {
                 color: '#fff',
@@ -64,6 +65,10 @@ export default class HomeComponent extends Component {
         return (
           <AllStatesComponent toggleLoader={(val) => this.toggleLoader(val)} />
         );
+      case constantsService.pages.country_brief:
+        return (
+          <IndiaDetailComponent toggleLoader={(val) => this.toggleLoader(val)} />
+        );
     }
   }
 
@@ -78,7 +83,7 @@ export default class HomeComponent extends Component {
         {showLoader ? <LoaderComponent /> : <></>}
         <style>{css}</style>
 
-        <Container maxWidth="sm">
+        <Container disableGutters={true} maxWidth="sm">
           <AppBar position="sticky">
             <div>
               <BottomNavigation
@@ -100,6 +105,11 @@ export default class HomeComponent extends Component {
                   label="States"
                   value={constantsService.pages.all_states}
                   icon={<AllOutOutlined />}
+                />
+                <BottomNavigationAction
+                  label="India"
+                  value={constantsService.pages.country_brief}
+                  icon={<PublicOutlined />}
                 />
               </BottomNavigation>
             </div>
