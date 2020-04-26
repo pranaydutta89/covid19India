@@ -32,21 +32,7 @@ export default class IndiaDetailComponent extends Component {
             return (
                 <>
                     <style>{css}</style>
-                    <Card className="card-wrap">
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Daily Details as on <strong>{cases.date}</strong>
-                            </Typography>
-                            <Typography color="textSecondary" gutterBottom>
-                                Confirmed - <strong>{cases.dailyconfirmed}</strong>
-                            </Typography>
-                            <hr />
-                            <StatsGraph confirmed={cases.dailyconfirmed}
-                                deceased={cases.dailydeceased}
-                                recovered={cases.dailyrecovered}
-                            />
-                        </CardContent>
-                    </Card>
+
 
                     <Card className="card-wrap">
                         <CardContent>
@@ -64,6 +50,25 @@ export default class IndiaDetailComponent extends Component {
                             />
                         </CardContent>
                     </Card>
+
+                    <Card className="card-wrap">
+                        <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                                Daily Details as on <strong>{cases.date}</strong>
+                            </Typography>
+                            <Typography color="textSecondary" gutterBottom>
+                                Confirmed - <strong>{cases.dailyconfirmed}</strong>
+                            </Typography>
+                            <Typography color="textSecondary" gutterBottom>
+                                Deaths - <strong>{cases.dailydeceased}</strong>
+                            </Typography>
+                            <Typography color="textSecondary" gutterBottom>
+                                Recovered - <strong>{cases.dailyrecovered}</strong>
+                            </Typography>
+
+                        </CardContent>
+                    </Card>
+
                     <Card className="card-wrap">
                         <CardContent>
                             <Typography color="textSecondary" gutterBottom>

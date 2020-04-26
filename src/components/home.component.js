@@ -92,11 +92,6 @@ export default class HomeComponent extends Component {
                 onChange={(evt, newVal) => this.tabChange(newVal)}
               >
                 <BottomNavigationAction
-                  label="Watched"
-                  value={constantsService.pages.pinned_district}
-                  icon={<VisibilityOutlined />}
-                />
-                <BottomNavigationAction
                   label="Districts"
                   value={constantsService.pages.all_district}
                   icon={<LocationCityOutlined />}
@@ -105,6 +100,11 @@ export default class HomeComponent extends Component {
                   label="States"
                   value={constantsService.pages.all_states}
                   icon={<AllOutOutlined />}
+                />
+                <BottomNavigationAction
+                  label="Watched"
+                  value={constantsService.pages.pinned_district}
+                  icon={<VisibilityOutlined />}
                 />
                 <BottomNavigationAction
                   label="India"

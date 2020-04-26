@@ -15,7 +15,7 @@ export default class StatsGraph extends PureComponent {
     return (
       <>
         <style>{css}</style>
-        {active ?
+        {active != null ?
           <Typography color="textSecondary" gutterBottom>
             <strong>Active ({active})</strong>
             <LinearProgress
