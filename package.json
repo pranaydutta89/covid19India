@@ -1,5 +1,5 @@
 {
-  "name": "covid19india",
+  "name": "covid2.in",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -37,7 +37,6 @@
     "webpack-cli": "~3.3.10",
     "webpack-dev-server": "~3.10.1",
     "webpack-merge": "~4.2.2",
-    "workbox-webpack-plugin": "~5.1.2",
     "moment-locales-webpack-plugin": "~1.2.0"
   },
   "devDependencies": {
