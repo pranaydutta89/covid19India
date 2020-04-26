@@ -8,6 +8,7 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
+  LinearProgress,
 } from '@material-ui/core';
 import covidDataService from '../services/covidData.service';
 import DistrictPatientDetails from './common/districtPatientDetails.component';
@@ -23,6 +24,7 @@ export default class LocationDistrictComponent extends React.Component {
     super();
     this.state = {
       districtData: null,
+      loading: true
     };
   }
 
@@ -31,58 +33,66 @@ export default class LocationDistrictComponent extends React.Component {
       this.setState({
         districtData: await covidDataService.getCurrentLocationDistrict(),
       });
-    } catch (e) {}
+    } catch (e) { }
+    finally {
+      this.setState({
+        loading: false
+      });
+    }
   }
 
   render() {
-    const { districtData } = this.state;
+    const { districtData, loading } = this.state;
     return (
       <>
         <style>{css}</style>
-        {!districtData ? (
-          <Card className="card-wrap">
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Enable Location Access
-              </Typography>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
-            <Card className="card-wrapper">
+        {loading ? <LinearProgress /> : <>
+          {!districtData ? (
+            <Card className="card-wrap">
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
-                  Estimated Location <strong>{districtData.district}</strong>
-                </Typography>
-                <Typography color="textSecondary" gutterBottom>
-                  Total Cases - {districtData.confirmed}
-                </Typography>
-                <hr />
-                <StatsGraph {...districtData} />
+                  Enable Location Access
+              </Typography>
               </CardContent>
             </Card>
-            <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography>Patients</Typography>
-              </ExpansionPanelSummary>
-              <DistrictPatientDetails districtName={districtData.district} />
-            </ExpansionPanel>
-            <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography>Essentials</Typography>
-              </ExpansionPanelSummary>
-              <DistrictResourceDetails districtName={districtData.district} />
-            </ExpansionPanel>
-          </>
-        )}
+          ) : (
+              <>
+                <Card className="card-wrapper">
+                  <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                      Estimated Location <strong>{districtData.district}</strong>
+                    </Typography>
+                    <Typography color="textSecondary" gutterBottom>
+                      Total Cases - {districtData.confirmed}
+                    </Typography>
+                    <hr />
+                    <StatsGraph {...districtData} />
+                  </CardContent>
+                </Card>
+                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMore />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography>Patients</Typography>
+                  </ExpansionPanelSummary>
+                  <DistrictPatientDetails districtName={districtData.district} />
+                </ExpansionPanel>
+                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMore />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography>Essentials</Typography>
+                  </ExpansionPanelSummary>
+                  <DistrictResourceDetails districtName={districtData.district} />
+                </ExpansionPanel>
+              </>
+            )}
+        </>
+        }
       </>
     );
   }

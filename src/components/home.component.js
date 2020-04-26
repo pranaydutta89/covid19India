@@ -23,7 +23,8 @@ import LoaderComponent from './common/loader.component';
 import IndiaDetailComponent from './IndiaDetails.component';
 const css = `
         .backdrop: {
-                color: '#fff',
+                color: '#fff';
+                opacity:0.4
             }
             .bottom-nav{
                 position:fixed;
