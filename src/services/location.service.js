@@ -45,8 +45,12 @@ class LocationService {
           // same as above
         },
         async () => {
-          const obj = await this.getLocationByIP();
-          res(obj)
+          try {
+            const obj = await this.getLocationByIP();
+            res(obj)
+          } catch (e) {
+            rej(e)
+          }
         }
       );
     });

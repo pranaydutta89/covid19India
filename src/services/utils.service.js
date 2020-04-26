@@ -14,6 +14,12 @@ class UtilityService {
     }
     return result;
   }
+
+  stateSync(state, data) {
+    return new Promise((res) => {
+      state(data, res)
+    })
+  }
 }
 
 export default new UtilityService();
