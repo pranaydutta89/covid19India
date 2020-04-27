@@ -142,28 +142,40 @@ class CovidDataService {
   }
 
   async getCurrentLocationState() {
-    const {
-      state: { longName },
-    } = await locationService.currentLocation();
-    const stateData = await this.getMainData();
-    const state = stateData.find(({ state }) => {
-      return state.toLowerCase() === longName.toLowerCase();
-    });
-    return utilsService.cloneDeep(state);
+    try {
+      const {
+        state: { longName },
+      } = await locationService.currentLocation();
+      const stateData = await this.getMainData();
+      const state = stateData.find(({ state }) => {
+        return state.toLowerCase() === longName.toLowerCase();
+      });
+      return utilsService.cloneDeep(state);
+    }
+    catch (e) {
+      locationService.clearPoistionData();
+      console.log(e)
+    }
   }
 
   async getCurrentLocationDistrict() {
-    const location = await locationService.currentLocation();
-    const stateData = await this.getMainData();
-    const stateThatHasLocationDistrict = stateData.find((r) =>
-      r.districtData.some(
-        (j) => j.district.toLowerCase() === location.city.longName.toLowerCase()
-      )
-    );
-    const districtData = stateThatHasLocationDistrict.districtData.find(
-      (r) => r.district.toLowerCase() === location.city.longName.toLowerCase()
-    );
-    return utilsService.cloneDeep(districtData);
+    try {
+      const location = await locationService.currentLocation();
+      const stateData = await this.getMainData();
+      const stateThatHasLocationDistrict = stateData.find((r) =>
+        r.districtData.some(
+          (j) => j.district.toLowerCase() === location.city.longName.toLowerCase()
+        )
+      );
+      const districtData = stateThatHasLocationDistrict.districtData.find(
+        (r) => r.district.toLowerCase() === location.city.longName.toLowerCase()
+      );
+      return utilsService.cloneDeep(districtData);
+    }
+    catch (e) {
+      locationService.clearPoistionData();
+      console.log(e);
+    }
   }
 
   async setPinState(stateName, watchFlag) {
