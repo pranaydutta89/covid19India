@@ -38,16 +38,30 @@ class LocationService {
       return obj;
     }
   }
+
+  async clearPoistionData() {
+    await storageService.clear('previousPosition');
+    await storageService.clear('previousPositionResult');
+    await storageService.clear('locationData');
+  }
   get GeoLocationAccess() {
     return new Promise((res, rej) => {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
+          if (await storageService.localStorageGetItem('locationFrom') !== 'geo') {
+            await this.clearPoistionData()
+          }
+          await storageService.localStorageSetItem('locationFrom', 'geo');
           const { latitude, longitude } = position.coords;
           res({ latitude, longitude });
           // same as above
         },
         async () => {
           try {
+            if (await storageService.localStorageGetItem('locationFrom') !== 'ip') {
+              await this.clearPoistionData()
+            }
+            await storageService.localStorageSetItem('locationFrom', 'ip');
             const obj = await this.getLocationByIP();
             res(obj);
           } catch (e) {
