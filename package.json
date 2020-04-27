@@ -39,7 +39,9 @@
     "webpack-cli": "~3.3.10",
     "webpack-dev-server": "~3.10.1",
     "webpack-merge": "~4.2.2",
-    "localforage": "~1.7.3"
+    "localforage": "~1.7.3",
+    "sitemap-webpack-plugin": "~0.7.1",
+    "robotstxt-webpack-plugin": "~7.0.0"
   },
   "devDependencies": {
     "prettier": "~2.0.5"
