@@ -8,29 +8,28 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading: true,
-      showPermissionsPage: !storageService.localStorageGetItem('permissionsEntertained')
+      showPermissionsPage: null
     };
   }
 
+  async componentDidMount() {
+    this.setState({ showPermissionsPage: !(await storageService.localStorageGetItem('permissionsEntertained')) })
+  }
 
   async closePermissionPage() {
     this.setState({ showPermissionsPage: false });
-    await covidDataService.getStates();
-    this.setState({ loading: false });
   }
 
   render() {
-    const { loading, showPermissionsPage } = this.state;
-    return (<>
-      {
-        showPermissionsPage ? <PermissionsComponent done={() => this.closePermissionPage()} /> :
-          <>
-            {
-              loading ? <LoaderComponent /> : <HomeComponent />
-            }
-          </>
-      }
-    </>);
+    const { showPermissionsPage } = this.state;
+    if (showPermissionsPage !== null) {
+      return (<>
+        {
+          showPermissionsPage ? <PermissionsComponent done={() => this.closePermissionPage()} /> :
+            <HomeComponent />
+        }
+      </>);
+    }
+    return <></>
   }
 }

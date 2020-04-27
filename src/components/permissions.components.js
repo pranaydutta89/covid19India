@@ -73,7 +73,7 @@ export default class PermissionsComponent extends Component {
     }
 
     async componentDidMount() {
-        storageService.localStorageSetItem('permissionsEntertained', true);
+        await storageService.localStorageSetItem('permissionsEntertained', true);
         await this.startPermissionsAsking()
         const { done } = this.props;
         done();

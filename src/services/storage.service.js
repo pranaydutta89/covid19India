@@ -1,11 +1,12 @@
+import localforage from 'localforage';
+
 class StorageService {
   localStorageGetItem(name) {
-    const item = localStorage.getItem(name);
-    return item ? JSON.parse(item) : null;
+    return localforage.getItem(name);
   }
 
   localStorageSetItem(name, data) {
-    localStorage.setItem(name, JSON.stringify(data));
+    return localforage.setItem(name, data)
   }
 }
 

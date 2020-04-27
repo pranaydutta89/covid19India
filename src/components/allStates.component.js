@@ -25,12 +25,12 @@ export default class AllStatesComponent extends Component {
     super();
     this.state = {
       filteredStateData: null,
-      pinnedStates: covidDataService.getPinState(),
+      pinnedStates: [],
     };
   }
 
-  changeWatchFlag(name, flag) {
-    const pinnedStates = covidDataService.setPinState(name, flag);
+  async changeWatchFlag(name, flag) {
+    const pinnedStates = await covidDataService.setPinState(name, flag);
     this.setState({ pinnedStates });
     this.filterData(this.currentFilter || '');
   }
@@ -45,7 +45,7 @@ export default class AllStatesComponent extends Component {
     const { toggleLoader } = this.props;
     toggleLoader(true);
     this.stateData = await covidDataService.getStates();
-    this.setState({ filteredStateData: this.stateData });
+    this.setState({ filteredStateData: this.stateData, pinnedStates: await covidDataService.getPinState() });
     toggleLoader(false);
   }
 

@@ -1,4 +1,4 @@
-import storageService from './storage.service';
+
 class DataService {
     async getResourceApi() {
         const res = await fetch(

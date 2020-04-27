@@ -9,7 +9,7 @@ module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
-        https: true,
+        https: false,
         compress: true,
         port: 1234,
         writeToDisk: true,

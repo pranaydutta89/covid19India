@@ -23,9 +23,11 @@ class CovidDataService {
     return apiData;
   }
 
-  async checkSyncStatus() {
+  async getMainData() {
     const apiData = await dataService.getStateApi();
-    return this.processCovid(apiData);
+    const data = this.processCovid(apiData);
+    await storageService.localStorageSetItem('covidData', data);
+    return data;
   }
 
 
@@ -110,7 +112,7 @@ class CovidDataService {
   }
 
   async getStates() {
-    const stateData = await this.checkSyncStatus();
+    const stateData = await this.getMainData();
     const stateDataTrimmed = stateData.map((r) => {
       const { state, confirmed, active, deceased, recovered } = r;
 
@@ -130,7 +132,7 @@ class CovidDataService {
     const {
       state: { longName },
     } = await locationService.currentLocation();
-    const stateData = await this.checkSyncStatus();
+    const stateData = await this.getMainData();
     const state = stateData.find(({ state }) => {
       return state.toLowerCase() === longName.toLowerCase();
     });
@@ -139,7 +141,7 @@ class CovidDataService {
 
   async getCurrentLocationDistrict() {
     const location = await locationService.currentLocation();
-    const stateData = await this.checkSyncStatus();
+    const stateData = await this.getMainData();
     const stateThatHasLocationDistrict = stateData.find((r) =>
       r.districtData.some(
         (j) => j.district.toLowerCase() === location.city.longName.toLowerCase()
@@ -151,9 +153,9 @@ class CovidDataService {
     return utilsService.cloneDeep(districtData);
   }
 
-  setPinState(stateName, watchFlag) {
+  async setPinState(stateName, watchFlag) {
     const pinnedStateList =
-      storageService.localStorageGetItem('pinnedState') || [];
+      await storageService.localStorageGetItem('pinnedState') || [];
     if (watchFlag) {
       const alreadyExists = pinnedStateList.find((r) => r === stateName);
       if (!alreadyExists) {
@@ -165,17 +167,17 @@ class CovidDataService {
         pinnedStateList.splice(idx, 1);
       }
     }
-    storageService.localStorageSetItem('pinnedState', pinnedStateList);
-    return this.getPinState();
+    await storageService.localStorageSetItem('pinnedState', pinnedStateList);
+    return await this.getPinState();
   }
 
-  getPinState() {
-    return storageService.localStorageGetItem('pinnedState') || [];
+  async getPinState() {
+    return (await storageService.localStorageGetItem('pinnedState')) || [];
   }
 
-  setPinDistrict(districtName, watchFlag) {
+  async setPinDistrict(districtName, watchFlag) {
     const pinnedDistrictList =
-      storageService.localStorageGetItem('pinnedDistrict') || [];
+      await storageService.localStorageGetItem('pinnedDistrict') || [];
     if (watchFlag) {
       const alreadyExists = pinnedDistrictList.find((r) => r === districtName);
       if (!alreadyExists) {
@@ -187,16 +189,16 @@ class CovidDataService {
         pinnedDistrictList.splice(idx, 1);
       }
     }
-    storageService.localStorageSetItem('pinnedDistrict', pinnedDistrictList);
-    return this.getPinDistrict();
+    await storageService.localStorageSetItem('pinnedDistrict', pinnedDistrictList);
+    return await this.getPinDistrict();
   }
 
-  getPinDistrict() {
-    return storageService.localStorageGetItem('pinnedDistrict') || [];
+  async getPinDistrict() {
+    return (await storageService.localStorageGetItem('pinnedDistrict')) || [];
   }
 
   async getDistricts() {
-    const stateData = await this.checkSyncStatus();
+    const stateData = await this.getMainData();
     const districtsMap = stateData.map((r) => r.districtData);
     const districts = [];
     districtsMap.forEach((r) => districts.push.apply(districts, r));
@@ -204,9 +206,9 @@ class CovidDataService {
   }
 
   async getWatchedDistricts() {
-    const stateData = await this.checkSyncStatus();
+    const stateData = await this.getMainData();
     const watchedDistricts = [];
-    const pinnedDistricts = this.getPinDistrict();
+    const pinnedDistricts = await this.getPinDistrict();
     stateData.forEach((r) => {
       const stateWatchDistricts = r.districtData.filter((j) =>
         pinnedDistricts.some((k) => k === j.district)
@@ -217,12 +219,34 @@ class CovidDataService {
   }
 
   async getWatchedStates() {
-    const stateData = await this.checkSyncStatus();
-    const pinnedStates = this.getPinState();
+    const stateData = await this.getMainData();
+    const pinnedStates = await this.getPinState();
 
     return utilsService.cloneDeep(
       stateData.filter((r) => pinnedStates.some((j) => j === r.state))
     );
+  }
+
+  getStateByName(stateData, name) {
+    const clonedStateData = utilsService.cloneDeep(stateData);
+    return clonedStateData.map(r => {
+      delete r.districtData;
+      return r;
+    }).find(j => {
+      return j.state.toLowerCase() === name.toLowerCase()
+    });
+  }
+
+  getDistrictByName(stateData, name) {
+    const clonedState = utilsService.cloneDeep(stateData);
+    let selectedDistrict;
+    for (let { districtData } of clonedState) {
+      selectedDistrict = districtData.find(({ district }) => district.toLowerCase() === name.toLowerCase())
+      if (selectedDistrict) {
+        break;
+      }
+    }
+    return selectedDistrict;
   }
 }
 

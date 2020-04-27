@@ -25,11 +25,11 @@ export default class AllDistrictsComponent extends Component {
     super();
     this.state = {
       filteredDistrictData: null,
-      pinnedDistricts: covidDataService.getPinDistrict(),
+      pinnedDistricts: null,
     };
   }
-  changeWatchFlag(name, flag) {
-    const pinnedDistricts = covidDataService.setPinDistrict(name, flag);
+  async changeWatchFlag(name, flag) {
+    const pinnedDistricts = await covidDataService.setPinDistrict(name, flag);
     this.setState({ pinnedDistricts });
     this.filterData(this.currentFilter || '');
   }
@@ -37,7 +37,10 @@ export default class AllDistrictsComponent extends Component {
     const { toggleLoader } = this.props;
     toggleLoader(true);
     this.districtData = await covidDataService.getDistricts();
-    this.setState({ filteredDistrictData: this.districtData });
+    this.setState({
+      filteredDistrictData: this.districtData,
+      pinnedDistricts: await covidDataService.getPinDistrict()
+    });
     toggleLoader(false);
   }
 
@@ -54,7 +57,7 @@ export default class AllDistrictsComponent extends Component {
 
     return (
       <>
-        {!filteredDistrictData ? (
+        {!(filteredDistrictData && pinnedDistricts) ? (
           <></>
         ) : (
             <>

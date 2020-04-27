@@ -31,7 +31,9 @@ export default class LocationStateComponent extends React.Component {
             this.setState({
                 stateData: await covidDataService.getCurrentLocationState(),
             });
-        } catch (e) { }
+        } catch (e) {
+            console.error(e);
+        }
         finally {
             this.setState({
                 loading: false

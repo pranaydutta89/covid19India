@@ -33,7 +33,9 @@ export default class LocationDistrictComponent extends React.Component {
       this.setState({
         districtData: await covidDataService.getCurrentLocationDistrict(),
       });
-    } catch (e) { }
+    } catch (e) {
+      console.error(e);
+    }
     finally {
       this.setState({
         loading: false
