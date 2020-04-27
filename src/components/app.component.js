@@ -8,12 +8,16 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      showPermissionsPage: null
+      showPermissionsPage: null,
     };
   }
 
   async componentDidMount() {
-    this.setState({ showPermissionsPage: !(await storageService.localStorageGetItem('permissionsEntertained')) })
+    this.setState({
+      showPermissionsPage: !(await storageService.localStorageGetItem(
+        'permissionsEntertained'
+      )),
+    });
   }
 
   async closePermissionPage() {
@@ -23,13 +27,16 @@ export default class App extends React.Component {
   render() {
     const { showPermissionsPage } = this.state;
     if (showPermissionsPage !== null) {
-      return (<>
-        {
-          showPermissionsPage ? <PermissionsComponent done={() => this.closePermissionPage()} /> :
+      return (
+        <>
+          {showPermissionsPage ? (
+            <PermissionsComponent done={() => this.closePermissionPage()} />
+          ) : (
             <HomeComponent />
-        }
-      </>);
+          )}
+        </>
+      );
     }
-    return <></>
+    return <></>;
   }
 }

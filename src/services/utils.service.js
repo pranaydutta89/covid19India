@@ -17,8 +17,8 @@ class UtilityService {
 
   stateSync(state, data) {
     return new Promise((res) => {
-      state(data, res)
-    })
+      state(data, res);
+    });
   }
 }
 

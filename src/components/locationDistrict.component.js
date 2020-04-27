@@ -24,7 +24,7 @@ export default class LocationDistrictComponent extends React.Component {
     super();
     this.state = {
       districtData: null,
-      loading: true
+      loading: true,
     };
   }
 
@@ -35,10 +35,9 @@ export default class LocationDistrictComponent extends React.Component {
       });
     } catch (e) {
       console.error(e);
-    }
-    finally {
+    } finally {
       this.setState({
-        loading: false
+        loading: false,
       });
     }
   }
@@ -48,21 +47,25 @@ export default class LocationDistrictComponent extends React.Component {
     return (
       <>
         <style>{css}</style>
-        {loading ? <LinearProgress /> : <>
-          {!districtData ? (
-            <Card className="card-wrap">
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Enable Location Access
-              </Typography>
-              </CardContent>
-            </Card>
-          ) : (
+        {loading ? (
+          <LinearProgress />
+        ) : (
+          <>
+            {!districtData ? (
+              <Card className="card-wrap">
+                <CardContent>
+                  <Typography color="textSecondary" gutterBottom>
+                    Enable Location Access
+                  </Typography>
+                </CardContent>
+              </Card>
+            ) : (
               <>
                 <Card className="card-wrapper">
                   <CardContent>
                     <Typography color="textSecondary" gutterBottom>
-                      Estimated Location <strong>{districtData.district}</strong>
+                      Estimated Location{' '}
+                      <strong>{districtData.district}</strong>
                     </Typography>
                     <Typography color="textSecondary" gutterBottom>
                       Total Cases - <strong>{districtData.confirmed}</strong>
@@ -79,7 +82,9 @@ export default class LocationDistrictComponent extends React.Component {
                   >
                     <Typography>Patients</Typography>
                   </ExpansionPanelSummary>
-                  <DistrictPatientDetails districtName={districtData.district} />
+                  <DistrictPatientDetails
+                    districtName={districtData.district}
+                  />
                 </ExpansionPanel>
                 <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
                   <ExpansionPanelSummary
@@ -89,12 +94,15 @@ export default class LocationDistrictComponent extends React.Component {
                   >
                     <Typography>Essentials / Helplines</Typography>
                   </ExpansionPanelSummary>
-                  <ResourceDetails type='district' name={districtData.district} />
+                  <ResourceDetails
+                    type="district"
+                    name={districtData.district}
+                  />
                 </ExpansionPanel>
               </>
             )}
-        </>
-        }
+          </>
+        )}
       </>
     );
   }

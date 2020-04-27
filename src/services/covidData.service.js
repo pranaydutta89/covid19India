@@ -30,13 +30,15 @@ class CovidDataService {
     return data;
   }
 
-
   async getIndiaBrief() {
-    const { cases_time_series, tested } = await dataService.getIndiaDetailsApi();
+    const {
+      cases_time_series,
+      tested,
+    } = await dataService.getIndiaDetailsApi();
     return {
       cases: cases_time_series[cases_time_series.length - 1],
-      tested: tested[tested.length - 1]
-    }
+      tested: tested[tested.length - 1],
+    };
   }
 
   async getDistrictPatients(districtName) {
@@ -68,24 +70,30 @@ class CovidDataService {
       (r) => r.state.toLowerCase() === stateName.toLowerCase()
     );
 
-    return stateResource.map(({ category,
-      contact: source,
-      descriptionandorserviceprovided: notes,
-      nameoftheorganisation: name,
-      city,
-      phonenumber: number, }) => {
-
-      source = source.indexOf('SOURCE ') !== -1 ? source.split('SOURCE ')[1] : source;
-
-      return {
+    return stateResource.map(
+      ({
         category,
-        source,
-        notes,
-        name,
-        number,
-        city
-      };
-    });
+        contact: source,
+        descriptionandorserviceprovided: notes,
+        nameoftheorganisation: name,
+        city,
+        phonenumber: number,
+      }) => {
+        source =
+          source.indexOf('SOURCE ') !== -1
+            ? source.split('SOURCE ')[1]
+            : source;
+
+        return {
+          category,
+          source,
+          notes,
+          name,
+          number,
+          city,
+        };
+      }
+    );
   }
   async getDistrictResources(districtName) {
     const { resources } = await dataService.getResourceApi();
@@ -93,22 +101,27 @@ class CovidDataService {
       (r) => r.city.toLowerCase() === districtName.toLowerCase()
     );
 
-    return districtResource.map(({
-      category,
-      contact: source,
-      descriptionandorserviceprovided: notes,
-      nameoftheorganisation: name,
-      phonenumber: number,
-    }) => {
-      source = source.indexOf('SOURCE ') !== -1 ? source.split('SOURCE ')[1] : source;
-      return {
+    return districtResource.map(
+      ({
         category,
-        source,
-        notes,
-        name,
-        number,
-      };
-    });
+        contact: source,
+        descriptionandorserviceprovided: notes,
+        nameoftheorganisation: name,
+        phonenumber: number,
+      }) => {
+        source =
+          source.indexOf('SOURCE ') !== -1
+            ? source.split('SOURCE ')[1]
+            : source;
+        return {
+          category,
+          source,
+          notes,
+          name,
+          number,
+        };
+      }
+    );
   }
 
   async getStates() {
@@ -155,7 +168,7 @@ class CovidDataService {
 
   async setPinState(stateName, watchFlag) {
     const pinnedStateList =
-      await storageService.localStorageGetItem('pinnedState') || [];
+      (await storageService.localStorageGetItem('pinnedState')) || [];
     if (watchFlag) {
       const alreadyExists = pinnedStateList.find((r) => r === stateName);
       if (!alreadyExists) {
@@ -177,7 +190,7 @@ class CovidDataService {
 
   async setPinDistrict(districtName, watchFlag) {
     const pinnedDistrictList =
-      await storageService.localStorageGetItem('pinnedDistrict') || [];
+      (await storageService.localStorageGetItem('pinnedDistrict')) || [];
     if (watchFlag) {
       const alreadyExists = pinnedDistrictList.find((r) => r === districtName);
       if (!alreadyExists) {
@@ -189,7 +202,10 @@ class CovidDataService {
         pinnedDistrictList.splice(idx, 1);
       }
     }
-    await storageService.localStorageSetItem('pinnedDistrict', pinnedDistrictList);
+    await storageService.localStorageSetItem(
+      'pinnedDistrict',
+      pinnedDistrictList
+    );
     return await this.getPinDistrict();
   }
 
@@ -229,19 +245,23 @@ class CovidDataService {
 
   getStateByName(stateData, name) {
     const clonedStateData = utilsService.cloneDeep(stateData);
-    return clonedStateData.map(r => {
-      delete r.districtData;
-      return r;
-    }).find(j => {
-      return j.state.toLowerCase() === name.toLowerCase()
-    });
+    return clonedStateData
+      .map((r) => {
+        delete r.districtData;
+        return r;
+      })
+      .find((j) => {
+        return j.state.toLowerCase() === name.toLowerCase();
+      });
   }
 
   getDistrictByName(stateData, name) {
     const clonedState = utilsService.cloneDeep(stateData);
     let selectedDistrict;
     for (let { districtData } of clonedState) {
-      selectedDistrict = districtData.find(({ district }) => district.toLowerCase() === name.toLowerCase())
+      selectedDistrict = districtData.find(
+        ({ district }) => district.toLowerCase() === name.toLowerCase()
+      );
       if (selectedDistrict) {
         break;
       }

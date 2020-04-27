@@ -5,7 +5,7 @@ class ConstantsService {
       location: 'Location',
       all_district: 'Districts',
       all_states: 'States',
-      country_brief: 'India'
+      country_brief: 'India',
     };
   }
 }

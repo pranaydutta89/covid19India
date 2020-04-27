@@ -2,33 +2,35 @@ import dataService from './data.service';
 import storageService from './storage.service';
 
 class LocationService {
-
   async getPreviousLatLong() {
-    return (await storageService.localStorageGetItem('previousPosition')) || {}
+    return (await storageService.localStorageGetItem('previousPosition')) || {};
   }
 
   setPreviousLatLong({ latitude, longitude }) {
     return storageService.localStorageSetItem('previousPosition', {
       previousLat: latitude,
-      previousLong: longitude
-    })
+      previousLong: longitude,
+    });
   }
 
   async getLocationByIP() {
     const { ip } = await dataService.getCurrentIpAddress();
-    const { ip: previousIp } = await storageService.localStorageGetItem('previousIp') || {};
+    const { ip: previousIp } =
+      (await storageService.localStorageGetItem('previousIp')) || {};
     if (previousIp === ip) {
-      const { previousLat: latitude, previousLong: longitude } = await this.getPreviousLatLong();
+      const {
+        previousLat: latitude,
+        previousLong: longitude,
+      } = await this.getPreviousLatLong();
       if (latitude && longitude) {
-        return { latitude, longitude }
+        return { latitude, longitude };
       } else {
         const { latitude, longitude } = await dataService.getIpLocationApi();
         const obj = { latitude, longitude };
         await this.setPreviousLatLong(obj);
         return obj;
       }
-    }
-    else {
+    } else {
       await storageService.localStorageSetItem('previousIp', { ip });
       const { latitude, longitude } = await dataService.getIpLocationApi();
       const obj = { latitude, longitude };
@@ -47,9 +49,9 @@ class LocationService {
         async () => {
           try {
             const obj = await this.getLocationByIP();
-            res(obj)
+            res(obj);
           } catch (e) {
-            rej(e)
+            rej(e);
           }
         }
       );
@@ -57,13 +59,12 @@ class LocationService {
   }
 
   async getlocationFromApi(latitude, longitude) {
-
     const { results } = await dataService.getLocationApi(latitude, longitude);
     const { city, state, state_district } = results[0].components;
     return {
       city: city || state_district,
-      state: state
-    }
+      state: state,
+    };
   }
 
   async currentLocation() {
@@ -71,21 +72,31 @@ class LocationService {
     const { previousLat, previousLong } = await this.getPreviousLatLong();
     let positionRes;
     if (latitude === previousLat && previousLong === longitude) {
-      positionRes = await storageService.localStorageGetItem('previousPositionResult');
+      positionRes = await storageService.localStorageGetItem(
+        'previousPositionResult'
+      );
       if (!positionRes) {
-        const { results } = await dataService.getLocationApi(latitude, longitude);
+        const { results } = await dataService.getLocationApi(
+          latitude,
+          longitude
+        );
         positionRes = results;
-        await storageService.localStorageSetItem('previousPositionResult', positionRes);
+        await storageService.localStorageSetItem(
+          'previousPositionResult',
+          positionRes
+        );
       }
-    }
-    else {
+    } else {
       const { results } = await dataService.getLocationApi(latitude, longitude);
       positionRes = results;
-      await storageService.localStorageSetItem('previousPositionResult', results);
+      await storageService.localStorageSetItem(
+        'previousPositionResult',
+        results
+      );
       await this.setPreviousLatLong({
         latitude,
-        longitude
-      })
+        longitude,
+      });
     }
 
     const { city, state, state_district } = positionRes[0].components;

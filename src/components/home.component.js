@@ -68,7 +68,9 @@ export default class HomeComponent extends Component {
         );
       case constantsService.pages.country_brief:
         return (
-          <IndiaDetailComponent toggleLoader={(val) => this.toggleLoader(val)} />
+          <IndiaDetailComponent
+            toggleLoader={(val) => this.toggleLoader(val)}
+          />
         );
     }
   }

@@ -1,11 +1,7 @@
-
-
 class PushNotificationService {
-
-
-    get Permissions() {
-        return Notification.requestPermission()
-    }
+  get Permissions() {
+    return Notification.requestPermission();
+  }
 }
 
 export default new PushNotificationService();
