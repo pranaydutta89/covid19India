@@ -8,6 +8,7 @@ import {
     CardContent,
     Typography,
     CircularProgress,
+    Container
 } from '@material-ui/core';
 
 const permissions = {
@@ -91,30 +92,32 @@ export default class PermissionsComponent extends Component {
         return (
             <>
                 <style>{css}</style>
-                <Card variant="outlined">
-                    <CardContent>
-                        <Typography variant="h5" component="h2">
-                            Permission Required
+                <Container disableGutters={true} maxWidth="sm">
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Typography variant="h5" component="h2">
+                                Permission Required
             </Typography>
-                        <Typography color="textSecondary">
-                            <strong>{permission.name}</strong>
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                            {permission.description}
-                        </Typography>
-                        <hr />
-                        <Typography variant="body2" component="p">
-                            Please click on <strong>Allow</strong>
-                        </Typography>
-                        <div className="timer-spinner">
-                            <CircularProgress variant="static" value={timerValue} />
-                        </div>
-                        <hr />
-                        <Typography variant="body2" component="p">
-                            This is one time activity
+                            <Typography color="textSecondary">
+                                <strong>{permission.name}</strong>
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                                {permission.description}
+                            </Typography>
+                            <hr />
+                            <Typography variant="body2" component="p">
+                                Please click on <strong>Allow</strong>
+                            </Typography>
+                            <div className="timer-spinner">
+                                <CircularProgress variant="static" value={timerValue} />
+                            </div>
+                            <hr />
+                            <Typography variant="body2" component="p">
+                                This is one time activity
             </Typography>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </Container>
             </>
         );
     }

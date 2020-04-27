@@ -3,6 +3,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 
 module.exports = {
     entry: './src/entry.js',
@@ -28,7 +30,8 @@ module.exports = {
         }),
         new MomentLocalesPlugin(),
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({ template: './src/index.html' })
+        new HtmlWebpackPlugin({ template: './src/index.html' }),
+        new FaviconsWebpackPlugin('./favicon.png'),
     ],
     optimization: {
         splitChunks: {
