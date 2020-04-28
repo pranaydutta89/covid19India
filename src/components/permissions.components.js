@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import storageService from '../services/storage.service';
 import locationService from '../services/location.service';
 import utilsService from '../services/utils.service';
-import permissionsService from '../services/pushNotification.service';
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import {
   CircularProgress,
   Container,
 } from '@material-ui/core';
+import pushNotificationService from '../services/pushNotification.service';
 
 const permissions = {
   locations: {
@@ -69,13 +69,15 @@ export default class PermissionsComponent extends Component {
       });
     }
 
-    try {
-      await utilsService.stateSync(this.setState.bind(this), {
-        currentPermission: 'notification',
-      });
-      await this.startTimer();
-      await permissionsService.Permissions;
-    } catch (e) {}
+    if (pushNotificationService.IsNotificationAvailable) {
+      try {
+        await utilsService.stateSync(this.setState.bind(this), {
+          currentPermission: 'notification',
+        });
+        await this.startTimer();
+        await pushNotificationService.Permissions;
+      } catch (e) {}
+    }
   }
 
   async componentDidMount() {

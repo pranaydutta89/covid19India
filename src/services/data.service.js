@@ -1,15 +1,12 @@
-import constantsService from "./constants.service";
+import constantsService from './constants.service';
 
 class DataService {
-
   constructor() {
     this.CovidDataUrl = constantsService.Configs.covidDataUrl;
     this.geocodingApiKey = constantsService.Configs.geocodingApiKey;
   }
   async getResourceApi() {
-    const res = await fetch(
-      `${this.CovidDataUrl}/resources/resources.json`
-    );
+    const res = await fetch(`${this.CovidDataUrl}/resources/resources.json`);
     const apiData = await res.json();
     return apiData;
   }
@@ -20,9 +17,7 @@ class DataService {
     return apiData;
   }
   async getStateApi() {
-    const res = await fetch(
-      `${this.CovidDataUrl}/v2/state_district_wise.json`
-    );
+    const res = await fetch(`${this.CovidDataUrl}/v2/state_district_wise.json`);
     const apiData = await res.json();
     return apiData;
   }

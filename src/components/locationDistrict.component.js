@@ -45,13 +45,7 @@ export default class LocationDistrictComponent extends React.Component {
         ) : (
           <>
             {!districtData ? (
-              <Card className="card-wrap">
-                <CardContent>
-                  <Typography color="textSecondary" gutterBottom>
-                    Enable Location Access
-                  </Typography>
-                </CardContent>
-              </Card>
+              <></>
             ) : (
               <>
                 <Card className="card-wrapper">
