@@ -58,7 +58,8 @@ class LocationService {
           res({ latitude, longitude });
           // same as above
         },
-        async () => {
+        async (e) => {
+          console.warn('Geolocation error', e);
           try {
             if (
               (await storageService.localStorageGetItem('locationFrom')) !==
