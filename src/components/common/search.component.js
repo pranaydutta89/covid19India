@@ -40,7 +40,6 @@ export default class SearchComponent extends Component {
               {...{ label }}
               id="margin-normal"
               fullWidth
-              autoFocus={true}
               value={filterText}
               onChange={(evt) => this.filterData(evt.target.value)}
             />

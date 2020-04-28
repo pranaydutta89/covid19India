@@ -48,8 +48,10 @@ class LocationService {
     return new Promise((res, rej) => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
-          if (await storageService.localStorageGetItem('locationFrom') !== 'geo') {
-            await this.clearPoistionData()
+          if (
+            (await storageService.localStorageGetItem('locationFrom')) !== 'geo'
+          ) {
+            await this.clearPoistionData();
           }
           await storageService.localStorageSetItem('locationFrom', 'geo');
           const { latitude, longitude } = position.coords;
@@ -58,8 +60,11 @@ class LocationService {
         },
         async () => {
           try {
-            if (await storageService.localStorageGetItem('locationFrom') !== 'ip') {
-              await this.clearPoistionData()
+            if (
+              (await storageService.localStorageGetItem('locationFrom')) !==
+              'ip'
+            ) {
+              await this.clearPoistionData();
             }
             await storageService.localStorageSetItem('locationFrom', 'ip');
             const obj = await this.getLocationByIP();
