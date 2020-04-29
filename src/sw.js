@@ -34,7 +34,7 @@ class PoolDataAndProcess {
     async startPooling() {
         while (true) {
             try {
-                await new Promise((res) => self.setTimeout(res, 3000));
+                await new Promise((res) => self.setTimeout(res, 10000));
                 await this.checkLocationDiff();
                 await this.checkIndiaDiff();
             } catch (e) { }
