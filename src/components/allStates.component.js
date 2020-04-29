@@ -11,7 +11,6 @@ import {
 import { ExpandMore } from '@material-ui/icons';
 import StatsGraph from './common/statsGraph.component';
 import covidDataService from '../services/covidData.service';
-import LoaderComponent from './common/loader.component';
 import SearchComponent from './common/search.component';
 import LocationState from './locationState.component';
 
@@ -59,60 +58,60 @@ export default class AllStatesComponent extends Component {
         {!filteredStateData ? (
           <></>
         ) : (
-            <>
-              <style>{css}</style>
-              <LocationState />
-              <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography>All States</Typography>
-                </ExpansionPanelSummary>
-                <SearchComponent
-                  label="Search State"
-                  onChange={(val) => this.filterData(val)}
-                />
+          <>
+            <style>{css}</style>
+            <LocationState />
+            <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography>All States</Typography>
+              </ExpansionPanelSummary>
+              <SearchComponent
+                label="Search State"
+                onChange={(val) => this.filterData(val)}
+              />
 
-                {filteredStateData.map((r, idx) => {
-                  return (
-                    <Card key={idx} className="card-wrap">
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          {r.state}
-                        </Typography>
-                        <Typography color="textSecondary" gutterBottom>
-                          Total Cases - <strong>{r.confirmed}</strong>
-                        </Typography>
-                        <hr />
-                        <StatsGraph {...r} />
-                        <CardActions>
-                          {!pinnedStates.some((j) => j === r.state) ? (
-                            <Button
-                              variant="contained"
-                              onClick={() => this.changeWatchFlag(r.state, true)}
-                              size="small"
-                            >
-                              Watch
-                            </Button>
-                          ) : (
-                              <Button
-                                variant="contained"
-                                onClick={() => this.changeWatchFlag(r.state, false)}
-                                size="small"
-                              >
-                                Remove Watch
-                              </Button>
-                            )}
-                        </CardActions>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </ExpansionPanel>
-            </>
-          )}
+              {filteredStateData.map((r, idx) => {
+                return (
+                  <Card key={idx} className="card-wrap">
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        {r.state}
+                      </Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                        Total Cases - <strong>{r.confirmed}</strong>
+                      </Typography>
+                      <hr />
+                      <StatsGraph {...r} />
+                      <CardActions>
+                        {!pinnedStates.some((j) => j === r.state) ? (
+                          <Button
+                            variant="contained"
+                            onClick={() => this.changeWatchFlag(r.state, true)}
+                            size="small"
+                          >
+                            Watch
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            onClick={() => this.changeWatchFlag(r.state, false)}
+                            size="small"
+                          >
+                            Remove Watch
+                          </Button>
+                        )}
+                      </CardActions>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }

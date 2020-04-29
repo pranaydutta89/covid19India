@@ -11,6 +11,7 @@ class PushNotificationService {
         return res;
       });
     }
+    return Promise.reject();
   }
 }
 

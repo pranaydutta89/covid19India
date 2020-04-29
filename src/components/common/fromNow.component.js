@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { Chip } from '@material-ui/core';
 export default class FromNow extends PureComponent {
   getFromNow() {
     const { timestamp } = this.props;

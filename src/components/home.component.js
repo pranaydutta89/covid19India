@@ -3,8 +3,6 @@ import {
   Paper,
   Container,
   AppBar,
-  Toolbar,
-  Typography,
   BottomNavigation,
   BottomNavigationAction,
 } from '@material-ui/core';

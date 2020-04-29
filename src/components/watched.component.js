@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react';
+import React, { Component } from 'react';
 import {
   Card,
   CardContent,
@@ -8,9 +8,7 @@ import {
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import covidDataService from '../services/covidData.service';
-import LoaderComponent from './common/loader.component';
 import StatsGraph from './common/statsGraph.component';
-import SearchComponent from './common/search.component';
 
 const css = `
 .card-wrapper{
@@ -43,81 +41,82 @@ export default class WatchedComponent extends Component {
         {loader ? (
           <></>
         ) : (
-            <>
-              <ExpansionPanel defaultExpanded={true}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                >
-                  <Typography>District</Typography>
-                </ExpansionPanelSummary>
-                {watchedDistricts.length === 0 ? (
-                  <Card>
-                    <CardContent>
-                      <Typography color="textSecondary" gutterBottom>
-                        No District in Watch list
+          <>
+            <ExpansionPanel defaultExpanded={true}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+              >
+                <Typography>District</Typography>
+              </ExpansionPanelSummary>
+              {watchedDistricts.length === 0 ? (
+                <Card>
+                  <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                      No District in Watch list
                     </Typography>
-                    </CardContent>
-                  </Card>
-                ) : (
-                    <>
-                      {watchedDistricts.map((r, idx) => {
-                        return (
-                          <>
-                            <Card className="card-wrapper" key={idx}>
-                              <CardContent>
-                                <Typography color="textSecondary" gutterBottom>
-                                  {r.district}<br />
+                  </CardContent>
+                </Card>
+              ) : (
+                <>
+                  {watchedDistricts.map((r, idx) => {
+                    return (
+                      <>
+                        <Card className="card-wrapper" key={idx}>
+                          <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                              {r.district}
+                              <br />
                               Total Cases - <strong>{r.confirmed}</strong>
-                                </Typography>
-                                <StatsGraph {...r} />
-                              </CardContent>
-                            </Card>
-                          </>
-                        );
-                      })}
-                    </>
-                  )}
-              </ExpansionPanel>
+                            </Typography>
+                            <StatsGraph {...r} />
+                          </CardContent>
+                        </Card>
+                      </>
+                    );
+                  })}
+                </>
+              )}
+            </ExpansionPanel>
 
-              <ExpansionPanel defaultExpanded={true}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                >
-                  <Typography>State</Typography>
-                </ExpansionPanelSummary>
-                {watchedStates.length === 0 ? (
-                  <Card>
-                    <CardContent>
-                      <Typography color="textSecondary" gutterBottom>
-                        No State in Watch list
+            <ExpansionPanel defaultExpanded={true}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+              >
+                <Typography>State</Typography>
+              </ExpansionPanelSummary>
+              {watchedStates.length === 0 ? (
+                <Card>
+                  <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                      No State in Watch list
                     </Typography>
-                    </CardContent>
-                  </Card>
-                ) : (
-                    <>
-                      {watchedStates.map((r, idx) => {
-                        return (
-                          <>
-                            <Card className="card-wrapper" key={idx}>
-                              <CardContent>
-                                <Typography color="textSecondary" gutterBottom>
-                                  {r.state}
-                                  <br />
+                  </CardContent>
+                </Card>
+              ) : (
+                <>
+                  {watchedStates.map((r, idx) => {
+                    return (
+                      <>
+                        <Card className="card-wrapper" key={idx}>
+                          <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                              {r.state}
+                              <br />
                               Total Cases - <strong>{r.confirmed}</strong>
-                                </Typography>
-                                <StatsGraph {...r} />
-                              </CardContent>
-                            </Card>
-                          </>
-                        );
-                      })}
-                    </>
-                  )}
-              </ExpansionPanel>
-            </>
-          )}
+                            </Typography>
+                            <StatsGraph {...r} />
+                          </CardContent>
+                        </Card>
+                      </>
+                    );
+                  })}
+                </>
+              )}
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }
