@@ -13,7 +13,10 @@ const paths = [
 module.exports = merge(common, {
     mode: 'production',
     plugins: [
-        new RobotstxtPlugin({}),
+        new RobotstxtPlugin({
+            sitemap: "https://covid2.in/sitemap.xml",
+            host: "https://covid2.in",
+        }),
         new SitemapPlugin('https://covid2.in', paths, {
             lastmod: true,
             changefreq: 'always',

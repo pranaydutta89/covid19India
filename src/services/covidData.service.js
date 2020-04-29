@@ -285,12 +285,13 @@ class CovidDataService {
   }
 
   async getWatchedStates() {
-    const { latest: stateData } = await this.getMainData();
+    const { latest: stateData } = utilsService.cloneDeep(await this.getMainData());
     const pinnedStates = await this.getPinState();
 
-    return utilsService.cloneDeep(
-      stateData.filter((r) => pinnedStates.some((j) => j === r.state))
-    );
+    return stateData.filter((r) => pinnedStates.some((j) => j === r.state)).map((r) => {
+      delete r.districtData;
+      return r;
+    });
   }
 
   getStateByName(stateData, name) {

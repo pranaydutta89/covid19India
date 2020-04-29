@@ -43,78 +43,81 @@ export default class WatchedComponent extends Component {
         {loader ? (
           <></>
         ) : (
-          <>
-            <ExpansionPanel defaultExpanded={true}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1bh-content"
-              >
-                <Typography>District</Typography>
-              </ExpansionPanelSummary>
-              {watchedDistricts.length === 0 ? (
-                <Card>
-                  <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                      No District in Watch list
+            <>
+              <ExpansionPanel defaultExpanded={true}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1bh-content"
+                >
+                  <Typography>District</Typography>
+                </ExpansionPanelSummary>
+                {watchedDistricts.length === 0 ? (
+                  <Card>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        No District in Watch list
                     </Typography>
-                  </CardContent>
-                </Card>
-              ) : (
-                <>
-                  {watchedDistricts.map((r, idx) => {
-                    return (
-                      <>
-                        <Card className="card-wrapper" key={idx}>
-                          <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                              {r.district}
-                            </Typography>
-                            <StatsGraph {...r} />
-                          </CardContent>
-                        </Card>
-                      </>
-                    );
-                  })}
-                </>
-              )}
-            </ExpansionPanel>
+                    </CardContent>
+                  </Card>
+                ) : (
+                    <>
+                      {watchedDistricts.map((r, idx) => {
+                        return (
+                          <>
+                            <Card className="card-wrapper" key={idx}>
+                              <CardContent>
+                                <Typography color="textSecondary" gutterBottom>
+                                  {r.district}<br />
+                              Total Cases - <strong>{r.confirmed}</strong>
+                                </Typography>
+                                <StatsGraph {...r} />
+                              </CardContent>
+                            </Card>
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
+              </ExpansionPanel>
 
-            <ExpansionPanel defaultExpanded={true}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1bh-content"
-              >
-                <Typography>State</Typography>
-              </ExpansionPanelSummary>
-              {watchedStates.length === 0 ? (
-                <Card>
-                  <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                      No State in Watch list
+              <ExpansionPanel defaultExpanded={true}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1bh-content"
+                >
+                  <Typography>State</Typography>
+                </ExpansionPanelSummary>
+                {watchedStates.length === 0 ? (
+                  <Card>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        No State in Watch list
                     </Typography>
-                  </CardContent>
-                </Card>
-              ) : (
-                <>
-                  {watchedStates.map((r, idx) => {
-                    return (
-                      <>
-                        <Card className="card-wrapper" key={idx}>
-                          <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                              {r.state}
-                            </Typography>
-                            <StatsGraph {...r} />
-                          </CardContent>
-                        </Card>
-                      </>
-                    );
-                  })}
-                </>
-              )}
-            </ExpansionPanel>
-          </>
-        )}
+                    </CardContent>
+                  </Card>
+                ) : (
+                    <>
+                      {watchedStates.map((r, idx) => {
+                        return (
+                          <>
+                            <Card className="card-wrapper" key={idx}>
+                              <CardContent>
+                                <Typography color="textSecondary" gutterBottom>
+                                  {r.state}
+                                  <br />
+                              Total Cases - <strong>{r.confirmed}</strong>
+                                </Typography>
+                                <StatsGraph {...r} />
+                              </CardContent>
+                            </Card>
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
+              </ExpansionPanel>
+            </>
+          )}
       </>
     );
   }
