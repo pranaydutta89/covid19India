@@ -1,9 +1,11 @@
 import constantsService from './constants.service';
+import userService from './user.service';
 
 class DataService {
   constructor() {
     this.CovidDataUrl = constantsService.Configs.covidDataUrl;
     this.geocodingApiKey = constantsService.Configs.geocodingApiKey;
+    this.apiUrl = constantsService.Configs.apiUrl;
   }
   async getResourceApi() {
     const res = await fetch(`${this.CovidDataUrl}/resources/resources.json`);
@@ -11,6 +13,33 @@ class DataService {
     return apiData;
   }
 
+  async subsribeNotification(obj) {
+    try {
+      Object.assign(obj, { userId: await userService.getUserId() })
+      await fetch(`${this.apiUrl}/subscribe`, {
+        method: "POST",
+        body: JSON.stringify(obj),
+        headers: {
+          "content-type": "application/json"
+        }
+      });
+    }
+    catch (e) { }
+  }
+
+  async updateLocation(obj) {
+    try {
+      Object.assign(obj, { userId: await userService.getUserId() })
+      return await fetch(`${this.apiUrl}/location`, {
+        method: "PUT",
+        body: JSON.stringify(obj),
+        headers: {
+          "content-type": "application/json"
+        }
+      });
+    }
+    catch (e) { }
+  }
   async getPatientApi() {
     const res = await fetch(`${this.CovidDataUrl}/raw_data.json`);
     const apiData = await res.json();

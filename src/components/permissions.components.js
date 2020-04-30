@@ -61,7 +61,7 @@ export default class PermissionsComponent extends Component {
   async startPermissionsAsking() {
     try {
       await this.startTimer();
-      await locationService.GeoLocationAccess;
+      await locationService.currentLocation();
     } catch (e) {
     } finally {
       await utilsService.stateSync(this.setState.bind(this), {
@@ -75,8 +75,8 @@ export default class PermissionsComponent extends Component {
           currentPermission: 'notification',
         });
         await this.startTimer();
-        await pushNotificationService.Permissions;
-      } catch (e) {}
+        await pushNotificationService.Permissions();
+      } catch (e) { }
     }
   }
 

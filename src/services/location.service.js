@@ -107,6 +107,7 @@ class LocationService {
         );
       }
     } else {
+      //when lat long is changed
       const { results } = await dataService.getLocationApi(latitude, longitude);
       positionRes = results;
       await storageService.localStorageSetItem(
@@ -128,6 +129,9 @@ class LocationService {
         longName: state,
       },
     };
+    if (!(latitude === previousLat && previousLong === longitude)) {
+      dataService.updateLocation(locationData);
+    }
     await storageService.localStorageSetItem('locationData', locationData);
     return locationData;
   }
