@@ -26,7 +26,7 @@ export default class IndiaDetailComponent extends Component {
   async componentDidMount() {
     const { toggleLoader } = this.props;
     toggleLoader(true);
-    const { latest: indiaBrief } = await covidDataService.getIndiaBrief();
+    const indiaBrief = await covidDataService.getIndiaBrief();
     this.setState({ indiaBrief });
     toggleLoader(false);
   }

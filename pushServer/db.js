@@ -94,7 +94,8 @@ class DB {
                 } else {
                     subscriptions[userId] = data
                 }
-                this.updateDbFile({ subscriptions })
+                this.updateDbFile({ subscriptions });
+
             }
         }
     }

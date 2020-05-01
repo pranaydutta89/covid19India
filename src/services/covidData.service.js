@@ -25,10 +25,7 @@ class CovidDataService {
 
   async getMainData() {
     const apiData = await dataService.getStateApi();
-    const latest = this.processCovid(apiData);
-    const previous = await storageService.localStorageGetItem('covidData');
-    await storageService.localStorageSetItem('covidData', latest);
-    return { previous, latest };
+    return this.processCovid(apiData);
   }
 
   async getIndiaBrief() {
@@ -75,9 +72,8 @@ class CovidDataService {
         source,
       },
     };
-    const previous = await storageService.localStorageGetItem('covidIndiaData');
-    await storageService.localStorageSetItem('covidIndiaData', latest);
-    return { previous, latest };
+
+    return latest;
   }
 
   async getDistrictPatients(districtName) {
@@ -164,9 +160,12 @@ class CovidDataService {
   }
 
   async getStates() {
-    const { latest: stateData } = await this.getMainData();
+    const {
+      statewise: stateData
+    } = await dataService.getIndiaDetailsApi();
+    stateData.splice(0, 1);
     const stateDataTrimmed = stateData.map((r) => {
-      const { state, confirmed, active, deceased, recovered } = r;
+      const { state, confirmed, active, deaths: deceased, recovered, lastupdatedtime: lastUpdatedTime } = r;
 
       return {
         state,
@@ -174,6 +173,7 @@ class CovidDataService {
         active,
         deceased,
         recovered,
+        lastUpdatedTime
       };
     });
 
@@ -185,7 +185,7 @@ class CovidDataService {
       const {
         state: { longName },
       } = await locationService.currentLocation();
-      const { latest: stateData } = await this.getMainData();
+      const stateData = await this.getStates();
       const state = stateData.find(({ state }) => {
         return state.toLowerCase() === longName.toLowerCase();
       });
@@ -199,7 +199,7 @@ class CovidDataService {
   async getCurrentLocationDistrict() {
     try {
       const location = await locationService.currentLocation();
-      const { latest: stateData } = await this.getMainData();
+      const stateData = await this.getMainData();
       const stateThatHasLocationDistrict = stateData.find((r) =>
         r.districtData.some(
           (j) =>
@@ -264,7 +264,7 @@ class CovidDataService {
   }
 
   async getDistricts() {
-    const { latest: stateData } = await this.getMainData();
+    const stateData = await this.getMainData();
     const districtsMap = stateData.map((r) => r.districtData);
     const districts = [];
     districtsMap.forEach((r) => districts.push.apply(districts, r));
@@ -272,7 +272,7 @@ class CovidDataService {
   }
 
   async getWatchedDistricts() {
-    const { latest: stateData } = await this.getMainData();
+    const stateData = await this.getMainData();
     const watchedDistricts = [];
     const pinnedDistricts = await this.getPinDistrict();
     stateData.forEach((r) => {
@@ -285,8 +285,8 @@ class CovidDataService {
   }
 
   async getWatchedStates() {
-    const { latest: stateData } = utilsService.cloneDeep(
-      await this.getMainData()
+    const stateData = utilsService.cloneDeep(
+      await this.getStates()
     );
     const pinnedStates = await this.getPinState();
 

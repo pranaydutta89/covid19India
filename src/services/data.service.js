@@ -41,7 +41,7 @@ class DataService {
     catch (e) { }
   }
   async getPatientApi() {
-    const res = await fetch(`${this.CovidDataUrl}/raw_data.json`);
+    const res = await fetch(`${this.CovidDataUrl}/raw_data3.json`);
     const apiData = await res.json();
     return apiData;
   }

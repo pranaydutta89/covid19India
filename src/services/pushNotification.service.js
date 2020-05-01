@@ -13,7 +13,7 @@ class PushNotificationService {
         return 'Notification' in window;
     }
     async Permissions() {
-        if (this.IsNotificationAvailable) {
+        if (this.IsNotificationAvailable && !await this.IsNotificationEnabled()) {
             await Notification.requestPermission();
             try {
                 this.swInstance = await serviceWorkerService.register();
@@ -26,6 +26,9 @@ class PushNotificationService {
         return Promise.reject();
     }
 
+    async IsNotificationEnabled() {
+        return await storageService.localStorageGetItem('notificationEnabled');
+    }
 
     async subscribe() {
 
@@ -38,6 +41,7 @@ class PushNotificationService {
             location: await storageService.localStorageGetItem('locationData')
         }
         await dataService.subsribeNotification(obj);
+        await storageService.localStorageSetItem('notificationEnabled', true);
     }
 
 
@@ -58,19 +62,3 @@ class PushNotificationService {
 }
 
 export default new PushNotificationService();
-
-
-
-
-// Check for service worker
-if ("serviceWorker" in navigator) {
-    send().catch(err => console.error(err));
-}
-
-// Register SW, Register Push, Send Push
-async function send() {
-    // Register Service Worker
-
-}
-
-

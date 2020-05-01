@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import covidDataService from '../services/covidData.service';
 import ResourceDetails from './common/resourceDetails.component';
+import FromNow from './common/fromNow.component';
 const css = `
 .card-wrapper{
     margin-bottom:10px
@@ -40,37 +41,40 @@ export default class LocationStateComponent extends React.Component {
         {loading ? (
           <LinearProgress />
         ) : (
-          <>
-            {!stateData ? (
-              <></>
-            ) : (
-              <>
-                <Card className="card-wrapper">
-                  <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                      Location <strong>{stateData.state}</strong>
-                    </Typography>
-                    <Typography color="textSecondary" gutterBottom>
-                      Total Cases - <strong>{stateData.confirmed}</strong>
-                    </Typography>
-                    <hr />
-                    <StatsGraph {...stateData} />
-                  </CardContent>
-                </Card>
-                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMore />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                  >
-                    <Typography>Essentials / Helplines</Typography>
-                  </ExpansionPanelSummary>
-                  <ResourceDetails type="state" name={stateData.state} />
-                </ExpansionPanel>
-              </>
-            )}
-          </>
-        )}
+            <>
+              {!stateData ? (
+                <></>
+              ) : (
+                  <>
+                    <Card className="card-wrapper">
+                      <CardContent>
+                        <Typography color="textSecondary" gutterBottom>
+                          Location <strong>{stateData.state}</strong>
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Total Cases - <strong>{stateData.confirmed}</strong>
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Updated <FromNow timestamp={stateData.lastUpdatedTime} />
+                        </Typography>
+                        <hr />
+                        <StatsGraph {...stateData} />
+                      </CardContent>
+                    </Card>
+                    <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                      <ExpansionPanelSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                      >
+                        <Typography>Essentials / Helplines</Typography>
+                      </ExpansionPanelSummary>
+                      <ResourceDetails type="state" name={stateData.state} />
+                    </ExpansionPanel>
+                  </>
+                )}
+            </>
+          )}
       </>
     );
   }

@@ -16,6 +16,8 @@ app.post("/subscribe", (req, res) => {
 
     const payload = req.body;
     db.addUpdateSubscription(payload);
+    const { pushData } = payload;
+    pushNotify.pushNotification(pushData, "Test notification Covid2.in", "You will now recieve real time notification for covid19 India")
     res.send(201)
 });
 
