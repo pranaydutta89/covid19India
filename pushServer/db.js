@@ -2,17 +2,19 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const api = require('./api');
+const constants = require('./constants');
+const utils = require('./utils');
 class DB {
 
-    getSelectedAttributes({ active, confirmed, deaths, recovered, state, statecode, lastupdatedtime }) {
-        return { active, confirmed, deaths, recovered, state, statecode, lastupdatedtime }
+    constructor() {
+        this.dbFileName = process.env.NODE_ENV === 'production' ? 'db_prod' : 'db_dev'
     }
 
     async stateData() {
         const { statewise } = await api.dataApi();
         const state_stats = [];
         for (let i = 1; i < statewise.length; i++) {
-            state_stats.push(this.getSelectedAttributes(statewise[i]));
+            state_stats.push(utils.getSelectedAttirbutes(constants.stateKeys, statewise[i]));
         }
         return state_stats;
 
@@ -32,7 +34,7 @@ class DB {
 
     async IndiaData() {
         const { statewise } = await api.dataApi();
-        return this.getSelectedAttributes(statewise[0]);
+        return utils.getSelectedAttirbutes(constants.indiaKeys, statewise[0])
     }
     async  initialize() {
         const india_stats = await this.IndiaData();
@@ -62,7 +64,7 @@ class DB {
     }
 
     get DBFilePath() {
-        return path.join(__dirname, 'db.json')
+        return path.join(__dirname, this.dbFileName)
     }
 
     get DbFile() {

@@ -28,7 +28,7 @@ class PushNotify {
         while (true) {
             try {
                 await this.checkIndiaDiff();
-                // await this.checkStateDiff();
+                //await this.checkStateDiff();
                 //await this.checkDistrictDiff();
                 await new Promise((res) => setTimeout(res, 10000))
             }
@@ -59,7 +59,12 @@ class PushNotify {
     }
 
     async checkStateDiff() {
+        const { state_stats: oldData } = await db.DbFile;
+        const newData = await db.stateData();
+        const stateDiffs = [];
+        newData.forEach((r) => {
 
+        })
     }
 
     async checkDistrictDiff() {

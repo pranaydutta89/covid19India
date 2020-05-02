@@ -4,8 +4,8 @@ const fetch = require('node-fetch');
 class Api {
 
     constructor() {
-        //this.url ='https://api.covid19india.org'
-        this.url = 'http://localhost:3000'
+        this.url = process.env.NODE_ENV === 'production' ?
+            'https://api.covid19india.org' : 'http://localhost:3000'
     }
     dataApi() {
         return fetch(`${this.url}/data.json`)

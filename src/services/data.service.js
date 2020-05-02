@@ -14,31 +14,27 @@ class DataService {
   }
 
   async subsribeNotification(obj) {
-    try {
-      Object.assign(obj, { userId: await userService.getUserId() })
-      await fetch(`${this.apiUrl}/subscribe`, {
-        method: "POST",
-        body: JSON.stringify(obj),
-        headers: {
-          "content-type": "application/json"
-        }
-      });
-    }
-    catch (e) { }
+
+    Object.assign(obj, { userId: await userService.getUserId() })
+    await fetch(`${this.apiUrl}/subscribe`, {
+      method: "POST",
+      body: JSON.stringify(obj),
+      headers: {
+        "content-type": "application/json"
+      }
+    });
   }
 
   async updateLocation(obj) {
-    try {
-      Object.assign(obj, { userId: await userService.getUserId() })
-      return await fetch(`${this.apiUrl}/location`, {
-        method: "PUT",
-        body: JSON.stringify(obj),
-        headers: {
-          "content-type": "application/json"
-        }
-      });
-    }
-    catch (e) { }
+
+    Object.assign(obj, { userId: await userService.getUserId() })
+    return await fetch(`${this.apiUrl}/location`, {
+      method: "PUT",
+      body: JSON.stringify(obj),
+      headers: {
+        "content-type": "application/json"
+      }
+    });
   }
   async getPatientApi() {
     const res = await fetch(`${this.CovidDataUrl}/raw_data3.json`);

@@ -28,7 +28,11 @@ app.put("/location", (req, res) => {
     res.send(201)
 });
 
-const port = 5000;
+app.get("/ping", (req, res) => {
+    res.send({ 'test': 'pong' })
+});
+
+const port = 8080;
 db.initialize().then(() => {
     pushNotify.start()
     app.listen(port, () => {
