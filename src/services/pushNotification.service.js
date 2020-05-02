@@ -13,18 +13,23 @@ class PushNotificationService {
         return 'Notification' in window;
     }
     async Permissions() {
-        if (this.IsNotificationAvailable && !await this.IsNotificationEnabled()) {
-            await Notification.requestPermission();
-            try {
-                this.swInstance = await serviceWorkerService.register();
-                return await this.subscribe();
-            } catch (e) {
-                console.warn('subscription failed', e)
-                return Promise.reject(e);
+        if (this.IsNotificationAvailable) {
+            if (!await this.IsNotificationEnabled()) {
+                await Notification.requestPermission();
+                try {
+                    this.swInstance = await serviceWorkerService.register();
+                    return await this.subscribe();
+                } catch (e) {
+                    console.warn('subscription failed', e)
+                    return Promise.reject(e);
+                }
             }
-            
+            else {
+                return Promise.resolve();
+            }
+
         }
-        return Promise.reject('Permission rejected');
+        return Promise.reject('Notification unavailable');
     }
 
     IsNotificationEnabled() {
