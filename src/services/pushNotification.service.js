@@ -20,14 +20,15 @@ class PushNotificationService {
                 return await this.subscribe();
             } catch (e) {
                 console.warn('subscription failed', e)
+                return Promise.reject(e);
             }
-            return Promise.reject();
+            
         }
-        return Promise.reject();
+        return Promise.reject('Permission rejected');
     }
 
-    async IsNotificationEnabled() {
-        return await storageService.localStorageGetItem('notificationEnabled');
+    IsNotificationEnabled() {
+        return storageService.localStorageGetItem('notificationEnabled');
     }
 
     async subscribe() {
