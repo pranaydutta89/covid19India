@@ -32,7 +32,7 @@ app.get("/ping", (req, res) => {
     res.send({ 'test': 'pong' })
 });
 
-const port = 8080;
+const port = 5555;
 db.initialize().then(() => {
     pushNotify.start()
     app.listen(port, () => {

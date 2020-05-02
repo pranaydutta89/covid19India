@@ -7,7 +7,7 @@ const utils = require('./utils');
 class DB {
 
     constructor() {
-        this.dbFileName = process.env.NODE_ENV === 'production' ? 'db_prod' : 'db_dev'
+        this.dbFileName = process.env.NODE_ENV === 'production' ? 'db_prod.json' : 'db_dev.json'
     }
 
     async stateData() {
