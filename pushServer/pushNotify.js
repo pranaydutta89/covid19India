@@ -28,23 +28,25 @@ class PushNotify {
         while (true) {
             try {
                 await this.checkIndiaDiff();
-                //await this.checkStateDiff();
-                //await this.checkDistrictDiff();
-                await new Promise((res) => setTimeout(res, 10000))
+                await this.checkStateDiff();
+                await this.checkDistrictDiff();
+
             }
-            catch (e) { }
+            catch (e) {
+            }
+            await new Promise((res) => setTimeout(res, 10000))
         }
     }
 
     async checkIndiaDiff() {
-        const { india_stats, subscriptions } = await db.DbFile;
+        const { india_stats, subscriptions } = db.DbFile;
         const newIndiaStats = await db.IndiaData();
 
         if (JSON.stringify(india_stats) !== JSON.stringify(newIndiaStats)) {
             let msg = ''
             for (let key in newIndiaStats) {
                 if (newIndiaStats[key] !== india_stats[key]) {
-                    msg = `${key} ${newIndiaStats[key]} `
+                    msg = `${key} - Total ${newIndiaStats[key]} change ${newIndiaStats[key] - india_stats[key]} `
                 }
             }
             if (msg) {
@@ -52,23 +54,89 @@ class PushNotify {
                     this.pushNotification(subscriptions[userId].pushData, 'Covid Alert for India', msg)
                 }
             }
-            db.updateDbFile({ india_stats: newIndiaStats });
+            db.updateDbFile('india_stats', newIndiaStats);
         }
 
 
     }
 
     async checkStateDiff() {
-        const { state_stats: oldData } = await db.DbFile;
+        const { state_stats: oldData, subscriptions } = db.DbFile;
         const newData = await db.stateData();
         const stateDiffs = [];
-        newData.forEach((r) => {
+        newData.forEach((newState) => {
+            const oldState = oldData.find(j => j.state === newState.state);
+            if (JSON.stringify(newState) !== JSON.stringify(oldState)) {
+                stateDiffs.push({ newState, oldState })
+            }
+        });
+        if (stateDiffs.length > 0) {
+            const msgArr = [];
 
-        })
+            stateDiffs.forEach(({ newState, oldState }) => {
+                let msg = '';
+                for (let key in newState) {
+                    if (newState[key] !== oldState[key]) {
+                        msg += `${key} - Total ${newState[key]} change ${newState[key] - oldState[key]} `
+                    }
+                }
+                msgArr.push({
+                    state: newState.state,
+                    message: msg
+                });
+
+            });
+
+            for (let userId in subscriptions) {
+                const { location, pushData } = subscriptions[userId];
+                if (location && location.state && location.state.longName) {
+                    const msgData = msgArr.find(r => r.state.toLowerCase() === location.state.longName.toLowerCase())
+                    if (msgData) {
+                        this.pushNotification(pushData, `Covid Alert for state ${location.state.longName}`, msgData.message)
+                    }
+                }
+            }
+            db.updateDbFile('state_stats', newData);
+        }
     }
 
     async checkDistrictDiff() {
+        const { district_stats: oldData, subscriptions } = db.DbFile;
+        const newData = await db.districtData();
+        const districtDiffs = [];
+        newData.forEach((newDistrict) => {
+            const oldDistrict = oldData.find(j => j.district === newDistrict.district && j.state === newDistrict.state);
+            if (JSON.stringify(newDistrict) !== JSON.stringify(oldDistrict)) {
+                districtDiffs.push({ newDistrict, oldDistrict })
+            }
+        });
+        if (districtDiffs.length > 0) {
+            const msgArr = [];
 
+            districtDiffs.forEach(({ newDistrict, oldDistrict }) => {
+                let msg = '';
+                for (let key in newDistrict) {
+                    if (newDistrict[key] !== oldDistrict[key]) {
+                        msg += `${key} - Total ${newDistrict[key]} change ${newDistrict[key] - oldDistrict[key]}, `
+                    }
+                }
+                msgArr.push({
+                    district: newDistrict.district,
+                    message: msg
+                });
+            });
+
+            for (let userId in subscriptions) {
+                const { location, pushData } = subscriptions[userId];
+                if (location && location.city && location.city.longName) {
+                    const msgData = msgArr.find(r => r.district.toLowerCase() === location.city.longName.toLowerCase())
+                    if (msgData) {
+                        this.pushNotification(pushData, `Covid Alert for city ${location.city.longName}`, msgData.message)
+                    }
+                }
+            }
+            db.updateDbFile('district_stats', newData);
+        }
     }
 }
 

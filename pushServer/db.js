@@ -23,12 +23,13 @@ class DB {
 
         const stateWithDistrict = await api.stateDistrictApi();
         const district_stats = [];
-        stateWithDistrict.forEach(({ districtData }) => {
-            districtData.forEach(({ active, confirmed, deceased: deaths, recovered }) => {
-                district_stats.push({ active, confirmed, deaths, recovered })
+        stateWithDistrict.forEach(({ state, districtData }) => {
+            districtData.forEach(({ active, confirmed, deceased: deaths, recovered, district }) => {
+                district_stats.push({ active, confirmed, deaths, recovered, district, state })
+
             })
 
-        })
+        });
         return district_stats;
     }
 
@@ -40,7 +41,9 @@ class DB {
         const india_stats = await this.IndiaData();
         const district_stats = await this.districtData();
         const state_stats = await this.stateData();
-        this.updateDbFile({ india_stats, district_stats, state_stats })
+        this.updateDbFile('india_stats', india_stats);
+        this.updateDbFile('district_stats', district_stats);
+        this.updateDbFile('state_stats', state_stats);
     }
 
     async updateUserLocation(data) {
@@ -49,18 +52,8 @@ class DB {
         const { subscriptions } = this.DbFile;
         if (subscriptions[userId]) {
             Object.assign(subscriptions[userId], { location: data });
-            this.updateDbFile({ subscriptions })
+            this.updateDbFile('subscriptions', subscriptions)
         }
-    }
-
-
-    async storeStatsData(india_stats, district_stats, state_stats) {
-        const obj = {
-            india_stats,
-            district_stats,
-            state_stats
-        }
-        await this.updateDbFile(obj);
     }
 
     get DBFilePath() {
@@ -79,9 +72,9 @@ class DB {
         return JSON.parse(fs.readFileSync(this.DBFilePath, 'utf8'))
     }
 
-    updateDbFile(val) {
+    updateDbFile(key, val) {
         const data = this.DbFile;
-        Object.assign(data, val)
+        data[key] = val;
         fs.writeFileSync(this.DBFilePath, JSON.stringify(data), 'utf8');
     }
     addUpdateSubscription(data) {
@@ -96,7 +89,7 @@ class DB {
                 } else {
                     subscriptions[userId] = data
                 }
-                this.updateDbFile({ subscriptions });
+                this.updateDbFile('subscriptions', subscriptions);
 
             }
         }
