@@ -76,7 +76,7 @@ export default class PermissionsComponent extends Component {
         });
         await this.startTimer();
         await pushNotificationService.Permissions();
-      } catch (e) { }
+      } catch (e) {}
     }
   }
 

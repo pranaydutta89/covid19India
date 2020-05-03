@@ -15,7 +15,7 @@ class UtilityService {
     return result;
   }
   get IsBrowserFirefox() {
-    return navigator.userAgent.search("Firefox") > -1
+    return navigator.userAgent.search('Firefox') > -1;
   }
   stateSync(state, data) {
     return new Promise((res) => {

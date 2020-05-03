@@ -160,12 +160,17 @@ class CovidDataService {
   }
 
   async getStates() {
-    const {
-      statewise: stateData
-    } = await dataService.getIndiaDetailsApi();
+    const { statewise: stateData } = await dataService.getIndiaDetailsApi();
     stateData.splice(0, 1);
     const stateDataTrimmed = stateData.map((r) => {
-      const { state, confirmed, active, deaths: deceased, recovered, lastupdatedtime: lastUpdatedTime } = r;
+      const {
+        state,
+        confirmed,
+        active,
+        deaths: deceased,
+        recovered,
+        lastupdatedtime: lastUpdatedTime,
+      } = r;
 
       return {
         state,
@@ -173,7 +178,7 @@ class CovidDataService {
         active,
         deceased,
         recovered,
-        lastUpdatedTime
+        lastUpdatedTime,
       };
     });
 
@@ -285,9 +290,7 @@ class CovidDataService {
   }
 
   async getWatchedStates() {
-    const stateData = utilsService.cloneDeep(
-      await this.getStates()
-    );
+    const stateData = utilsService.cloneDeep(await this.getStates());
     const pinnedStates = await this.getPinState();
 
     return stateData

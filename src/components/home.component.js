@@ -20,7 +20,6 @@ import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
 import IndiaDetailComponent from './IndiaDetails.component';
 import pushNotificationService from '../services/pushNotification.service';
-import storageService from '../services/storage.service';
 const css = `
         .backdrop: {
                 color: '#fff';

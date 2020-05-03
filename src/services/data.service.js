@@ -14,26 +14,24 @@ class DataService {
   }
 
   async subsribeNotification(obj) {
-
-    Object.assign(obj, { userId: await userService.getUserId() })
+    Object.assign(obj, { userId: await userService.getUserId() });
     await fetch(`${this.apiUrl}/subscribe`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(obj),
       headers: {
-        "content-type": "application/json"
-      }
+        'content-type': 'application/json',
+      },
     });
   }
 
   async updateLocation(obj) {
-
-    Object.assign(obj, { userId: await userService.getUserId() })
+    Object.assign(obj, { userId: await userService.getUserId() });
     return await fetch(`${this.apiUrl}/location`, {
-      method: "PUT",
+      method: 'PUT',
       body: JSON.stringify(obj),
       headers: {
-        "content-type": "application/json"
-      }
+        'content-type': 'application/json',
+      },
     });
   }
   async getPatientApi() {
