@@ -10,6 +10,14 @@ app.use(cors())
 
 app.use(bodyParser.json());
 
+app.get("/zxyvwer/breifs", (req, res) => {
+    const { subscriptions } = db.DbFile;
+    const obj = {
+        totalSubs: Object.keys(subscriptions).length,
+        subs: subscriptions
+    }
+    res.send(obj);
+});
 
 // Subscribe Route
 app.post("/subscribe", (req, res) => {

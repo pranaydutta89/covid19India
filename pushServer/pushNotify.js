@@ -46,7 +46,7 @@ class PushNotify {
             let msg = ''
             for (let key in newIndiaStats) {
                 if (newIndiaStats[key] !== india_stats[key]) {
-                    msg = `${key} - Total ${newIndiaStats[key]} change ${newIndiaStats[key] - india_stats[key]} `
+                    msg = `${key} - Total ${newIndiaStats[key]}, Change ${newIndiaStats[key] - india_stats[key]} `
                 }
             }
             if (msg) {
@@ -77,7 +77,7 @@ class PushNotify {
                 let msg = '';
                 for (let key in newState) {
                     if (newState[key] !== oldState[key]) {
-                        msg += `${key} - Total ${newState[key]} change ${newState[key] - oldState[key]} `
+                        msg += `${key} - Total ${newState[key]}, Change ${newState[key] - oldState[key]} `
                     }
                 }
                 msgArr.push({
@@ -117,7 +117,7 @@ class PushNotify {
                 let msg = '';
                 for (let key in newDistrict) {
                     if (newDistrict[key] !== oldDistrict[key]) {
-                        msg += `${key} - Total ${newDistrict[key]} change ${newDistrict[key] - oldDistrict[key]}, `
+                        msg += `${key} - Total ${newDistrict[key]}, Change ${newDistrict[key] - oldDistrict[key]}, `
                     }
                 }
                 msgArr.push({
