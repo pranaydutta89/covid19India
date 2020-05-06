@@ -20,7 +20,7 @@ import WatchedComponent from './watched.component';
 import AllDistrictsComponent from './allDistricts.component';
 import LoaderComponent from './common/loader.component';
 import IndiaDetailComponent from './IndiaDetails.component';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import AboutComponent from './about.component';
 import MetaComponent from './meta.components';
 const css = `
@@ -101,6 +101,7 @@ class HomeComponent extends Component {
           <MetaComponent route="/about" />
           <AboutComponent />
         </Route>
+        <Redirect from="*" to="/" />
       </Switch>
     );
   }

@@ -15,12 +15,12 @@ class PushNotify {
 
     }
 
-    pushNotification(pushData, title, body) {
+    pushNotification(pushData, title, body,tag) {
 
         return webpush
             .sendNotification(pushData, JSON.stringify({
                 title,
-                body
+                body,tag
             }))
             .catch(err => console.error(err));
     }
@@ -51,7 +51,7 @@ class PushNotify {
             }
             if (msg) {
                 for (let userId in subscriptions) {
-                    this.pushNotification(subscriptions[userId].pushData, 'Covid Alert for India', msg)
+                    this.pushNotification(subscriptions[userId].pushData, 'Covid Alert for India', msg,'india')
                 }
             }
             db.updateDbFile('india_stats', newIndiaStats);
@@ -92,7 +92,7 @@ class PushNotify {
                 if (location && location.state && location.state.longName) {
                     const msgData = msgArr.find(r => r.state.toLowerCase() === location.state.longName.toLowerCase())
                     if (msgData) {
-                        this.pushNotification(pushData, `Covid Alert for state ${location.state.longName}`, msgData.message)
+                        this.pushNotification(pushData, `Covid Alert for state ${location.state.longName}`, msgData.message,'state')
                     }
                 }
             }
@@ -131,7 +131,7 @@ class PushNotify {
                 if (location && location.city && location.city.longName) {
                     const msgData = msgArr.find(r => r.district.toLowerCase() === location.city.longName.toLowerCase())
                     if (msgData) {
-                        this.pushNotification(pushData, `Covid Alert for city ${location.city.longName}`, msgData.message)
+                        this.pushNotification(pushData, `Covid Alert for city ${location.city.longName}`, msgData.message,'city')
                     }
                 }
             }
