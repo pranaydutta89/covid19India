@@ -18,13 +18,10 @@ import {
 import AllStatesComponent from './allStates.component';
 import WatchedComponent from './watched.component';
 import AllDistrictsComponent from './allDistricts.component';
-import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
 import IndiaDetailComponent from './IndiaDetails.component';
-import pushNotificationService from '../services/pushNotification.service';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import AboutComponent from './about.component';
-import { Helmet } from 'react-helmet';
 import MetaComponent from './meta.components';
 const css = `
         .backdrop: {
@@ -55,7 +52,7 @@ class HomeComponent extends Component {
     };
   }
 
-  onBackButtonClicked(a, b) {
+  onBackButtonClicked() {
     const {
       location: { pathname },
     } = this.props;

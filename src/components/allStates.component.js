@@ -68,7 +68,7 @@ export default class AllStatesComponent extends Component {
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
               >
-                <Typography>All States</Typography>
+                <Typography component="h1">All States in India</Typography>
               </ExpansionPanelSummary>
               <SearchComponent
                 label="Search State"

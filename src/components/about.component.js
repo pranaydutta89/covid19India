@@ -1,23 +1,13 @@
 import React, { PureComponent } from 'react';
-import {
-  Container,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Paper,
-  Card,
-  CardContent,
-} from '@material-ui/core';
-import { ArrowBackIosOutlined } from '@material-ui/icons';
+import { Typography, Card, CardContent } from '@material-ui/core';
 export default class AboutComponent extends PureComponent {
   render() {
     return (
       <>
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h5" component="h2">
-              What ?
+            <Typography variant="h5" component="h1">
+              What is covid2.in ?
             </Typography>
             <Typography variant="body2" component="p">
               Covid2.in provides you with updated covid19/SARC-Cov-2 infection
@@ -38,8 +28,8 @@ export default class AboutComponent extends PureComponent {
 
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h5" component="h2">
-              How ?
+            <Typography variant="h5" component="h1">
+              How covid2.in is built?
             </Typography>
             <Typography variant="body2" component="p">
               Covid2.in fetches data from https://api.covid19india.org/ a crowd
@@ -53,8 +43,8 @@ export default class AboutComponent extends PureComponent {
 
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h5" component="h2">
-              Why ?
+            <Typography variant="h5" component="h1">
+              Why covid2.in ?
             </Typography>
             <Typography variant="body2" component="p">
               There are many websites having similar data but we thought of

@@ -47,7 +47,7 @@ export default class WatchedComponent extends Component {
                 expandIcon={<ExpandMore />}
                 aria-controls="panel1bh-content"
               >
-                <Typography>District</Typography>
+                <Typography component="h1">Watched Districts</Typography>
               </ExpansionPanelSummary>
               {watchedDistricts.length === 0 ? (
                 <Card>
@@ -84,7 +84,7 @@ export default class WatchedComponent extends Component {
                 expandIcon={<ExpandMore />}
                 aria-controls="panel1bh-content"
               >
-                <Typography>State</Typography>
+                <Typography component="h1">watched States</Typography>
               </ExpansionPanelSummary>
               {watchedStates.length === 0 ? (
                 <Card>

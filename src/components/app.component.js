@@ -12,11 +12,11 @@ class App extends PureComponent {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //ask for push notificaiton permission after some time
     setTimeout(() => {
       pushNotificationService.Permissions();
-    }, 5000);
+    }, 7000);
   }
   render() {
     return (

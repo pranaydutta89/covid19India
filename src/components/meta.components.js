@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 const metaInfos = {
   '/': {
     title: 'Covid19 India: Districts Counts,Essentials,Patients',
-    description: `Get latest India districts active, recovered, deaths, confirmed covid19 patients count, get covid19 sarc-cov-2 counts based on your current location city or district, get realtime push notification for your district city, get district essentials address and helpline contact number`,
+    description: `Get latest India districts cities active, recovered, deaths, confirmed covid19 patients count, get covid19 sarc-cov-2 counts based on your current location city or district, get realtime push notification for your district or city, get district or city essentials address and helpline contact number`,
     keywords:
       'Covid19,sarc-cov-2,location based info,covid19 city patient count,covid19 district patient count,push nofiication',
   },

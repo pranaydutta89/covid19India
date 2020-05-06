@@ -9,7 +9,9 @@ class ServiceWorkerService {
         this.swInstance = await runtime.register();
         return this.swInstance;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn(e);
+    }
 
     return Promise.reject();
   }

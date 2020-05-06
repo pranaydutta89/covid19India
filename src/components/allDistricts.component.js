@@ -69,7 +69,7 @@ export default class AllDistrictsComponent extends Component {
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
               >
-                <Typography>All Districts in India</Typography>
+                <Typography component="h1">All Districts in India</Typography>
               </ExpansionPanelSummary>
               <SearchComponent
                 label="Search District"
