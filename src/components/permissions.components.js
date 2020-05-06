@@ -77,7 +77,7 @@ class PermissionsComponent extends Component {
         });
         await this.startTimer();
         await pushNotificationService.Permissions();
-      } catch (e) { }
+      } catch (e) {}
     }
   }
 
@@ -85,7 +85,7 @@ class PermissionsComponent extends Component {
     await this.startPermissionsAsking();
     await storageService.localStorageSetItem('permissionsEntertained', true);
     const { history } = this.props;
-    history.push('/home/districts')
+    history.push('/home/districts');
   }
 
   render() {
@@ -124,6 +124,5 @@ class PermissionsComponent extends Component {
     );
   }
 }
-
 
 export default withRouter(PermissionsComponent);

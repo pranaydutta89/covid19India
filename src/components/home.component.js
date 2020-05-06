@@ -22,12 +22,10 @@ import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
 import IndiaDetailComponent from './IndiaDetails.component';
 import pushNotificationService from '../services/pushNotification.service';
-import {
-  Switch,
-  Route,
-  withRouter
-} from "react-router-dom";
+import { Switch, Route, withRouter } from 'react-router-dom';
 import AboutComponent from './about.component';
+import { Helmet } from 'react-helmet';
+import MetaComponent from './meta.components';
 const css = `
         .backdrop: {
                 color: '#fff';
@@ -58,13 +56,17 @@ class HomeComponent extends Component {
   }
 
   onBackButtonClicked(a, b) {
-    const { location: { pathname } } = this.props;
-    this.setState({ currentTab: pathname })
+    const {
+      location: { pathname },
+    } = this.props;
+    this.setState({ currentTab: pathname });
   }
   componentDidMount() {
-    const { location: { pathname } } = this.props;
-    this.setState({ currentTab: pathname })
-    window.onpopstate = this.onBackButtonClicked.bind(this)
+    const {
+      location: { pathname },
+    } = this.props;
+    this.setState({ currentTab: pathname });
+    window.onpopstate = this.onBackButtonClicked.bind(this);
   }
   toggleLoader(showLoader) {
     this.setState({ showLoader });
@@ -73,32 +75,37 @@ class HomeComponent extends Component {
   tabChange(currentTab) {
     const { history } = this.props;
     history.push(currentTab);
-    this.setState({ currentTab })
+    this.setState({ currentTab });
   }
   routes() {
     return (
       <Switch>
-        <Route exact path='/'>
+        <Route exact path="/">
+          <MetaComponent route="/" />
           <AllDistrictsComponent
             toggleLoader={(val) => this.toggleLoader(val)}
           />
         </Route>
-        <Route exact path='/states'>
+        <Route exact path="/states">
+          <MetaComponent route="/states" />
           <AllStatesComponent toggleLoader={(val) => this.toggleLoader(val)} />
         </Route>
-        <Route exact path='/watched'>
+        <Route exact path="/watched">
+          <MetaComponent route="/watched" />
           <WatchedComponent toggleLoader={(val) => this.toggleLoader(val)} />
         </Route>
-        <Route exact path='/india'>
+        <Route exact path="/india">
+          <MetaComponent route="/india" />
           <IndiaDetailComponent
             toggleLoader={(val) => this.toggleLoader(val)}
           />
         </Route>
-        <Route exact path='/about'>
+        <Route exact path="/about">
+          <MetaComponent route="/about" />
           <AboutComponent />
         </Route>
       </Switch>
-    )
+    );
   }
   render() {
     const { currentTab, showLoader } = this.state;
@@ -117,22 +124,22 @@ class HomeComponent extends Component {
               >
                 <BottomNavigationAction
                   label="Districts"
-                  value='/'
+                  value="/"
                   icon={<LocationCityOutlined />}
                 />
                 <BottomNavigationAction
                   label="States"
-                  value='/states'
+                  value="/states"
                   icon={<AllOutOutlined />}
                 />
                 <BottomNavigationAction
                   label="Watched"
-                  value='/watched'
+                  value="/watched"
                   icon={<VisibilityOutlined />}
                 />
                 <BottomNavigationAction
                   label="India"
-                  value='/india'
+                  value="/india"
                   icon={<PublicOutlined />}
                 />
               </BottomNavigation>
@@ -158,6 +165,5 @@ class HomeComponent extends Component {
     );
   }
 }
-
 
 export default withRouter(HomeComponent);
