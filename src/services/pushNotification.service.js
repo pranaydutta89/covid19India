@@ -12,8 +12,8 @@ class PushNotificationService {
   async Permissions() {
     if (this.IsNotificationAvailable) {
       if (!(await this.IsNotificationEnabled())) {
-        await Notification.requestPermission();
         try {
+          await Notification.requestPermission();
           this.swInstance = await serviceWorkerService.register();
           return await this.subscribe();
         } catch (e) {

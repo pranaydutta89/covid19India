@@ -5,6 +5,7 @@ import {
   AppBar,
   BottomNavigation,
   BottomNavigationAction,
+  Fab,
 } from '@material-ui/core';
 
 import {
@@ -12,6 +13,7 @@ import {
   LocationCityOutlined,
   AllOutOutlined,
   VisibilityOutlined,
+  InfoOutlined,
 } from '@material-ui/icons';
 import AllStatesComponent from './allStates.component';
 import WatchedComponent from './watched.component';
@@ -20,6 +22,12 @@ import constantsService from '../services/constants.service';
 import LoaderComponent from './common/loader.component';
 import IndiaDetailComponent from './IndiaDetails.component';
 import pushNotificationService from '../services/pushNotification.service';
+import {
+  Switch,
+  Route,
+  withRouter
+} from "react-router-dom";
+import AboutComponent from './about.component';
 const css = `
         .backdrop: {
                 color: '#fff';
@@ -31,57 +39,67 @@ const css = `
                 width:100%;
                 left:0;
             }
+            .fab-btn{
+              bottom:10px;
+              right:10px;
+              position:fixed
+            }
     .home-wrapper{
         margin-top:10px;
     }
     `;
-export default class HomeComponent extends Component {
+class HomeComponent extends Component {
   constructor() {
     super();
     this.state = {
-      currentTab: constantsService.pages.all_district,
+      currentTab: null,
       showLoader: false,
     };
   }
 
-  componentDidMount() {
-    pushNotificationService.Permissions();
+  onBackButtonClicked(a, b) {
+    const { location: { pathname } } = this.props;
+    this.setState({ currentTab: pathname })
   }
-
+  componentDidMount() {
+    const { location: { pathname } } = this.props;
+    this.setState({ currentTab: pathname })
+    window.onpopstate = this.onBackButtonClicked.bind(this)
+  }
   toggleLoader(showLoader) {
     this.setState({ showLoader });
   }
 
-  renderCurrentTab() {
-    const { currentTab } = this.state;
-    switch (currentTab) {
-      case constantsService.pages.pinned_district:
-        return (
-          <WatchedComponent toggleLoader={(val) => this.toggleLoader(val)} />
-        );
-      case constantsService.pages.all_district:
-        return (
+  tabChange(currentTab) {
+    const { history } = this.props;
+    history.push(currentTab);
+    this.setState({ currentTab })
+  }
+  routes() {
+    return (
+      <Switch>
+        <Route exact path='/'>
           <AllDistrictsComponent
             toggleLoader={(val) => this.toggleLoader(val)}
           />
-        );
-      case constantsService.pages.all_states:
-        return (
+        </Route>
+        <Route exact path='/states'>
           <AllStatesComponent toggleLoader={(val) => this.toggleLoader(val)} />
-        );
-      case constantsService.pages.country_brief:
-        return (
+        </Route>
+        <Route exact path='/watched'>
+          <WatchedComponent toggleLoader={(val) => this.toggleLoader(val)} />
+        </Route>
+        <Route exact path='/india'>
           <IndiaDetailComponent
             toggleLoader={(val) => this.toggleLoader(val)}
           />
-        );
-    }
+        </Route>
+        <Route exact path='/about'>
+          <AboutComponent />
+        </Route>
+      </Switch>
+    )
   }
-
-  tabChange(currentTab) {
-    this.setState({ currentTab });
-  }
-
   render() {
     const { currentTab, showLoader } = this.state;
     return (
@@ -99,22 +117,22 @@ export default class HomeComponent extends Component {
               >
                 <BottomNavigationAction
                   label="Districts"
-                  value={constantsService.pages.all_district}
+                  value='/'
                   icon={<LocationCityOutlined />}
                 />
                 <BottomNavigationAction
                   label="States"
-                  value={constantsService.pages.all_states}
+                  value='/states'
                   icon={<AllOutOutlined />}
                 />
                 <BottomNavigationAction
                   label="Watched"
-                  value={constantsService.pages.pinned_district}
+                  value='/watched'
                   icon={<VisibilityOutlined />}
                 />
                 <BottomNavigationAction
                   label="India"
-                  value={constantsService.pages.country_brief}
+                  value='/india'
                   icon={<PublicOutlined />}
                 />
               </BottomNavigation>
@@ -122,11 +140,24 @@ export default class HomeComponent extends Component {
           </AppBar>
           <div className="home-wrapper">
             <form autoComplete="off">
-              <Paper elevation={3}>{this.renderCurrentTab()}</Paper>
+              <Paper elevation={3}>{this.routes()}</Paper>
             </form>
           </div>
         </Container>
+        <div
+          onClick={() => {
+            this.tabChange('/about');
+          }}
+          className="fab-btn"
+        >
+          <Fab size="small" color="primary" aria-label="add">
+            <InfoOutlined />
+          </Fab>
+        </div>
       </>
     );
   }
 }
+
+
+export default withRouter(HomeComponent);

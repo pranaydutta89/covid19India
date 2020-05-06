@@ -10,6 +10,7 @@ import {
   Container,
 } from '@material-ui/core';
 import pushNotificationService from '../services/pushNotification.service';
+import { withRouter } from 'react-router-dom';
 
 const permissions = {
   locations: {
@@ -31,7 +32,7 @@ const css = `
     }
 `;
 
-export default class PermissionsComponent extends Component {
+class PermissionsComponent extends Component {
   constructor() {
     super();
     this.state = {
@@ -76,15 +77,15 @@ export default class PermissionsComponent extends Component {
         });
         await this.startTimer();
         await pushNotificationService.Permissions();
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 
   async componentDidMount() {
-    await storageService.localStorageSetItem('permissionsEntertained', true);
     await this.startPermissionsAsking();
-    const { done } = this.props;
-    done();
+    await storageService.localStorageSetItem('permissionsEntertained', true);
+    const { history } = this.props;
+    history.push('/home/districts')
   }
 
   render() {
@@ -123,3 +124,6 @@ export default class PermissionsComponent extends Component {
     );
   }
 }
+
+
+export default withRouter(PermissionsComponent);

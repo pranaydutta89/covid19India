@@ -5,15 +5,15 @@ import storageService from '../services/storage.service';
 import AboutComponent from './about.component';
 import { Fab } from '@material-ui/core';
 import { InfoOutlined } from '@material-ui/icons';
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  withRouter
+} from "react-router-dom";
+import pushNotificationService from '../services/pushNotification.service';
 
-const css = `
-         .fab-btn{
-              bottom:10px;
-              right:10px;
-              position:fixed
-            }
-    `;
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -22,55 +22,24 @@ export default class App extends React.Component {
     };
   }
 
-  toggleAboutPage(flag) {
-    this.setState({ showAboutPage: flag });
-  }
-  async componentDidMount() {
-    this.setState({
-      showPermissionsPage: !(await storageService.localStorageGetItem(
-        'permissionsEntertained'
-      )),
-    });
-  }
 
-  async closePermissionPage() {
-    this.setState({ showPermissionsPage: false });
+  componentWillMount() {
+    //ask for push notificaiton permission after some time
+    setTimeout(() => {
+      pushNotificationService.Permissions();
+    }, 5000)
   }
-
   render() {
-    const { showPermissionsPage, showAboutPage } = this.state;
-    if (showPermissionsPage !== null) {
-      return (
-        <>
-          <style>{css}</style>
-          {showPermissionsPage ? (
-            <PermissionsComponent done={() => this.closePermissionPage()} />
-          ) : (
-            <>
-              {showAboutPage ? (
-                <AboutComponent
-                  close={() => {
-                    this.toggleAboutPage(false);
-                  }}
-                />
-              ) : (
-                <HomeComponent />
-              )}
-              <div
-                onClick={() => {
-                  this.toggleAboutPage(!showAboutPage);
-                }}
-                className="fab-btn"
-              >
-                <Fab size="small" color="primary" aria-label="add">
-                  <InfoOutlined />
-                </Fab>
-              </div>
-            </>
-          )}
-        </>
-      );
-    }
-    return <></>;
+
+    return (
+      <>
+        <BrowserRouter>
+          <HomeComponent />
+        </BrowserRouter>
+      </>
+    );
+
   }
 }
+
+export default App;
