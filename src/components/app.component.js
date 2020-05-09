@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import HomeComponent from './home.component';
 import { BrowserRouter } from 'react-router-dom';
 import pushNotificationService from '../services/pushNotification.service';
+import SpeedDialComponent from './common/speedDial.component';
 
 class App extends PureComponent {
   constructor() {
@@ -23,6 +24,7 @@ class App extends PureComponent {
       <>
         <BrowserRouter>
           <HomeComponent />
+          <SpeedDialComponent />
         </BrowserRouter>
       </>
     );

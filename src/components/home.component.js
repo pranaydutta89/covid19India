@@ -5,7 +5,6 @@ import {
   AppBar,
   BottomNavigation,
   BottomNavigationAction,
-  Fab,
 } from '@material-ui/core';
 
 import {
@@ -13,7 +12,6 @@ import {
   LocationCityOutlined,
   AllOutOutlined,
   VisibilityOutlined,
-  InfoOutlined,
 } from '@material-ui/icons';
 import AllStatesComponent from './allStates.component';
 import WatchedComponent from './watched.component';
@@ -33,11 +31,6 @@ const css = `
                 bottom:0;
                 width:100%;
                 left:0;
-            }
-            .fab-btn{
-              bottom:10px;
-              right:10px;
-              position:fixed
             }
     .home-wrapper{
         margin-top:10px;
@@ -77,6 +70,12 @@ class HomeComponent extends Component {
   routes() {
     return (
       <Switch>
+        <Route exact path="/districts">
+          <MetaComponent route="/" />
+          <AllDistrictsComponent
+            toggleLoader={(val) => this.toggleLoader(val)}
+          />
+        </Route>
         <Route exact path="/">
           <MetaComponent route="/" />
           <AllDistrictsComponent
@@ -149,16 +148,6 @@ class HomeComponent extends Component {
             </form>
           </div>
         </Container>
-        <div
-          onClick={() => {
-            this.tabChange('/about');
-          }}
-          className="fab-btn"
-        >
-          <Fab size="small" color="primary" aria-label="add">
-            <InfoOutlined />
-          </Fab>
-        </div>
       </>
     );
   }

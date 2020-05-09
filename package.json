@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js",
-    "lint:fix": "prettier --write ./src && eslint ./src/",
+    "lint:fix": "prettier --write ./ && eslint ./",
     "mock:server": "cd server && node app.js"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "@babel/runtime": "~7.9.2",
     "@material-ui/core": "~4.9.12",
     "@material-ui/icons": "~4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.52",
     "babel-loader": "~8.1.0",
     "clean-webpack-plugin": "~3.0.0",
     "favicons-webpack-plugin": "~3.0.1",

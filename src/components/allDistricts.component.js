@@ -26,7 +26,7 @@ export default class AllDistrictsComponent extends Component {
     this.state = {
       filteredDistrictData: null,
       pinnedDistricts: null,
-      locationFound: true
+      locationFound: true,
     };
   }
   async changeWatchFlag(name, flag) {
@@ -61,64 +61,70 @@ export default class AllDistrictsComponent extends Component {
         {!(filteredDistrictData && pinnedDistricts) ? (
           <></>
         ) : (
-            <>
-              <style>{css}</style>
-              <LocationDistrict notfound={() => this.setState({ locationFound: false })} />
-              <ExpansionPanel expanded={!locationFound} onChange={() => this.setState({ locationFound: !locationFound })} TransitionProps={{ unmountOnExit: true }}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography component="h1">All Districts in India</Typography>
-                </ExpansionPanelSummary>
-                <SearchComponent
-                  label="Search District"
-                  onChange={(val) => this.filterData(val)}
-                />
+          <>
+            <style>{css}</style>
+            <LocationDistrict
+              notfound={() => this.setState({ locationFound: false })}
+            />
+            <ExpansionPanel
+              expanded={!locationFound}
+              onChange={() => this.setState({ locationFound: !locationFound })}
+              TransitionProps={{ unmountOnExit: true }}
+            >
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography component="h1">All Districts in India</Typography>
+              </ExpansionPanelSummary>
+              <SearchComponent
+                label="Search District"
+                onChange={(val) => this.filterData(val)}
+              />
 
-                {filteredDistrictData.map((r, idx) => {
-                  return (
-                    <Card key={idx} className="card-wrap">
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          {r.district}
-                        </Typography>
-                        <Typography color="textSecondary" gutterBottom>
-                          Total Cases - <strong>{r.confirmed}</strong>
-                        </Typography>
-                        <hr />
-                        <StatsGraph {...r} />
-                        <CardActions>
-                          {!pinnedDistricts.some((j) => j === r.district) ? (
-                            <Button
-                              variant="contained"
-                              onClick={() =>
-                                this.changeWatchFlag(r.district, true)
-                              }
-                              size="small"
-                            >
-                              Watch
-                            </Button>
-                          ) : (
-                              <Button
-                                variant="contained"
-                                onClick={() =>
-                                  this.changeWatchFlag(r.district, false)
-                                }
-                                size="small"
-                              >
-                                Remove Watch
-                              </Button>
-                            )}
-                        </CardActions>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </ExpansionPanel>
-            </>
-          )}
+              {filteredDistrictData.map((r, idx) => {
+                return (
+                  <Card key={idx} className="card-wrap">
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        {r.district}
+                      </Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                        Total Cases - <strong>{r.confirmed}</strong>
+                      </Typography>
+                      <hr />
+                      <StatsGraph {...r} />
+                      <CardActions>
+                        {!pinnedDistricts.some((j) => j === r.district) ? (
+                          <Button
+                            variant="contained"
+                            onClick={() =>
+                              this.changeWatchFlag(r.district, true)
+                            }
+                            size="small"
+                          >
+                            Watch
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            onClick={() =>
+                              this.changeWatchFlag(r.district, false)
+                            }
+                            size="small"
+                          >
+                            Remove Watch
+                          </Button>
+                        )}
+                      </CardActions>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }
