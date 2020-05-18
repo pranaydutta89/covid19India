@@ -2,6 +2,7 @@ import utilsService from './utils.service';
 import storageService from './storage.service';
 import dataService from './data.service';
 import locationService from './location.service';
+import { orderBy } from 'lodash-es';
 
 class CovidDataService {
   processCovid(apiData) {
@@ -77,11 +78,11 @@ class CovidDataService {
   }
 
   async getDistrictPatients(districtName) {
-    const { raw_data: patientData } = await dataService.getPatientApi();
-    const patients = patientData.filter(
+    const patientData = await dataService.getPatientApi();
+    let patients = patientData.filter(
       (r) => r.detecteddistrict.toLowerCase() === districtName.toLowerCase()
     );
-    return patients.map((r) => {
+    patients = patients.map((r) => {
       const {
         patientnumber,
         dateannounced,
@@ -90,6 +91,7 @@ class CovidDataService {
         source1: source,
       } = r;
       return {
+        timeStamp: Date.parse(dateannounced),
         patientnumber,
         dateannounced,
         currentstatus,
@@ -97,6 +99,7 @@ class CovidDataService {
         source,
       };
     });
+    return orderBy(patients, 'timeStamp', 'desc')
   }
 
   async getStateResources(stateName) {

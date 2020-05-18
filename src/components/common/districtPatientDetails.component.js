@@ -32,36 +32,39 @@ export default class DistrictPatientDetails extends Component {
         {!patientDetails ? (
           <LinearProgress />
         ) : (
-          <>
-            {patientDetails.map(
-              (
-                { dateannounced: timestamp, currentstatus, notes, source },
-                idx
-              ) => {
-                return (
-                  <Card key={idx} variant="outlined">
-                    <CardContent>
-                      <Typography color="textSecondary" gutterBottom>
-                        Reported <FromNow {...{ timestamp }} />
-                      </Typography>
-                      <Typography color="textSecondary">
-                        Status {currentstatus}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        {notes}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Link href={source} target="_blank">
-                        Source
+            <>
+              {patientDetails.map(
+                (
+                  { dateannounced: timestamp, currentstatus, notes, source, patientnumber },
+                  idx
+                ) => {
+                  return (
+                    <Card key={idx} variant="outlined">
+                      <CardContent>
+                        <Typography color="textSecondary">
+                          {patientnumber ? `No. ${patientnumber}` : ''}
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Reported <FromNow {...{ timestamp }} />
+                        </Typography>
+                        <Typography color="textSecondary">
+                          Status {currentstatus}
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                          {notes}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Link href={source} target="_blank">
+                          Source
                       </Link>
-                    </CardActions>
-                  </Card>
-                );
-              }
-            )}
-          </>
-        )}
+                      </CardActions>
+                    </Card>
+                  );
+                }
+              )}
+            </>
+          )}
       </>
     );
   }

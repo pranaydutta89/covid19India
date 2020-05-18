@@ -35,9 +35,17 @@ class DataService {
     });
   }
   async getPatientApi() {
-    const res = await fetch(`${this.CovidDataUrl}/raw_data3.json`);
-    const apiData = await res.json();
-    return apiData;
+    let data = [];
+    for (let i = 1; i <= 100; i++) {
+      try {
+        const { raw_data } = await (await fetch(`${this.CovidDataUrl}/raw_data${i}.json`)).json();
+        data = data.concat(raw_data);
+      }
+      catch (e) {
+        break;
+      }
+    }
+    return data;
   }
   async getStateApi() {
     const res = await fetch(`${this.CovidDataUrl}/v2/state_district_wise.json`);

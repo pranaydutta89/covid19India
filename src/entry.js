@@ -1,6 +1,10 @@
 import utilityService from './services/utils.service';
 if (utilityService.IsWebView) {
-  window.open(location.href, '_system');
+  try {
+    window.open("googlechrome://navigate?url=" + location.href, "_system");
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 import { createBrowserHistory } from 'history';
