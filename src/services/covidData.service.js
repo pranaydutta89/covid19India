@@ -173,11 +173,11 @@ class CovidDataService {
       } = r;
 
       return {
-        state,
-        confirmed,
-        active,
-        deceased,
-        recovered,
+        state: state,
+        confirmed: parseInt(confirmed),
+        active: parseInt(active),
+        deceased: parseInt(deceased),
+        recovered: parseInt(recovered),
         lastUpdatedTime,
       };
     });

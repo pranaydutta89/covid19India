@@ -34,17 +34,13 @@ export default class SearchComponent extends Component {
     return (
       <>
         <style>{css}</style>
-        <Card className="card-wrapper">
-          <CardContent>
-            <TextField
-              {...{ label }}
-              id="margin-normal"
-              fullWidth
-              value={filterText}
-              onChange={(evt) => this.filterData(evt.target.value)}
-            />
-          </CardContent>
-        </Card>
+        <TextField
+          {...{ label }}
+          id="margin-normal"
+          fullWidth
+          value={filterText}
+          onChange={(evt) => this.filterData(evt.target.value)}
+        />
       </>
     );
   }

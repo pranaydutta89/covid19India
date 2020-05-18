@@ -41,6 +41,7 @@
     "react-router-dom": "~5.1.2",
     "robotstxt-webpack-plugin": "~7.0.0",
     "serviceworker-webpack-plugin": "~1.0.1",
+    "lodash-es": "~4.17.15",
     "sitemap-webpack-plugin": "~0.7.1",
     "webpack": "~4.43.0",
     "webpack-bundle-analyzer": "~3.7.0",
