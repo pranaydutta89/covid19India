@@ -3,6 +3,15 @@ if (utilityService.IsWebView) {
   window.open(location.href, '_system');
 }
 
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
+
+const path = (/#!(\/.*)$/.exec(location.hash) || [])[1];
+if (path) {
+  history.replace(path);
+}
+
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './components/app.component';
