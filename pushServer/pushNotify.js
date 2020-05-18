@@ -31,7 +31,7 @@ class PushNotify {
         await this.checkIndiaDiff();
         await this.checkStateDiff();
         await this.checkDistrictDiff();
-      } catch (e) {}
+      } catch (e) { }
       await new Promise((res) => setTimeout(res, 10000));
     }
   }
@@ -44,9 +44,8 @@ class PushNotify {
       let msg = '';
       for (let key in newIndiaStats) {
         if (newIndiaStats[key] !== india_stats[key]) {
-          msg = `${key} - Total ${newIndiaStats[key]}, Change ${
-            newIndiaStats[key] - india_stats[key]
-          } `;
+          const delta = newIndiaStats[key] - india_stats[key];
+          msg += `${key} - ${newIndiaStats[key]} (${delta >= 0 ? '+' : '-'}${delta}) ,`;
         }
       }
       if (msg) {
@@ -80,9 +79,8 @@ class PushNotify {
         let msg = '';
         for (let key in newState) {
           if (newState[key] !== oldState[key]) {
-            msg += `${key} - Total ${newState[key]}, Change ${
-              newState[key] - oldState[key]
-            } `;
+            const delta = newState[key] - oldState[key];
+            msg += `${key} -${newState[key]} (${delta >= 0 ? '+' : '-'}${delta}) `;
           }
         }
         msgArr.push({
@@ -132,9 +130,8 @@ class PushNotify {
         let msg = '';
         for (let key in newDistrict) {
           if (newDistrict[key] !== oldDistrict[key]) {
-            msg += `${key} - Total ${newDistrict[key]}, Change ${
-              newDistrict[key] - oldDistrict[key]
-            }, `;
+            const delta = newDistrict[key] - oldDistrict[key]
+            msg += `${key} - ${newDistrict[key]} (${delta >= 0 ? '+' : '-'}${delta}), `;
           }
         }
         msgArr.push({
