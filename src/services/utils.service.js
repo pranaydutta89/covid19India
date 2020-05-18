@@ -14,9 +14,11 @@ class UtilityService {
     }
     return result;
   }
-  get IsBrowserFirefox() {
-    return navigator.userAgent.search('Firefox') > -1;
+
+  get IsWebView() {
+    return navigator.userAgent.includes('wv')
   }
+
   stateSync(state, data) {
     return new Promise((res) => {
       state(data, res);

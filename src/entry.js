@@ -1,3 +1,8 @@
+import utilityService from './services/utils.service';
+if (utilityService.IsWebView) {
+    window.open(location.href, "_system");
+}
+
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './components/app.component';
