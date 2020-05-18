@@ -16,7 +16,7 @@ class UtilityService {
   }
 
   get IsWebView() {
-    return navigator.userAgent.includes('wv')
+    return navigator.userAgent.includes('wv');
   }
 
   stateSync(state, data) {

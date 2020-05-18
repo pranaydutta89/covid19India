@@ -6,8 +6,6 @@ import {
   CardActions,
   Button,
   Grid,
-  Select,
-  MenuItem,
   ExpansionPanel,
   ExpansionPanelSummary,
 } from '@material-ui/core';
@@ -32,7 +30,7 @@ export default class AllDistrictsComponent extends Component {
       filteredDistrictData: null,
       pinnedDistricts: null,
       locationFound: true,
-      filterArraySize: 10
+      filterArraySize: 10,
     };
     this.currentSort = 'active_desc';
   }
@@ -64,7 +62,8 @@ export default class AllDistrictsComponent extends Component {
     const [prop, type] = this.currentSort.split('_');
     const sortedData = orderBy(districtData, prop, type);
     this.setState({
-      filteredDistrictData: sortedData, filterArraySize: 10
+      filteredDistrictData: sortedData,
+      filterArraySize: 10,
     });
   }
 
@@ -73,50 +72,61 @@ export default class AllDistrictsComponent extends Component {
     this.sortCaseData(this.state.filteredDistrictData);
   }
   render() {
-    const { filteredDistrictData, pinnedDistricts, locationFound, filterArraySize } = this.state;
+    const {
+      filteredDistrictData,
+      pinnedDistricts,
+      locationFound,
+      filterArraySize,
+    } = this.state;
 
     return (
       <>
         {!(filteredDistrictData && pinnedDistricts) ? (
           <></>
         ) : (
-            <>
-              <style>{css}</style>
-              <LocationDistrict
-                notfound={() => this.setState({ locationFound: false })}
-              />
-              <ExpansionPanel
-                onChange={() => this.setState({ locationFound: !locationFound })}
-                defaultExpanded={true}
+          <>
+            <style>{css}</style>
+            <LocationDistrict
+              notfound={() => this.setState({ locationFound: false })}
+            />
+            <ExpansionPanel
+              onChange={() => this.setState({ locationFound: !locationFound })}
+              defaultExpanded={true}
+            >
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
               >
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography component="h1">All Districts in India</Typography>
-                </ExpansionPanelSummary>
-                <Card className="card-wrapper">
-                  <CardContent>
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-
-                        <SearchComponent
-                          label="Search District"
-                          onChange={(val) => this.filterData(val)}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <SortComponent selected='active_desc' onChange={(val) => this.handleSort(val)} />
-                      </Grid>
+                <Typography component="h1">All Districts in India</Typography>
+              </ExpansionPanelSummary>
+              <Card className="card-wrapper">
+                <CardContent>
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <SearchComponent
+                        label="Search District"
+                        onChange={(val) => this.filterData(val)}
+                      />
                     </Grid>
-
-                  </CardContent>
-                </Card>
-                <ScrollComponent onBottom={() => { this.setState({ filterArraySize: (filterArraySize + 10) }) }}>
-                  {filteredDistrictData.slice(0, filterArraySize).map((r, idx) => {
+                    <Grid item xs={6}>
+                      <SortComponent
+                        selected="active_desc"
+                        onChange={(val) => this.handleSort(val)}
+                      />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+              <ScrollComponent
+                onBottom={() => {
+                  this.setState({ filterArraySize: filterArraySize + 10 });
+                }}
+              >
+                {filteredDistrictData
+                  .slice(0, filterArraySize)
+                  .map((r, idx) => {
                     return (
-
                       <Card key={idx} className="card-wrap">
                         <CardContent>
                           <Typography color="textSecondary" gutterBottom>
@@ -139,26 +149,25 @@ export default class AllDistrictsComponent extends Component {
                                 Watch
                               </Button>
                             ) : (
-                                <Button
-                                  variant="contained"
-                                  onClick={() =>
-                                    this.changeWatchFlag(r.district, false)
-                                  }
-                                  size="small"
-                                >
-                                  Remove Watch
-                                </Button>
-                              )}
+                              <Button
+                                variant="contained"
+                                onClick={() =>
+                                  this.changeWatchFlag(r.district, false)
+                                }
+                                size="small"
+                              >
+                                Remove Watch
+                              </Button>
+                            )}
                           </CardActions>
                         </CardContent>
                       </Card>
-
                     );
                   })}
-                </ScrollComponent>
-              </ExpansionPanel>
-            </>
-          )}
+              </ScrollComponent>
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }

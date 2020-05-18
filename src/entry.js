@@ -1,6 +1,6 @@
 import utilityService from './services/utils.service';
 if (utilityService.IsWebView) {
-    window.open(location.href, "_system");
+  window.open(location.href, '_system');
 }
 
 import React from 'react';

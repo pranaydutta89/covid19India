@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardContent, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 const css = `
 .card-wrapper{
