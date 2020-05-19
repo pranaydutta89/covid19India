@@ -1,7 +1,7 @@
 import utilityService from './services/utils.service';
 if (utilityService.IsWebView) {
   try {
-    window.open("googlechrome://navigate?url=" + location.href, "_system");
+    window.location = `intent:${location.href}#Intent;end`
   } catch (e) {
     console.warn(e)
   }
