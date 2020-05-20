@@ -38,10 +38,11 @@ class DataService {
     let data = [];
     for (let i = 1; i <= 100; i++) {
       try {
-        const { raw_data } = await (await fetch(`${this.CovidDataUrl}/raw_data${i}.json`)).json();
+        const { raw_data } = await (
+          await fetch(`${this.CovidDataUrl}/raw_data${i}.json`)
+        ).json();
         data = data.concat(raw_data);
-      }
-      catch (e) {
+      } catch (e) {
         break;
       }
     }

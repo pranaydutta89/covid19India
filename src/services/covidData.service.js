@@ -99,7 +99,7 @@ class CovidDataService {
         source,
       };
     });
-    return orderBy(patients, 'timeStamp', 'desc')
+    return orderBy(patients, 'timeStamp', 'desc');
   }
 
   async getStateResources(stateName) {

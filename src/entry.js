@@ -1,9 +1,9 @@
 import utilityService from './services/utils.service';
 if (utilityService.IsWebView) {
   try {
-    window.location = `intent:${location.href}#Intent;end`
+    window.location = `intent:${location.href}#Intent;end`;
   } catch (e) {
-    console.warn(e)
+    console.warn(e);
   }
 }
 
