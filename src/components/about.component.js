@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Typography, Card, CardContent } from '@material-ui/core';
+import { Typography, Card, CardContent, Link } from '@material-ui/core';
 export default class AboutComponent extends PureComponent {
   render() {
     return (
@@ -52,6 +52,19 @@ export default class AboutComponent extends PureComponent {
               ,information based on your location, push notification on your
               current location thats why we created this simple, light weighted
               portal.
+            </Typography>
+          </CardContent>
+        </Card>
+
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h5" component="h1">
+              Social Links
+            </Typography>
+            <Typography variant="body2" component="p">
+              <Link href="https://www.facebook.com/Covid2in-115889216767364" target='_blank'>
+                Facebook Page
+  </Link>
             </Typography>
           </CardContent>
         </Card>
