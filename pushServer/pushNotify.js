@@ -31,7 +31,7 @@ class PushNotify {
         await this.checkIndiaDiff();
         await this.checkStateDiff();
         await this.checkDistrictDiff();
-      } catch (e) {}
+      } catch (e) { }
       await new Promise((res) => setTimeout(res, 10000));
     }
   }
@@ -46,8 +46,8 @@ class PushNotify {
         if (newIndiaStats[key] !== india_stats[key]) {
           const delta = newIndiaStats[key] - india_stats[key];
           msg += `${key} - ${newIndiaStats[key]} (${
-            delta >= 0 ? '+' : '-'
-          }${delta}) ,`;
+            delta >= 0 ? '+' : ''
+            }${delta}) ,`;
         }
       }
       if (msg) {
@@ -83,8 +83,8 @@ class PushNotify {
           if (newState[key] !== oldState[key]) {
             const delta = newState[key] - oldState[key];
             msg += `${key} -${newState[key]} (${
-              delta >= 0 ? '+' : '-'
-            }${delta}) `;
+              delta >= 0 ? '+' : ''
+              }${delta}) `;
           }
         }
         msgArr.push({
@@ -136,8 +136,8 @@ class PushNotify {
           if (newDistrict[key] !== oldDistrict[key]) {
             const delta = newDistrict[key] - oldDistrict[key];
             msg += `${key} - ${newDistrict[key]} (${
-              delta >= 0 ? '+' : '-'
-            }${delta}), `;
+              delta >= 0 ? '+' : ''
+              }${delta}), `;
           }
         }
         msgArr.push({
