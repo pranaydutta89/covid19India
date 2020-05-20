@@ -19,6 +19,31 @@ class UtilityService {
     return navigator.userAgent.includes('wv');
   }
 
+  get IsMobile() {
+    return {
+      Android: function () {
+        return navigator.userAgent.match(/Android/i);
+      },
+      BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+      },
+      iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+      },
+      Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+      },
+      Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+      },
+      any: function () {
+        return (this.Android() || this.BlackBerry() || this.iOS() || this.Opera() || this.Windows());
+      }
+    }
+  };
+
+
+
   stateSync(state, data) {
     return new Promise((res) => {
       state(data, res);

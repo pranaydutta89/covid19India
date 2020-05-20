@@ -1,10 +1,20 @@
+import utils from './services/utils.service';
+
 self.addEventListener('push', (e) => {
   const { title, body, tag } = e.data.json();
-  self.registration.showNotification(title, {
-    tag,
-    body,
-    vibrate: [200],
-  });
+  if (utils.IsMobile.any()) {
+    self.registration.showNotification(title, {
+      tag,
+      body,
+      vibrate: [200],
+    });
+  }
+  else {
+    self.registration.showNotification(title, {
+      body,
+      vibrate: [200],
+    });
+  }
 });
 
 self.addEventListener('notificationclick', function (event) {
