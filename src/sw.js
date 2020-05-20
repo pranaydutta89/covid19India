@@ -8,8 +8,7 @@ self.addEventListener('push', (e) => {
       body,
       vibrate: [200],
     });
-  }
-  else {
+  } else {
     self.registration.showNotification(title, {
       body,
       vibrate: [200],

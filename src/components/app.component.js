@@ -17,7 +17,7 @@ const css = `
    .card-wrap{
                margin-bottom:10px;
            }
-`
+`;
 class App extends PureComponent {
   constructor() {
     super();

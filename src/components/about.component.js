@@ -62,9 +62,12 @@ export default class AboutComponent extends PureComponent {
               Social Links
             </Typography>
             <Typography variant="body2" component="p">
-              <Link href="https://www.facebook.com/Covid2in-115889216767364" target='_blank'>
+              <Link
+                href="https://www.facebook.com/Covid2in-115889216767364"
+                target="_blank"
+              >
                 Facebook Page
-  </Link>
+              </Link>
             </Typography>
           </CardContent>
         </Card>

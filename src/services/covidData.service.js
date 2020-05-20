@@ -267,17 +267,22 @@ class CovidDataService {
   }
 
   async getDistricts() {
-    const [stateData, zones] = await Promise.all([this.getMainData(), dataService.getDistrictZones()]);
+    const [stateData, zones] = await Promise.all([
+      this.getMainData(),
+      dataService.getDistrictZones(),
+    ]);
 
     const districtsMap = stateData.map((r) => r.districtData);
     const districts = [];
     districtsMap.forEach((r) => districts.push.apply(districts, r));
-    districts.forEach(r => {
-      const zoneDistrict = zones.find(({ district }) => district === r.district)
+    districts.forEach((r) => {
+      const zoneDistrict = zones.find(
+        ({ district }) => district === r.district
+      );
       if (zoneDistrict?.zone) {
         r.zone = zoneDistrict.zone.toLowerCase();
       }
-    })
+    });
     return utilsService.cloneDeep(districts);
   }
 
@@ -303,8 +308,6 @@ class CovidDataService {
         return r;
       });
   }
-
-
 }
 
 export default new CovidDataService();

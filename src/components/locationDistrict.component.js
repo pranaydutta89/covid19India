@@ -42,52 +42,55 @@ export default class LocationDistrictComponent extends React.Component {
         {loading ? (
           <LinearProgress />
         ) : (
-            <>
-              {!districtData ? (
-                <></>
-              ) : (
-                  <>
-                    <Card classes={{ root: `zone-${districtData.zone}` }} className="card-wrapper">
-                      <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                          Your Location <strong>{districtData.district}</strong>
-                        </Typography>
-                        <Typography color="textSecondary" gutterBottom>
-                          Total Cases - <strong>{districtData.confirmed}</strong>
-                        </Typography>
-                        <hr />
-                        <StatsGraph {...districtData} />
-                      </CardContent>
-                    </Card>
-                    <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                      <ExpansionPanelSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                      >
-                        <Typography>Patients</Typography>
-                      </ExpansionPanelSummary>
-                      <DistrictPatientDetails
-                        districtName={districtData.district}
-                      />
-                    </ExpansionPanel>
-                    <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                      <ExpansionPanelSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                      >
-                        <Typography>Essentials / Helplines</Typography>
-                      </ExpansionPanelSummary>
-                      <ResourceDetails
-                        type="district"
-                        name={districtData.district}
-                      />
-                    </ExpansionPanel>
-                  </>
-                )}
-            </>
-          )}
+          <>
+            {!districtData ? (
+              <></>
+            ) : (
+              <>
+                <Card
+                  classes={{ root: `zone-${districtData.zone}` }}
+                  className="card-wrapper"
+                >
+                  <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                      Your Location <strong>{districtData.district}</strong>
+                    </Typography>
+                    <Typography color="textSecondary" gutterBottom>
+                      Total Cases - <strong>{districtData.confirmed}</strong>
+                    </Typography>
+                    <hr />
+                    <StatsGraph {...districtData} />
+                  </CardContent>
+                </Card>
+                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMore />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography>Patients</Typography>
+                  </ExpansionPanelSummary>
+                  <DistrictPatientDetails
+                    districtName={districtData.district}
+                  />
+                </ExpansionPanel>
+                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMore />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography>Essentials / Helplines</Typography>
+                  </ExpansionPanelSummary>
+                  <ResourceDetails
+                    type="district"
+                    name={districtData.district}
+                  />
+                </ExpansionPanel>
+              </>
+            )}
+          </>
+        )}
       </>
     );
   }

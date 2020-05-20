@@ -79,89 +79,93 @@ export default class AllDistrictsComponent extends Component {
         {!(filteredDistrictData && pinnedDistricts) ? (
           <></>
         ) : (
-            <>
-              <LocationDistrict
-                notfound={() => this.setState({ locationFound: false })}
-              />
-              <ExpansionPanel
-                onChange={() => this.setState({ locationFound: !locationFound })}
-                defaultExpanded={true}
+          <>
+            <LocationDistrict
+              notfound={() => this.setState({ locationFound: false })}
+            />
+            <ExpansionPanel
+              onChange={() => this.setState({ locationFound: !locationFound })}
+              defaultExpanded={true}
+            >
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
               >
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography component="h1">All Districts in India</Typography>
-                </ExpansionPanelSummary>
-                <Card className="card-wrapper">
-                  <CardContent>
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-                        <SearchComponent
-                          label="Search District"
-                          onChange={(val) => this.filterData(val)}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <SortComponent
-                          selected="active_desc"
-                          onChange={(val) => this.handleSort(val)}
-                        />
-                      </Grid>
+                <Typography component="h1">All Districts in India</Typography>
+              </ExpansionPanelSummary>
+              <Card className="card-wrapper">
+                <CardContent>
+                  <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                      <SearchComponent
+                        label="Search District"
+                        onChange={(val) => this.filterData(val)}
+                      />
                     </Grid>
-                  </CardContent>
-                </Card>
-                <ScrollComponent
-                  onBottom={() => {
-                    this.setState({ filterArraySize: filterArraySize + 10 });
-                  }}
-                >
-                  {filteredDistrictData
-                    .slice(0, filterArraySize)
-                    .map((r, idx) => {
-                      return (
-                        <Card classes={{ root: `zone-${r.zone}` }} key={idx} className="card-wrap">
-                          <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                              {r.district}
-                            </Typography>
-                            <Typography color="textSecondary" gutterBottom>
-                              Total Cases - <strong>{r.confirmed}</strong>
-                            </Typography>
-                            <hr />
-                            <StatsGraph {...r} />
-                            <CardActions>
-                              {!pinnedDistricts.some((j) => j === r.district) ? (
-                                <Button
-                                  variant="contained"
-                                  onClick={() =>
-                                    this.changeWatchFlag(r.district, true)
-                                  }
-                                  size="small"
-                                >
-                                  Watch
-                                </Button>
-                              ) : (
-                                  <Button
-                                    variant="contained"
-                                    onClick={() =>
-                                      this.changeWatchFlag(r.district, false)
-                                    }
-                                    size="small"
-                                  >
-                                    Remove Watch
-                                  </Button>
-                                )}
-                            </CardActions>
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
-                </ScrollComponent>
-              </ExpansionPanel>
-            </>
-          )}
+                    <Grid item xs={6}>
+                      <SortComponent
+                        selected="active_desc"
+                        onChange={(val) => this.handleSort(val)}
+                      />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+              <ScrollComponent
+                onBottom={() => {
+                  this.setState({ filterArraySize: filterArraySize + 10 });
+                }}
+              >
+                {filteredDistrictData
+                  .slice(0, filterArraySize)
+                  .map((r, idx) => {
+                    return (
+                      <Card
+                        classes={{ root: `zone-${r.zone}` }}
+                        key={idx}
+                        className="card-wrap"
+                      >
+                        <CardContent>
+                          <Typography color="textSecondary" gutterBottom>
+                            {r.district}
+                          </Typography>
+                          <Typography color="textSecondary" gutterBottom>
+                            Total Cases - <strong>{r.confirmed}</strong>
+                          </Typography>
+                          <hr />
+                          <StatsGraph {...r} />
+                          <CardActions>
+                            {!pinnedDistricts.some((j) => j === r.district) ? (
+                              <Button
+                                variant="contained"
+                                onClick={() =>
+                                  this.changeWatchFlag(r.district, true)
+                                }
+                                size="small"
+                              >
+                                Watch
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="contained"
+                                onClick={() =>
+                                  this.changeWatchFlag(r.district, false)
+                                }
+                                size="small"
+                              >
+                                Remove Watch
+                              </Button>
+                            )}
+                          </CardActions>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+              </ScrollComponent>
+            </ExpansionPanel>
+          </>
+        )}
       </>
     );
   }
