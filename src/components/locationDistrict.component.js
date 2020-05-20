@@ -13,11 +13,6 @@ import covidDataService from '../services/covidData.service';
 import DistrictPatientDetails from './common/districtPatientDetails.component';
 import ResourceDetails from './common/resourceDetails.component';
 
-const css = `
-.card-wrapper{
-    margin-bottom:10px
-}
-`;
 export default class LocationDistrictComponent extends React.Component {
   constructor() {
     super();
@@ -44,56 +39,55 @@ export default class LocationDistrictComponent extends React.Component {
     const { districtData, loading } = this.state;
     return (
       <>
-        <style>{css}</style>
         {loading ? (
           <LinearProgress />
         ) : (
-          <>
-            {!districtData ? (
-              <></>
-            ) : (
-              <>
-                <Card className="card-wrapper">
-                  <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
-                      Your Location <strong>{districtData.district}</strong>
-                    </Typography>
-                    <Typography color="textSecondary" gutterBottom>
-                      Total Cases - <strong>{districtData.confirmed}</strong>
-                    </Typography>
-                    <hr />
-                    <StatsGraph {...districtData} />
-                  </CardContent>
-                </Card>
-                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMore />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                  >
-                    <Typography>Patients</Typography>
-                  </ExpansionPanelSummary>
-                  <DistrictPatientDetails
-                    districtName={districtData.district}
-                  />
-                </ExpansionPanel>
-                <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMore />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                  >
-                    <Typography>Essentials / Helplines</Typography>
-                  </ExpansionPanelSummary>
-                  <ResourceDetails
-                    type="district"
-                    name={districtData.district}
-                  />
-                </ExpansionPanel>
-              </>
-            )}
-          </>
-        )}
+            <>
+              {!districtData ? (
+                <></>
+              ) : (
+                  <>
+                    <Card classes={{ root: `zone-${districtData.zone}` }} className="card-wrapper">
+                      <CardContent>
+                        <Typography color="textSecondary" gutterBottom>
+                          Your Location <strong>{districtData.district}</strong>
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Total Cases - <strong>{districtData.confirmed}</strong>
+                        </Typography>
+                        <hr />
+                        <StatsGraph {...districtData} />
+                      </CardContent>
+                    </Card>
+                    <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                      <ExpansionPanelSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                      >
+                        <Typography>Patients</Typography>
+                      </ExpansionPanelSummary>
+                      <DistrictPatientDetails
+                        districtName={districtData.district}
+                      />
+                    </ExpansionPanel>
+                    <ExpansionPanel TransitionProps={{ unmountOnExit: true }}>
+                      <ExpansionPanelSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                      >
+                        <Typography>Essentials / Helplines</Typography>
+                      </ExpansionPanelSummary>
+                      <ResourceDetails
+                        type="district"
+                        name={districtData.district}
+                      />
+                    </ExpansionPanel>
+                  </>
+                )}
+            </>
+          )}
       </>
     );
   }

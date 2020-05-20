@@ -207,14 +207,9 @@ class CovidDataService {
   async getCurrentLocationDistrict() {
     try {
       const location = await locationService.currentLocation();
-      const stateData = await this.getMainData();
-      const stateThatHasLocationDistrict = stateData.find((r) =>
-        r.districtData.some(
-          (j) =>
-            j.district.toLowerCase() === location.city.longName.toLowerCase()
-        )
-      );
-      const districtData = stateThatHasLocationDistrict.districtData.find(
+      const districts = await this.getDistricts();
+
+      const districtData = districts.find(
         (r) => r.district.toLowerCase() === location.city.longName.toLowerCase()
       );
       return utilsService.cloneDeep(districtData);
@@ -272,23 +267,28 @@ class CovidDataService {
   }
 
   async getDistricts() {
-    const stateData = await this.getMainData();
+    const [stateData, zones] = await Promise.all([this.getMainData(), dataService.getDistrictZones()]);
+
     const districtsMap = stateData.map((r) => r.districtData);
     const districts = [];
     districtsMap.forEach((r) => districts.push.apply(districts, r));
+    districts.forEach(r => {
+      const zoneDistrict = zones.find(({ district }) => district === r.district)
+      if (zoneDistrict?.zone) {
+        r.zone = zoneDistrict.zone.toLowerCase();
+      }
+    })
     return utilsService.cloneDeep(districts);
   }
 
   async getWatchedDistricts() {
-    const stateData = await this.getMainData();
+    const districts = await this.getDistricts();
     const watchedDistricts = [];
     const pinnedDistricts = await this.getPinDistrict();
-    stateData.forEach((r) => {
-      const stateWatchDistricts = r.districtData.filter((j) =>
-        pinnedDistricts.some((k) => k === j.district)
-      );
-      watchedDistricts.push.apply(watchedDistricts, stateWatchDistricts);
-    });
+    const stateWatchDistricts = districts.filter((j) =>
+      pinnedDistricts.some((k) => k === j.district)
+    );
+    watchedDistricts.push.apply(watchedDistricts, stateWatchDistricts);
     return utilsService.cloneDeep(watchedDistricts);
   }
 
@@ -304,31 +304,7 @@ class CovidDataService {
       });
   }
 
-  getStateByName(stateData, name) {
-    const clonedStateData = utilsService.cloneDeep(stateData);
-    return clonedStateData
-      .map((r) => {
-        delete r.districtData;
-        return r;
-      })
-      .find((j) => {
-        return j.state.toLowerCase() === name.toLowerCase();
-      });
-  }
 
-  getDistrictByName(stateData, name) {
-    const clonedState = utilsService.cloneDeep(stateData);
-    let selectedDistrict;
-    for (let { districtData } of clonedState) {
-      selectedDistrict = districtData.find(
-        ({ district }) => district.toLowerCase() === name.toLowerCase()
-      );
-      if (selectedDistrict) {
-        break;
-      }
-    }
-    return selectedDistrict;
-  }
 }
 
 export default new CovidDataService();

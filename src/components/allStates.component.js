@@ -18,11 +18,6 @@ import FromNow from './common/fromNow.component';
 import SortComponent from './common/sort.component';
 import { orderBy } from 'lodash-es';
 
-const css = `
-           .card-wrap{
-               margin-bottom:10px;
-           }
-        `;
 export default class AllStatesComponent extends Component {
   constructor() {
     super();
@@ -76,77 +71,76 @@ export default class AllStatesComponent extends Component {
         {!filteredStateData ? (
           <></>
         ) : (
-          <>
-            <style>{css}</style>
-            <LocationState />
-            <ExpansionPanel defaultExpanded={true}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography component="h1">All States in India</Typography>
-              </ExpansionPanelSummary>
+            <>
+              <LocationState />
+              <ExpansionPanel defaultExpanded={true}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography component="h1">All States in India</Typography>
+                </ExpansionPanelSummary>
 
-              <Card className="card-wrapper">
-                <CardContent>
-                  <Grid container spacing={1}>
-                    <Grid item xs={6}>
-                      <SearchComponent
-                        label="Search State"
-                        onChange={(val) => this.filterData(val)}
-                      />
+                <Card className="card-wrapper">
+                  <CardContent>
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <SearchComponent
+                          label="Search State"
+                          onChange={(val) => this.filterData(val)}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <SortComponent
+                          selected="active_desc"
+                          onChange={(val) => this.handleSort(val)}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <SortComponent
-                        selected="active_desc"
-                        onChange={(val) => this.handleSort(val)}
-                      />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-              {filteredStateData.map((r, idx) => {
-                return (
-                  <Card key={idx} className="card-wrap">
-                    <CardContent>
-                      <Typography color="textSecondary" gutterBottom>
-                        {r.state}
-                      </Typography>
-                      <Typography color="textSecondary" gutterBottom>
-                        Total Cases - <strong>{r.confirmed}</strong>
-                      </Typography>
-                      <Typography color="textSecondary" gutterBottom>
-                        Updated <FromNow timestamp={r.lastUpdatedTime} />
-                      </Typography>
-                      <hr />
-                      <StatsGraph {...r} />
-                      <CardActions>
-                        {!pinnedStates.some((j) => j === r.state) ? (
-                          <Button
-                            variant="contained"
-                            onClick={() => this.changeWatchFlag(r.state, true)}
-                            size="small"
-                          >
-                            Watch
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            onClick={() => this.changeWatchFlag(r.state, false)}
-                            size="small"
-                          >
-                            Remove Watch
-                          </Button>
-                        )}
-                      </CardActions>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </ExpansionPanel>
-          </>
-        )}
+                  </CardContent>
+                </Card>
+                {filteredStateData.map((r, idx) => {
+                  return (
+                    <Card key={idx} className="card-wrap">
+                      <CardContent>
+                        <Typography color="textSecondary" gutterBottom>
+                          {r.state}
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Total Cases - <strong>{r.confirmed}</strong>
+                        </Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          Updated <FromNow timestamp={r.lastUpdatedTime} />
+                        </Typography>
+                        <hr />
+                        <StatsGraph {...r} />
+                        <CardActions>
+                          {!pinnedStates.some((j) => j === r.state) ? (
+                            <Button
+                              variant="contained"
+                              onClick={() => this.changeWatchFlag(r.state, true)}
+                              size="small"
+                            >
+                              Watch
+                            </Button>
+                          ) : (
+                              <Button
+                                variant="contained"
+                                onClick={() => this.changeWatchFlag(r.state, false)}
+                                size="small"
+                              >
+                                Remove Watch
+                              </Button>
+                            )}
+                        </CardActions>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </ExpansionPanel>
+            </>
+          )}
       </>
     );
   }

@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { TextField } from '@material-ui/core';
 
-const css = `
-.card-wrapper{
-    margin-bottom:10px
-}
-`;
+
 export default class SearchComponent extends Component {
   constructor() {
     super();
@@ -33,7 +29,6 @@ export default class SearchComponent extends Component {
     const { label } = this.props;
     return (
       <>
-        <style>{css}</style>
         <TextField
           {...{ label }}
           id="margin-normal"

@@ -34,6 +34,12 @@ class DataService {
       },
     });
   }
+
+  async getDistrictZones() {
+    const res = await fetch(`${this.CovidDataUrl}/zones.json`);
+    const { zones } = await res.json();
+    return zones;
+  }
   async getPatientApi() {
     let data = [];
     for (let i = 1; i <= 100; i++) {
