@@ -71,6 +71,22 @@ export default class AboutComponent extends PureComponent {
             </Typography>
           </CardContent>
         </Card>
+
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h5" component="h1">
+              Feedback / Contact Us
+            </Typography>
+            <Typography variant="body2" component="p">
+              <Link
+                href="mailto:covid2.in@rediffmail.com"
+                target="_blank"
+              >
+                E-Mail Id
+              </Link>
+            </Typography>
+          </CardContent>
+        </Card>
       </>
     );
   }
