@@ -31,7 +31,9 @@ class PushNotify {
         await this.checkIndiaDiff();
         await this.checkStateDiff();
         await this.checkDistrictDiff();
-      } catch (e) { }
+      } catch (e) {
+        console.error(e)
+      }
       await new Promise((res) => setTimeout(res, 10000));
     }
   }
@@ -78,19 +80,21 @@ class PushNotify {
       const msgArr = [];
 
       stateDiffs.forEach(({ newState, oldState }) => {
-        let msg = '';
-        for (let key in newState) {
-          if (newState[key] !== oldState[key]) {
-            const delta = newState[key] - oldState[key];
-            msg += `${key} -${newState[key]} (${
-              delta >= 0 ? '+' : ''
-              }${delta}) `;
+        if (newState && oldState) {
+          let msg = '';
+          for (let key in newState) {
+            if (newState[key] !== oldState[key]) {
+              const delta = newState[key] - oldState[key];
+              msg += `${key} -${newState[key]} (${
+                delta >= 0 ? '+' : ''
+                }${delta}) `;
+            }
           }
+          msgArr.push({
+            state: newState.state,
+            message: msg,
+          });
         }
-        msgArr.push({
-          state: newState.state,
-          message: msg,
-        });
       });
 
       for (let userId in subscriptions) {
@@ -131,37 +135,41 @@ class PushNotify {
       const msgArr = [];
 
       districtDiffs.forEach(({ newDistrict, oldDistrict }) => {
-        let msg = '';
-        for (let key in newDistrict) {
-          if (newDistrict[key] !== oldDistrict[key]) {
-            const delta = newDistrict[key] - oldDistrict[key];
-            msg += `${key} - ${newDistrict[key]} (${
-              delta >= 0 ? '+' : ''
-              }${delta}), `;
+        if (newDistrict && oldDistrict) {
+          let msg = '';
+          for (let key in newDistrict) {
+            if (newDistrict[key] !== oldDistrict[key]) {
+              const delta = newDistrict[key] - oldDistrict[key];
+              msg += `${key} - ${newDistrict[key]} (${
+                delta >= 0 ? '+' : ''
+                }${delta}), `;
+            }
           }
+          msgArr.push({
+            district: newDistrict.district,
+            state: newDistrict.state,
+            message: msg,
+          });
         }
-        msgArr.push({
-          district: newDistrict.district,
-          state: newDistrict.state,
-          message: msg,
-        });
       });
 
       for (let userId in subscriptions) {
         const { location, pushData } = subscriptions[userId];
         if (location && location.state && location.state.longName) {
-          const msgData = msgArr.find(
+          const messages = msgArr.filter(
             (r) =>
               r.state.toLowerCase() === location.state.longName.toLowerCase()
           );
-          if (msgData) {
-            this.pushNotification(
-              pushData,
-              `Covid Alert for city ${msgData.district}`,
-              msgData.message,
-              'districts'
-            );
-          }
+
+          messages.forEach(msgData => {
+            if (msgData) {
+              this.pushNotification(
+                pushData,
+                `Covid Alert for city ${msgData.district}`,
+                msgData.message
+              );
+            }
+          })
         }
       }
       db.updateDbFile('district_stats', newData);
