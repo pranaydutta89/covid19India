@@ -78,10 +78,7 @@ export default class AboutComponent extends PureComponent {
               Feedback / Contact Us
             </Typography>
             <Typography variant="body2" component="p">
-              <Link
-                href="mailto:covid2.in@rediffmail.com"
-                target="_blank"
-              >
+              <Link href="mailto:covid2.in@rediffmail.com" target="_blank">
                 E-Mail Id
               </Link>
             </Typography>

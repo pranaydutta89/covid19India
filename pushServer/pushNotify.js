@@ -32,7 +32,7 @@ class PushNotify {
         await this.checkStateDiff();
         await this.checkDistrictDiff();
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
       await new Promise((res) => setTimeout(res, 10000));
     }
@@ -49,7 +49,7 @@ class PushNotify {
           const delta = newIndiaStats[key] - india_stats[key];
           msg += `${key} - ${newIndiaStats[key]} (${
             delta >= 0 ? '+' : ''
-            }${delta}) ,`;
+          }${delta}) ,`;
         }
       }
       if (msg) {
@@ -87,7 +87,7 @@ class PushNotify {
               const delta = newState[key] - oldState[key];
               msg += `${key} -${newState[key]} (${
                 delta >= 0 ? '+' : ''
-                }${delta}) `;
+              }${delta}) `;
             }
           }
           msgArr.push({
@@ -142,7 +142,7 @@ class PushNotify {
               const delta = newDistrict[key] - oldDistrict[key];
               msg += `${key} - ${newDistrict[key]} (${
                 delta >= 0 ? '+' : ''
-                }${delta}), `;
+              }${delta}), `;
             }
           }
           msgArr.push({
@@ -161,7 +161,7 @@ class PushNotify {
               r.state.toLowerCase() === location.state.longName.toLowerCase()
           );
 
-          messages.forEach(msgData => {
+          messages.forEach((msgData) => {
             if (msgData) {
               this.pushNotification(
                 pushData,
@@ -169,7 +169,7 @@ class PushNotify {
                 msgData.message
               );
             }
-          })
+          });
         }
       }
       db.updateDbFile('district_stats', newData);
