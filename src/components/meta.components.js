@@ -45,6 +45,7 @@ export default class MetaComponent extends PureComponent {
         <title>{info.title}</title>
         <meta name="keywords" content={info.keywords} />
         <meta name="description" content={info.description} />
+        <meta property="og:locale" content="en_US" />
         <meta property="og:description" content={info.description} />
         <meta property="og:url" content={`https://covid2.in${route}`} />
         <meta property="og:title" content={info.title} />
