@@ -173,6 +173,7 @@ class CovidDataService {
         deaths: deceased,
         recovered,
         lastupdatedtime: lastUpdatedTime,
+        deltaconfirmed
       } = r;
 
       return {
@@ -182,6 +183,9 @@ class CovidDataService {
         deceased: parseInt(deceased),
         recovered: parseInt(recovered),
         lastUpdatedTime,
+        delta: {
+          confirmed: Number(deltaconfirmed)
+        }
       };
     });
 
