@@ -28,6 +28,18 @@ export default class WatchedComponent extends Component {
     this.setState({ watchedDistricts, watchedStates, loader: false });
     toggleLoader(false);
   }
+
+  renderDeltaConfirmed(delta) {
+    if (delta?.confirmed && delta.confirmed) {
+      return (
+        <>
+          {delta.confirmed > 0
+            ? `(+${delta.confirmed})`
+            : `(${delta.confirmed})`}
+        </>
+      );
+    }
+  }
   render() {
     const { loader, watchedDistricts, watchedStates } = this.state;
     return (
@@ -67,7 +79,11 @@ export default class WatchedComponent extends Component {
                             <Typography color="textSecondary" gutterBottom>
                               {r.district}
                               <br />
-                              Total Cases - <strong>{r.confirmed}</strong>
+                              Total Cases -{' '}
+                              <strong>
+                                {r.confirmed}
+                                {this.renderDeltaConfirmed(r.delta)}
+                              </strong>
                             </Typography>
                             <StatsGraph {...r} />
                           </CardContent>

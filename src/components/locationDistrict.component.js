@@ -35,6 +35,17 @@ export default class LocationDistrictComponent extends React.Component {
     }
   }
 
+  renderDeltaConfirmed(delta) {
+    if (delta?.confirmed && delta.confirmed) {
+      return (
+        <>
+          {delta.confirmed > 0
+            ? `(+${delta.confirmed})`
+            : `(${delta.confirmed})`}
+        </>
+      );
+    }
+  }
   render() {
     const { districtData, loading } = this.state;
     return (
@@ -56,7 +67,11 @@ export default class LocationDistrictComponent extends React.Component {
                       Your Location <strong>{districtData.district}</strong>
                     </Typography>
                     <Typography color="textSecondary" gutterBottom>
-                      Total Cases - <strong>{districtData.confirmed}</strong>
+                      Total Cases -{' '}
+                      <strong>
+                        {districtData.confirmed}
+                        {this.renderDeltaConfirmed(districtData.delta)}
+                      </strong>
                     </Typography>
                     <hr />
                     <StatsGraph {...districtData} />

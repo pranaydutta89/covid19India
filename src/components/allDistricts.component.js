@@ -66,6 +66,18 @@ export default class AllDistrictsComponent extends Component {
     this.currentSort = val;
     this.sortCaseData(this.state.filteredDistrictData);
   }
+
+  renderDeltaConfirmed(delta) {
+    if (delta?.confirmed && delta.confirmed) {
+      return (
+        <>
+          {delta.confirmed > 0
+            ? `(+${delta.confirmed})`
+            : `(${delta.confirmed})`}
+        </>
+      );
+    }
+  }
   render() {
     const {
       filteredDistrictData,
@@ -131,7 +143,11 @@ export default class AllDistrictsComponent extends Component {
                             {r.district}
                           </Typography>
                           <Typography color="textSecondary" gutterBottom>
-                            Total Cases - <strong>{r.confirmed}</strong>
+                            Total Cases -{' '}
+                            <strong>
+                              {r.confirmed}
+                              {this.renderDeltaConfirmed(r.delta)}
+                            </strong>
                           </Typography>
                           <hr />
                           <StatsGraph {...r} />
